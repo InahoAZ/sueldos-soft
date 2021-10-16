@@ -10,5 +10,7 @@ db.url  = dbConfig.url;
 
 //Aca se linkean cada modelo que estan en archivos separados.
 db.licencias = require('./licencia.model.js')(mongoose);
+db.empresas = require('./empresa.model.js')(mongoose);
+
 
 module.exports = db;
