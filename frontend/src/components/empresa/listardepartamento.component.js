@@ -38,23 +38,12 @@ export default function BasicTable() {
     direction="column"
     justifyContent="center"
     alignItems="center">
-        <Grid
-        xs={8}
         
-         container
-         direction="row"
-         justifyContent="space-between"
-         alignItems="center"
-        >
-        <Grid>
-        <Typography variant="h5" style={{ padding: 20 }}>
-                Departamentos
-              </Typography>
-        </Grid>
-        
-        </Grid>
         
     <Grid>
+    <Typography variant="h5" >
+                Departamentos
+              </Typography>
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
