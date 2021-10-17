@@ -2,19 +2,19 @@ import http from "../http-common";
 
 class EmpresaService {
   getAll() {
-    return http.get("/empresa");
+    return http.get("/empresas");
   }
 
   create(data) {
-    return http.post("/empresa", data);
+    return http.post("/empresas", data);
   }
 
   update(id, data) {
-    return http.put(`/empresa/${id}`, data);
+    return http.put(`/empresas/${id}`, data);
   }
 
   delete(id) {
-    return http.delete(`/empresa/${id}`);
+    return http.delete(`/empresas/${id}`);
   }
 
  

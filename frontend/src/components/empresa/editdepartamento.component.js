@@ -16,7 +16,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
-import EmpresaService from '../../services/empresa.service'
+import DepartamentoService from '../../services/departamento.service'
 import TextField from '@material-ui/core/TextField';
 import swal from 'sweetalert';
 
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function EditarEmpresa(props) {
+export default function EditarDepartamento(props) {
 
 
     const classes = useStyles();
@@ -56,17 +56,17 @@ export default function EditarEmpresa(props) {
     };
 
     let data = {
-        id: props.empresaid,
+        id: props.departamentoid,
         name: ''
     }
     function onChangeName(e){
         data.name = e.target.value
     }
 
-    function updateEmpresa() {
+    function updateDepartamento() {
         console.log(data)
-        EmpresaService.update(
-            props.empresaid,
+        DepartamentoService.update(
+            props.departamentoid,
             data
         )
             .then(response => {
@@ -108,9 +108,9 @@ export default function EditarEmpresa(props) {
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <h3 id="transition-modal-title">Editar </h3>
-                        <TextField id="name2" label="Nombre de empresa" color="secondary" onChange={onChangeName} defaultValue={props.empresaname} />
+                        <TextField id="name2" label="Nombre del departamento" color="secondary" onChange={onChangeName} defaultValue={props.departamentoname} />
 
-                        <Button variant="contained" color="primary" onClick={updateEmpresa}>
+                        <Button variant="contained" color="primary" onClick={updateDepartamento}>
                             Guardar
                         </Button>
                     </div>

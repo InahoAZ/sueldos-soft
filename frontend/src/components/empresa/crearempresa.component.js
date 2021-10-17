@@ -8,12 +8,13 @@ import Button from '@material-ui/core/Button';
 import Listaempresas from './listaempresa.component'
 
 import EmpresaService from '../../services/empresa.service'
-
-
+import Divider from '@material-ui/core/Divider';
+import swal from 'sweetalert';
 
 export default class CrearEmpresa extends Component {
   constructor(props) {
     super(props);
+    this.child = React.createRef();
 
     this.onChangeName = this.onChangeName.bind(this);
     
@@ -43,14 +44,18 @@ export default class CrearEmpresa extends Component {
         this.setState({
           id: null,
           name: '',
-          // agregarlo a la tabla
-          //msj cargado exitosamente
-
         });
         console.log(response.data);
+        this.child.current.refreshList();
+        // borrar text
+        document.getElementById("empresanombre").value='';
+          //msj cargado exitosament
+          swal("Correcto!", "Se agrego con exito a la tabla!", "success");
+
       })
       .catch(e => {
         console.log(e);
+        swal("Error!", "No se logro cargarlo!", "error");
       });
   }
 
@@ -70,24 +75,27 @@ export default class CrearEmpresa extends Component {
     direction="column"
     alignItems="flex-start"
     >
-      <Grid item>
-        <Listaempresas />
-      </Grid>
+      
 
-      <br></br>
+      
 
       <Grid item>
         
         <Typography variant="h5" >
           Crear empresa
         </Typography>
-        <TextField id="name" label="Nombre de empresa" color="secondary" onChange={this.onChangeName} value={this.state.name}/>
+        <TextField id="empresanombre" label="Nombre de empresa" color="secondary" onChange={this.onChangeName} />
         <Button variant="contained" color="primary" onClick={this.saveEmpresa}>
           Crear
         </Button>
         
       </Grid>
-
+      <br></br>
+      <Divider></Divider>
+      <br></br>
+      <Grid item>
+        <Listaempresas ref={this.child}/>
+      </Grid>
     </Grid>
 
     </Grid>
