@@ -8,6 +8,7 @@ import { styles } from "./css-common"
 import Datosempresa from "./components/datosempresa.component";
 import Opciones from "./components/opciones.component";
 import Empleados from "./components/empleados.component";
+import Empleado from "./components/empleado.component";
 
 import Convenios from "./components/convenios.component";
 import Sueldos from "./components/sueldos.component";
@@ -70,6 +71,7 @@ class App extends Component {
 
             <Route exact path="/datosempresa" component={Datosempresa} />
             <Route exact path="/empleados" component={Empleados} />
+            <Route exact path="/empleado/:cuil" component={Empleado} />
             <Route exact path="/opciones" component={Opciones} />
           </Switch>
       </div>
