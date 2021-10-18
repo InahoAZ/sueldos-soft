@@ -11,7 +11,7 @@ import Empleados from "./components/empleados.component";
 import Empleado from "./components/empleado.component";
 
 import Convenios from "./components/convenios.component";
-import Sueldos from "./components/sueldos.component";
+import Sueldos from "./components/sueldos/sueldo.component";
 
 import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';

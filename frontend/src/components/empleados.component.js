@@ -27,22 +27,30 @@ const useStyles = makeStyles({
 
 
 const rows = [
-  {cuil: 64838383,
-  apellido:'gola',
-nombre:'efefef',
-telefono: 98989898},
-{cuil: 64838383,
-  apellido:'gola',
-nombre:'efefef',
-telefono: 98989898},
-{cuil: 64838383,
-  apellido:'gola',
-nombre:'efefef',
-telefono: 98989898},
-{cuil: 64838383,
-  apellido:'gola',
-nombre:'efefef',
-telefono: 98989898},
+  {
+    cuil: 64838383,
+    apellido: 'gola',
+    nombre: 'efefef',
+    telefono: 98989898
+  },
+  {
+    cuil: 64838383,
+    apellido: 'gola',
+    nombre: 'efefef',
+    telefono: 98989898
+  },
+  {
+    cuil: 64838383,
+    apellido: 'gola',
+    nombre: 'efefef',
+    telefono: 98989898
+  },
+  {
+    cuil: 64838383,
+    apellido: 'gola',
+    nombre: 'efefef',
+    telefono: 98989898
+  },
 ];
 
 
@@ -55,8 +63,8 @@ export default function ListaEmpleados(props) {
     async function retrieveEmpleados() {
       EmpleadosService.getAll()
         .then(response => {
-          setEmpleados( response.data)
-          
+          setEmpleados(response.data)
+
         })
         .catch(e => {
           console.log(e);
@@ -70,14 +78,14 @@ export default function ListaEmpleados(props) {
     props.history.push('/empleado/0')
   }
   function editarEmpleado(cuil) {
-    props.history.push('/empleado/'+cuil)
+    props.history.push('/empleado/' + cuil)
   }
 
 
   function retrieveEmpleados() {
     EmpleadosService.getAll()
       .then(response => {
-        setEmpleados( response.data)
+        setEmpleados(response.data)
         console.log(response.data);
       })
       .catch(e => {
@@ -89,11 +97,11 @@ export default function ListaEmpleados(props) {
     this.retrieveEmpleados();
   }
 
-  function closeSection(){
+  function closeSection() {
     console.log('dd');
     document.getElementById('gridSection').style.display = 'none'
   }
-  function openSection(num){
+  function openSection(num) {
     console.log(num);
     document.getElementById('gridSection').style.display = 'block'
     //ir al top de la pagina
@@ -108,33 +116,33 @@ export default function ListaEmpleados(props) {
       buttons: true,
       dangerMode: true,
     })
-    .then((willDelete) => {
-      if (willDelete) {
+      .then((willDelete) => {
+        if (willDelete) {
 
 
-        EmpleadosService.delete(num)
-        .then(response => {
-          console.log(response.data);
-          //eliminado correctamente msj
-          swal("Se ha borrado!", {
-            icon: "success",
-          });
-          //actualizar tabla
-          this.refreshList()
-        })
-        .catch(e => {
-          console.log(e);
-          swal("Error!", "no se logro borrar", "error");
-        });
+          EmpleadosService.delete(num)
+            .then(response => {
+              console.log(response.data);
+              //eliminado correctamente msj
+              swal("Se ha borrado!", {
+                icon: "success",
+              });
+              //actualizar tabla
+              this.refreshList()
+            })
+            .catch(e => {
+              console.log(e);
+              swal("Error!", "no se logro borrar", "error");
+            });
 
 
 
-      } else {
-        swal("Cancelado!");
-      }
-    });
+        } else {
+          swal("Cancelado!");
+        }
+      });
 
-    
+
   }
 
 
@@ -153,37 +161,37 @@ export default function ListaEmpleados(props) {
         direction="column"
         alignItems="flex-start"
       >
-        <Grid id='gridSection' style={{display:'none'}}>
-        <Grid container
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center">
-          <Grid>
-            <Typography variant="h5" >
-              Informacion
-            </Typography>
+        <Grid id='gridSection' style={{ display: 'none' }}>
+          <Grid container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center">
+            <Grid>
+              <Typography variant="h5" >
+                Informacion
+              </Typography>
+            </Grid>
+            <Grid>
+              <IconButton onClick={closeSection}>
+                <CloseIcon fontSize='large' />
+              </IconButton>
+            </Grid>
+
           </Grid>
-          <Grid>
-          <IconButton  onClick={closeSection}>
-                            <CloseIcon fontSize='large'/>
-                          </IconButton>
+          componente para mostrar la informacion
+          <Grid container
+            direction="column"
+            alignItems="center">
+
+            <Grid>
+
+              <Button variant="contained" onClick={closeSection} style={{ marginBottom: '20px', marginTop: '20px' }} >
+                Cerrar
+              </Button>
+            </Grid>
+
           </Grid>
-          
-        </Grid>
-        componente para mostrar la informacion
-        <Grid container
-         direction="column"
-         alignItems="center">
-         
-          <Grid>
-         
-                          <Button variant="contained"  onClick={closeSection} style={{ marginBottom: '20px', marginTop: '20px' }} >
-              Cerrar
-            </Button>
-          </Grid>
-          
-        </Grid>
-        <Divider></Divider>
+          <Divider></Divider>
 
         </Grid>
         <Grid container
@@ -227,8 +235,8 @@ export default function ListaEmpleados(props) {
                     <TableCell align="center">{row.telefono}</TableCell>
                     <TableCell align="right">
 
-                      
-                    
+
+
                       <Grid
                         container
                         direction="row"
@@ -236,13 +244,13 @@ export default function ListaEmpleados(props) {
                         alignItems="center"
                       >
                         <Grid>
-                       
-                        <IconButton color="primary" onClick={() => openSection(row.cuil)}>
-                        <VisibilityIcon />
+
+                          <IconButton color="primary" onClick={() => openSection(row.cuil)}>
+                            <VisibilityIcon />
                           </IconButton>
                         </Grid>
                         <Grid>
-                        <IconButton  onClick={() => editarEmpleado(row.cuil)}>
+                          <IconButton onClick={() => editarEmpleado(row.cuil)}>
                             <EditIcon />
                           </IconButton>
                         </Grid>
