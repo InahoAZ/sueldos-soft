@@ -18,7 +18,7 @@ import swal from 'sweetalert';
 import EmpleadosService from '../services/empleados.service'
 import CloseIcon from '@material-ui/icons/Close';
 import Divider from '@material-ui/core/Divider';
-
+import VerEmpleado from './verdatosempleado.component';
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -178,7 +178,10 @@ export default function ListaEmpleados(props) {
             </Grid>
 
           </Grid>
-          componente para mostrar la informacion
+          <Grid>
+
+            <VerEmpleado/>
+          </Grid>
           <Grid container
             direction="column"
             alignItems="center">
@@ -225,7 +228,7 @@ export default function ListaEmpleados(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {empleados.map((row) => (
+                {rows.map((row) => (
                   <TableRow key={row.cuil}>
                     <TableCell component="th" scope="row">
                       {row.cuil}
