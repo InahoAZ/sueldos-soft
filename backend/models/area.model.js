@@ -4,9 +4,9 @@ module.exports = (mongoose) => {
   const schema = mongoose.Schema(
     {
       name: String,
-      areas: [{
+      departamentos: [{
         type: Schema.Types.ObjectId,
-        ref: "area",
+        ref: "departamento",
       }],
     },
     { timestamps: true }
@@ -14,7 +14,7 @@ module.exports = (mongoose) => {
 
   
 
-  const Empresa = mongoose.model("empresa", schema);
+  const Area = mongoose.model("area", schema);
 
-  return Empresa;
+  return Area;
 };

@@ -1,27 +1,43 @@
 const db = require("../models");
+const Area = db.areas;
 const Empresa = db.empresas;
 
 
 exports.create = (req, res) => {
   //Se valida la request
-  if(!req.body.name){
-      res.status(400).send({ message: 'El contenido no puede estar vacio.'});
+  if(!req.body.idEmpresa || !req.body.name){
+      res.status(400).send({ message: 'Falta algun campo xd'});
       return;
   }
-
-  //Se crea la empresa con lo recibido
-  const empresa = new Empresa({
+  console.log("ID EMPRESA: ", req.body.idEmpresa)
+  //Se crea el area con lo recibido
+  const area = new Area({
       name: req.body.name,
-      areas: [],
+      departamentos: [],
   });
 
-  //Se guarda la Empresa en la db
-  empresa
-  .save(empresa)
+  //Obtenemos la empresa del area a crear
+  
+
+  //Se guarda el Area en la db
+  area
+  .save(area)
   .then(data => {
-      console.log('data: ', data);
-      res.send(data);
+        console.log('data: ', data.id);
+      
+        //Asociamos el area a la empresa
+        return Empresa.findByIdAndUpdate(req.body.idEmpresa, {
+            $push: {
+                areas: data.id
+            }            
+        }, {new: true, useFindAndModify: false})
+        
+      
   })
+    .then(data => {
+        res.send({message: 'Se creo el area correctamente'});
+    })
+    
   .catch(err => {
       res.status(500).send({
           message: err.message
@@ -32,15 +48,7 @@ exports.create = (req, res) => {
 
 
 exports.findAll = (req, res) => {
-    Empresa.find().populate({
-        path: 'areas',
-        populate: {
-            path: 'departamentos',
-            populate: {
-                path: 'puestos'
-            }
-        }
-    })
+    Area.find({})
     .then(data => {
         res.send(data);
     })
@@ -55,10 +63,10 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Empresa.findById(id).populate('areas')
+    Area.findById(id)
     .then(data => {
         if (!data)
-            res.status(404).send({ message: "No se encontro una Empresa con ese Id."});
+            res.status(404).send({ message: "No se encontro una Area con ese Id."});
         else res.send(data);
     })
     .catch(err => {
@@ -78,11 +86,11 @@ exports.update = (req, res) => {
 
     const id = req.params.id;
 
-    Empresa.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    Area.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
         if (!data)
-            res.status(404).send({ message: "No se encontro una Empresa con ese Id."});
-        else res.send({ message: "Empresa Actualizada", id: data.id});
+            res.status(404).send({ message: "No se encontro una Area con ese Id."});
+        else res.send({ message: "Area Actualizada", id: data.id});
     })
     .catch(err => {
         res
@@ -94,31 +102,22 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Empresa.findByIdAndRemove(id)
+  Area.findByIdAndRemove(id)
   .then(data => {
     if (!data) {
         res.status(404).send({
-            message: "No se encontro la empresa con ese id."
+            message: "No se encontro la Area con ese id."
         });
     } else {
         res.send({
-            message: "La empresa se borró correctamente."
+            message: "La Area se borró correctamente."
         });
     }
   })
   .catch(err => {
     res.status(500).send({
-      message: "No se pudo eliminar la empresa " + err.message
+      message: "No se pudo eliminar la Area " + err.message
     });
   });
 };
 
-
-exports.deleteAll = (req, res) => {
-  
-};
-
-
-exports.findAllPublished = (req, res) => {
-  
-};
