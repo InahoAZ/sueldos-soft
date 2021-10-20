@@ -52,6 +52,9 @@ db.mongoose
 
 require("./routes/licencia.routes")(app);
 require("./routes/empresa.routes")(app);
+require("./routes/area.routes")(app);
+require("./routes/departamento.routes")(app);
+require("./routes/puesto.routes")(app);
 
 
 //bucle donde queda escuchando el server
