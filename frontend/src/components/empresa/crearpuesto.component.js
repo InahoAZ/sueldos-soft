@@ -64,10 +64,36 @@ export default function CrearPuesto() {
 
   }
 
+  function obtenerAreas(empresas) {
+    console.log(empresas);
+    let areas = [];
+    for (let i = 0;i<this.empresas.length;i++){
+      
+      if (this.empresas[i].areas && this.empresas[i].id === stateempresa.idempresa){
+        
+        for (let j = 0;j<this.empresas[i].areas.length;j++){
+          
+          
+                  let area = {
+                    id: this.empresas[i].areas[j].id,
+                    name: this.empresas[i].areas[j].name,
+                    
+                  }
+                  areas.push(area)
+                
+        }
+      }
+    }
+
+
+
+    return areas
+  }
+
   function cargarAreas() {
     AreaService.getAll()
       .then(response => {
-        setareas(response.data)
+        setareas(obtenerAreas(response.data))
         setStatearea({
           ...statearea,
           idarea: '',
