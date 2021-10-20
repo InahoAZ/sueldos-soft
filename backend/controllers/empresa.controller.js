@@ -32,7 +32,15 @@ exports.create = (req, res) => {
 
 
 exports.findAll = (req, res) => {
-    Empresa.find()
+    Empresa.find().populate({
+        path: 'areas',
+        populate: {
+            path: 'departamentos',
+            populate: {
+                path: 'puestos'
+            }
+        }
+    })
     .then(data => {
         res.send(data);
     })
