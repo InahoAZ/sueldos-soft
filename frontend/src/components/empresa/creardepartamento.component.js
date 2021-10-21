@@ -15,6 +15,7 @@ import EmpresaService from '../../services/empresa.service'
 import InputLabel from '@material-ui/core/InputLabel';
 import AreaService from '../../services/area.service'
 
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -49,21 +50,49 @@ export default function CrearDepartamento() {
     retrieveEmpresasauto();
   }, []);
 
-  let state2 = {
+  const [state2, setState2] = React.useState({
     id: 'null',
     name: "",
-  };
+  });
   
   function onChangeName(e) {
     
-      state2.name = e.target.value
+    setState2({
+      id: 'null',
+       name: e.target.value,
+    })
   
+  }
+  function obtenerAreas(empresas) {
+    console.log(empresas);
+    let rows = [];
+    for (let i = 0;i<empresas.length;i++){
+      
+      if (empresas[i].areas){
+        
+        for (let j = 0;j<empresas[i].areas.length;j++){
+          
+         
+                  let area = {
+                    id: empresas[i].areas[j]._id,
+                    name: empresas[i].areas[j].name,
+               
+                  }
+                  rows.push(area)
+
+        }
+      }
+    }
+
+
+
+    return rows
   }
  
  function cargarAreas(){
-  AreaService.getAll()
+  EmpresaService.getAll()
   .then(response => {
-    setareas( response.data)
+    setareas( obtenerAreas(response.data))
     setStatearea({
       ...statearea,
       idarea: '',
@@ -88,12 +117,16 @@ export default function CrearDepartamento() {
 
   const handleChangeempresa = (event) => {
     if (event.target.value != '') {
-      cargarAreas()
+      cargarAreas(event.target.value)
     }
     const name = event.target.name;
     setStateempresa({
       ...stateempresa,
       [name]: event.target.value,
+    });
+    setStatearea({
+      ...statearea,
+      idarea: '',
     });
     //console.log(state)
   };
@@ -113,7 +146,7 @@ export default function CrearDepartamento() {
   function saveDepartamento() {
     var data = {
       name: state2.name,
-      idarea: statearea.idarea,
+      idArea: statearea.idarea,
     };
    
     DepartamentoService.create(data)
@@ -131,8 +164,12 @@ export default function CrearDepartamento() {
           ...statearea,
           idarea: '',
         });
-    
-        document.getElementById("departamentonombre").value='';
+        setState2({
+          id: 'null',
+           name: '',
+        })
+        setareas([])
+       
         
           swal("Correcto!", "Se agrego con exito a la tabla!", "success");
 
@@ -172,7 +209,7 @@ export default function CrearDepartamento() {
           Crear Departamento
         </Typography>
    
-        <TextField id="departamentonombre" label="Nombre del departamento" color="secondary" onChange={onChangeName} style={{marginTop: '8px'}}/>
+        <TextField  label="Nombre del departamento" color="secondary" value={state2.name} onChange={onChangeName} style={{marginTop: '8px'}}/>
         
         <FormControl className={classes.formControl}>
         <InputLabel htmlFor="age-native-simple">Empresa</InputLabel>

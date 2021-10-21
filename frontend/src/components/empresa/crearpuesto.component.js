@@ -53,14 +53,17 @@ export default function CrearPuesto() {
     retrieveEmpresasauto();
   }, []);
 
-  let state2 = {
+  const [state2, setState2] = React.useState({
     id: 'null',
     name: "",
-  };
+  });
 
   function onChangeName(e) {
 
-    state2.name = e.target.value
+    setState2({
+      id: 'null',
+       name: e.target.value,
+    })
 
   }
 
@@ -90,8 +93,34 @@ export default function CrearPuesto() {
     return areas
   }
 
+  function obtenerAreas(empresas) {
+    console.log(empresas);
+    let rows = [];
+    for (let i = 0;i<empresas.length;i++){
+      
+      if (empresas[i].areas){
+        
+        for (let j = 0;j<empresas[i].areas.length;j++){
+          
+         
+                  let area = {
+                    id: empresas[i].areas[j]._id,
+                    name: empresas[i].areas[j].name,
+               
+                  }
+                  rows.push(area)
+
+        }
+      }
+    }
+
+
+
+    return rows
+  }
+
   function cargarAreas() {
-    AreaService.getAll()
+    EmpresaService.getAll()
       .then(response => {
         setareas(obtenerAreas(response.data))
         setStatearea({
@@ -105,10 +134,45 @@ export default function CrearPuesto() {
         console.log(e);
       });
   }
+  function obtenerDepartamentos(empresas) {
+    console.log(empresas);
+    let rows = [];
+    for (let i = 0;i<empresas.length;i++){
+      
+      if (empresas[i].areas){
+        
+        for (let j = 0;j<empresas[i].areas.length;j++){
+          
+          if (empresas[i].areas[j].departamentos){
+           
+            for (let d = 0;d<empresas[i].areas[j].departamentos.length;d++){
+              
+             
+                  
+                  let depa = {
+                    id: empresas[i].areas[j].departamentos[d]._id,
+                    name: empresas[i].areas[j].departamentos[d].name,
+                    
+                    areaname: empresas[i].areas[j].name,
+                    empresaname: empresas[i].name,
+                  }
+                  rows.push(depa)
+
+             
+            }
+          }
+        }
+      }
+    }
+
+
+
+    return rows
+  }
   function cargarDepartamentos() {
-    DepartamentoService.getAll()
+    EmpresaService.getAll()
       .then(response => {
-        setdepartamentos(response.data)
+        setdepartamentos(obtenerDepartamentos(response.data))
         setStatedepartamento({
           ...statedepartamento,
           iddepartamento: '',
@@ -133,12 +197,21 @@ export default function CrearPuesto() {
 
   const handleChangeempresa = (event) => {
     if (event.target.value != '') {
-      cargarAreas()
+      cargarAreas(event.target.value)
     }
     const name = event.target.name;
     setStateempresa({
       ...stateempresa,
       [name]: event.target.value,
+    });
+    setStatearea({
+      ...statearea,
+      idarea: '',
+    });
+   
+    setStatedepartamento({
+      ...statedepartamento,
+      iddepartamento: '',
     });
     //console.log(state)
   };
@@ -174,7 +247,7 @@ export default function CrearPuesto() {
   function savePuesto() {
     var data = {
       name: state2.name,
-      iddepartamento: statedepartamento.iddepartamento,
+      idDepartamento: statedepartamento.iddepartamento,
     };
 
     PuestoService.create(data)
@@ -196,8 +269,13 @@ export default function CrearPuesto() {
           ...statedepartamento,
           iddepartamento: '',
         });
+        setState2({
+          id: 'null',
+           name: '',
+        });
 
-        document.getElementById("puestonombre").value = '';
+        setareas([]);
+        setdepartamentos([]);
 
         swal("Correcto!", "Se agrego con exito a la tabla!", "success");
 
@@ -237,7 +315,7 @@ export default function CrearPuesto() {
             Crear Puesto
           </Typography>
 
-          <TextField id="puestonombre" label="Nombre del puesto" color="secondary" onChange={onChangeName} style={{ marginTop: '8px' }} />
+          <TextField id="puestonombre" label="Nombre del puesto" color="secondary" value={state2.name} onChange={onChangeName} style={{ marginTop: '8px' }} />
     <br></br>
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="age-native-simple">Empresa</InputLabel>

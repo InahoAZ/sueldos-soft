@@ -1273,25 +1273,25 @@ export default class ListarPuesto extends Component {
   obtenerPuestos(empresas) {
     console.log(empresas);
     let rows = [];
-    for (let i = 0;i<this.empresas.length;i++){
+    for (let i = 0;i<empresas.length;i++){
       
-      if (this.empresas[i].areas){
+      if (empresas[i].areas){
         
-        for (let j = 0;j<this.empresas[i].areas.length;j++){
+        for (let j = 0;j<empresas[i].areas.length;j++){
           
-          if (this.empresas[i].areas[j].departamentos){
+          if (empresas[i].areas[j].departamentos){
            
-            for (let d = 0;d<this.empresas[i].areas[j].departamentos.length;d++){
+            for (let d = 0;d<empresas[i].areas[j].departamentos.length;d++){
               
-              if (this.empresas[i].areas[j].departamentos[d].puestos){
-                for (let p = 0;p<this.empresas[i].areas[j].departamentos[d].puestos.length;p++){
+              if (empresas[i].areas[j].departamentos[d].puestos){
+                for (let p = 0;p<empresas[i].areas[j].departamentos[d].puestos.length;p++){
                   
                   let puesto = {
-                    id: this.empresas[i].areas[j].departamentos[d].puestos[p].id,
-                    name: this.empresas[i].areas[j].departamentos[d].puestos[p].name,
-                    departamentoname: this.empresas[i].areas[j].departamentos[d].name,
-                    areaname: this.empresas[i].areas[j].name,
-                    empresaname: this.empresas[i].name,
+                    id: empresas[i].areas[j].departamentos[d].puestos[p]._id,
+                    name: empresas[i].areas[j].departamentos[d].puestos[p].name,
+                    departamentoname: empresas[i].areas[j].departamentos[d].name,
+                    areaname: empresas[i].areas[j].name,
+                    empresaname: empresas[i].name,
                   }
                   rows.push(puesto)
 

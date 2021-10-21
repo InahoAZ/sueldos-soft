@@ -8,9 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
+import swal from 'sweetalert';
 import PuestosAsignados from './tablapuestosasignados.component';
-
+import EmpleadoService from '../services/empleados.service';
 
 const countries = [
     { code: 'AD', label: 'Andorra', phone: '376' },
@@ -61,8 +61,55 @@ export default function HorizontalLabelPositionBelowStepper() {
     const steps = getSteps();
 
     const handleNext = () => {
+        
+        saveEmpleado()
+        // si es correcto llamar al segundo puesto
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
+
+    function saveEmpleado() {
+        var data = {
+          cuil: cuil,
+          nombre: nombre,
+          apellido: apellido,
+
+          telefono: telefono,
+          correo: correo,
+          direccion: direccion,
+
+          estadoCivil: estadocivil,
+          nacionalidad: nacionalidad,
+          fechaNacimiento: nacimiento,
+        };
+    
+        EmpleadoService.create(data)
+          .then(response => {
+            
+            console.log(response.data);
+            this.child.current.refreshList();
+            // borrar todos los campos con set
+            this.setCuil('');
+            this.setApellido('');
+            this.setNombre('');
+
+            this.setNacimiento('');
+            this.setNacionalidad('');
+            this.setEstadocivil('');
+
+            this.setTelefono('');
+            this.setCorreo('');
+            this.setDireccion('');
+
+
+              //msj cargado exitosament
+              swal("Correcto!", "Se agrego con exito a la tabla!", "success");
+    
+          })
+          .catch(e => {
+            console.log(e);
+            swal("Error!", "No se logro cargarlo!", "error");
+          });
+      }
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -82,11 +129,61 @@ export default function HorizontalLabelPositionBelowStepper() {
     function asignarPuesto(){
         console.log('ok');
     }
+    function changeCuil(e) {
+        setCuil( e.target.value)
+      }
+      function changeApellido(e) {
+        setApellido( e.target.value)
+      }
+      function changeNombre(e) {
+        setNombre( e.target.value)
+      }
+      function changeNacimiento(e) {
+        setNacimiento( e.target.value)
+      }
+      function changeNacionalidad(e) {
+        setNacionalidad( e.target.value)
+      }
+      function changeEstadocivil(e) {
+        setEstadocivil( e.target.value)
+      }
+      function changeTelefono(e) {
+        setTelefono( e.target.value)
+      }
+      function changeCorreo(e) {
+        setCorreo( e.target.value)
+      }
+      function changeDireccion(e) {
+        setDireccion( e.target.value)
+      }
 
 
     function cambiarPage() {
         window.location.href = '/empleados';
     }
+
+
+
+    const [cuil, setCuil] = React.useState('');
+    const [apellido, setApellido] = React.useState('');
+    const [nombre, setNombre] = React.useState('');
+
+    const [nacimiento, setNacimiento] = React.useState('');
+    const [nacionalidad, setNacionalidad] = React.useState('');
+    const [estadocivil, setEstadocivil] = React.useState('');
+
+    const [telefono, setTelefono] = React.useState('');
+    const [correo, setCorreo] = React.useState('');
+    const [direccion, setDireccion] = React.useState('');
+
+
+
+
+
+
+
+
+
 
     return (
         <div className={classes.root}>
@@ -269,19 +366,19 @@ export default function HorizontalLabelPositionBelowStepper() {
                             <Grid container spacing={2}
                                 justifyContent="center"
                                 alignItems="center">
-                                <Grid item><TextField id="outlined-search" label="CUIL" type="search" variant="outlined" /></Grid>
-                                <Grid item><TextField id="outlined-search" label="Apellido" type="search" variant="outlined" /></Grid>
-                                <Grid item><TextField id="outlined-search" label="Nombre" type="search" variant="outlined" /></Grid>
+                                <Grid item><TextField id="outlined-search" label="CUIL" type="search" onChange={changeCuil} variant="outlined" /></Grid>
+                                <Grid item><TextField id="outlined-search" label="Apellido" type="search" onChange={changeApellido} variant="outlined" /></Grid>
+                                <Grid item><TextField id="outlined-search" label="Nombre" type="search" onChange={changeNombre} variant="outlined" /></Grid>
                                 <Grid item> 
                                 
-                                <TextField id="outlined-search" label="Fecha de nacimiento" type="search" variant="outlined" />
+                                <TextField id="outlined-search" label="Fecha de nacimiento" type="search" onChange={changeNacimiento} variant="outlined" />
                                 
                                 </Grid>
-                                <Grid item><TextField id="outlined-search" label="Nacionalidad" type="search" variant="outlined" /></Grid>
-                                <Grid item>   <TextField id="outlined-search" label="Estado civil" type="search" variant="outlined" /></Grid>
-                                <Grid item><TextField id="outlined-search" label="Telefono" type="search" variant="outlined" /></Grid>
-                                <Grid item> <TextField id="outlined-search" label="Correo electronico" type="search" variant="outlined" /></Grid>
-                                <Grid item><TextField id="outlined-search" style={{ minWidth: '85vh' }} label="Direccion" type="search" variant="outlined" /></Grid>
+                                <Grid item><TextField id="outlined-search" label="Nacionalidad" type="search" onChange={changeNacionalidad} variant="outlined" /></Grid>
+                                <Grid item>   <TextField id="outlined-search" label="Estado civil" type="search" onChange={changeEstadocivil} variant="outlined" /></Grid>
+                                <Grid item><TextField id="outlined-search" label="Telefono" type="search" onChange={changeTelefono} variant="outlined" /></Grid>
+                                <Grid item> <TextField id="outlined-search" label="Correo electronico" onChange={changeCorreo} type="search" variant="outlined" /></Grid>
+                                <Grid item><TextField id="outlined-search" style={{ minWidth: '85vh' }} label="Direccion" onChange={changeDireccion} type="search" variant="outlined" /></Grid>
 
 
 
