@@ -93,12 +93,12 @@ export default function CrearPuesto() {
     return areas
   }
 
-  function obtenerAreas(empresas) {
+  function obtenerAreas(empresas, id) {
     console.log(empresas);
     let rows = [];
     for (let i = 0;i<empresas.length;i++){
       
-      if (empresas[i].areas){
+      if (empresas[i].areas && empresas[i]._id === id){
         
         for (let j = 0;j<empresas[i].areas.length;j++){
           
@@ -119,10 +119,10 @@ export default function CrearPuesto() {
     return rows
   }
 
-  function cargarAreas() {
+  function cargarAreas(id) {
     EmpresaService.getAll()
       .then(response => {
-        setareas(obtenerAreas(response.data))
+        setareas(obtenerAreas(response.data, id))
         setStatearea({
           ...statearea,
           idarea: '',
@@ -134,7 +134,7 @@ export default function CrearPuesto() {
         console.log(e);
       });
   }
-  function obtenerDepartamentos(empresas) {
+  function obtenerDepartamentos(empresas, idarea) {
     console.log(empresas);
     let rows = [];
     for (let i = 0;i<empresas.length;i++){
@@ -143,7 +143,7 @@ export default function CrearPuesto() {
         
         for (let j = 0;j<empresas[i].areas.length;j++){
           
-          if (empresas[i].areas[j].departamentos){
+          if (empresas[i].areas[j].departamentos && empresas[i].areas[j]._id === idarea){
            
             for (let d = 0;d<empresas[i].areas[j].departamentos.length;d++){
               
@@ -169,10 +169,10 @@ export default function CrearPuesto() {
 
     return rows
   }
-  function cargarDepartamentos() {
+  function cargarDepartamentos(id) {
     EmpresaService.getAll()
       .then(response => {
-        setdepartamentos(obtenerDepartamentos(response.data))
+        setdepartamentos(obtenerDepartamentos(response.data, id))
         setStatedepartamento({
           ...statedepartamento,
           iddepartamento: '',
@@ -222,7 +222,7 @@ export default function CrearPuesto() {
 
   const handleChangearea = (event) => {
     if (event.target.value != '') {
-      cargarDepartamentos()
+      cargarDepartamentos(event.target.value)
     }
     const name = event.target.name;
     setStatearea({
@@ -330,7 +330,7 @@ export default function CrearPuesto() {
             >
               <option aria-label="None" value="" />
               {options.map((option) => (
-                <option value={option.id}>{option.name}</option>
+                <option value={option._id}>{option.name}</option>
               ))}
 
             </Select>

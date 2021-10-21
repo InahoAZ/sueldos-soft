@@ -63,12 +63,12 @@ export default function CrearDepartamento() {
     })
   
   }
-  function obtenerAreas(empresas) {
+  function obtenerAreas(empresas, id) {
     console.log(empresas);
     let rows = [];
     for (let i = 0;i<empresas.length;i++){
-      
-      if (empresas[i].areas){
+   
+      if (empresas[i].areas && empresas[i]._id === id){
         
         for (let j = 0;j<empresas[i].areas.length;j++){
           
@@ -89,10 +89,10 @@ export default function CrearDepartamento() {
     return rows
   }
  
- function cargarAreas(){
+ function cargarAreas(idempresa){
   EmpresaService.getAll()
   .then(response => {
-    setareas( obtenerAreas(response.data))
+    setareas( obtenerAreas(response.data, idempresa))
     setStatearea({
       ...statearea,
       idarea: '',
@@ -117,17 +117,22 @@ export default function CrearDepartamento() {
 
   const handleChangeempresa = (event) => {
     if (event.target.value != '') {
+      
+      const name = event.target.name;
+   
+      setStateempresa({
+        ...stateempresa,
+        [name]: event.target.value,
+      });
+      setStatearea({
+        ...statearea,
+        idarea: '',
+      });
+      
       cargarAreas(event.target.value)
     }
-    const name = event.target.name;
-    setStateempresa({
-      ...stateempresa,
-      [name]: event.target.value,
-    });
-    setStatearea({
-      ...statearea,
-      idarea: '',
-    });
+   
+    
     //console.log(state)
   };
   const [statearea, setStatearea] = React.useState({
@@ -224,7 +229,7 @@ export default function CrearDepartamento() {
         >
           <option aria-label="None" value="" />
           {options.map((option) => (
-              <option value={option.id}>{option.name}</option>
+              <option value={option._id}>{option.name}</option>
             ))}
           
         </Select>
