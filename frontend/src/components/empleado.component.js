@@ -15,10 +15,13 @@ export default function CargaEmpleado(props) {
     }
 
     let frase = '';
+    let situacion = 'nuevo';
     if (cuil != 0) {
         frase = 'Formulario para editar un empleado';
+        situacion = 'editar';
     } else {
         frase = ' Formulario para cargar un nuevo empleado ';
+        situacion = 'nuevo';
     }
 
     return (
@@ -56,7 +59,9 @@ export default function CargaEmpleado(props) {
 
 
                 <Grid>
-                    <DataEmpleado/>
+                    <DataEmpleado 
+                    estado={situacion}
+                    />
                 </Grid>
 
 

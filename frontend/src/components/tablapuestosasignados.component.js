@@ -24,11 +24,8 @@ const useStyles = makeStyles({
   }
   
   const rows = [
-    createData('Sueldo Básico', 159, 6.0, 24, 4.0),
-    createData('Jubilación - Ley 24.241', 237, 9.0, 37, 4.3),
-    createData('Ley 19.032 - INSSJP', 262, 16.0, 24, 6.0),
-    createData('Obra social', 305, 3.7, 67, 4.3),
-    createData('Sindicato ', 356, 16.0, 49, 3.9),
+    //createData('Ningun puesto asociado', '', '', '', ''),
+  
   ];
 
   function deleteEmpleado(num) {

@@ -317,6 +317,8 @@ export default function CrearPuesto() {
 
           <TextField id="puestonombre" label="Nombre del puesto" color="secondary" value={state2.name} onChange={onChangeName} style={{ marginTop: '8px' }} />
     <br></br>
+
+    
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="age-native-simple">Empresa</InputLabel>
             <Select
@@ -371,6 +373,9 @@ export default function CrearPuesto() {
 
             </Select>
           </FormControl>
+         
+         
+         
           <Button variant="contained" color="primary" onClick={savePuesto} style={{ marginTop: '20px', marginLeft: '20px' }} >
             Crear
           </Button>

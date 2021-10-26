@@ -11,20 +11,12 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import swal from 'sweetalert';
 import PuestosAsignados from './tablapuestosasignados.component';
 import EmpleadoService from '../services/empleados.service';
+import EmpresaService from '../services/empresa.service';
+import Select from '@material-ui/core/Select';
 
-const countries = [
-    { code: 'AD', label: 'Andorra', phone: '376' },
-    { code: 'AE', label: 'United Arab Emirates', phone: '971' },
-    { code: 'AF', label: 'Afghanistan', phone: '93' },
-    { code: 'AG', label: 'Antigua and Barbuda', phone: '1-268' },
-    { code: 'AI', label: 'Anguilla', phone: '1-264' },
-    { code: 'AL', label: 'Albania', phone: '355' },
-    { code: 'AM', label: 'Armenia', phone: '374' },
-    { code: 'AO', label: 'Angola', phone: '244' },
-    { code: 'AQ', label: 'Antarctica', phone: '672' },
-    { code: 'AR', label: 'Argentina', phone: '54' },
-];
+import InputLabel from '@material-ui/core/InputLabel';
 
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,19 +47,336 @@ function getStepContent(stepIndex) {
 }
 
 
-export default function HorizontalLabelPositionBelowStepper() {
+export default function Datos(props) {
+    const mode = props.estado;
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
 
+    const [puestos, setpuestos] = React.useState([]);
+    const [departamentos, setdepartamentos] = React.useState([]);
+
+    const [areas, setareas] = React.useState([]);
+    const [options, setOptions] = React.useState([]);
+    
     const handleNext = () => {
         
-        saveEmpleado()
-        // si es correcto llamar al segundo puesto
+        //saveEmpleado()
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
+       
+        
     };
+    React.useEffect(() => {
+        async function retrieveEmpresasauto() {
+          EmpresaService.getAll()
+            .then(response => {
+              setOptions(response.data)
+    
+            })
+            .catch(e => {
+              console.log(e);
+            });
+        }
+        retrieveEmpresasauto();
+      }, []);
 
-    function saveEmpleado() {
+
+      
+  const [state2, setState2] = React.useState({
+    id: 'null',
+    name: "",
+  });
+
+  function onChangeName(e) {
+
+    setState2({
+      id: 'null',
+       name: e.target.value,
+    })
+
+  }
+
+  function obtenerAreas(empresas) {
+    console.log(empresas);
+    let areas = [];
+    for (let i = 0;i<this.empresas.length;i++){
+      
+      if (this.empresas[i].areas && this.empresas[i].id === stateempresa.idempresa){
+        
+        for (let j = 0;j<this.empresas[i].areas.length;j++){
+          
+          
+                  let area = {
+                    id: this.empresas[i].areas[j].id,
+                    name: this.empresas[i].areas[j].name,
+                    
+                  }
+                  areas.push(area)
+                
+        }
+      }
+    }
+
+
+
+    return areas
+  }
+
+  function obtenerAreas(empresas, id) {
+    console.log(empresas);
+    let rows = [];
+    for (let i = 0;i<empresas.length;i++){
+      
+      if (empresas[i].areas && empresas[i]._id === id){
+        
+        for (let j = 0;j<empresas[i].areas.length;j++){
+          
+         
+                  let area = {
+                    id: empresas[i].areas[j]._id,
+                    name: empresas[i].areas[j].name,
+               
+                  }
+                  rows.push(area)
+
+        }
+      }
+    }
+
+
+
+    return rows
+  }
+
+  function cargarAreas(id) {
+    EmpresaService.getAll()
+      .then(response => {
+        setareas(obtenerAreas(response.data, id))
+        setStatearea({
+          ...statearea,
+          idarea: '',
+        });
+
+
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+  function obtenerDepartamentos(empresas, idarea) {
+    console.log(empresas);
+    let rows = [];
+    for (let i = 0;i<empresas.length;i++){
+      
+      if (empresas[i].areas){
+        
+        for (let j = 0;j<empresas[i].areas.length;j++){
+          
+          if (empresas[i].areas[j].departamentos && empresas[i].areas[j]._id === idarea){
+           
+            for (let d = 0;d<empresas[i].areas[j].departamentos.length;d++){
+              
+             
+                  
+                  let depa = {
+                    id: empresas[i].areas[j].departamentos[d]._id,
+                    name: empresas[i].areas[j].departamentos[d].name,
+                    
+                    areaname: empresas[i].areas[j].name,
+                    empresaname: empresas[i].name,
+                  }
+                  rows.push(depa)
+
+             
+            }
+          }
+        }
+      }
+    }
+
+
+
+    return rows
+  }
+
+
+
+  function obtenerPuestos(empresas, iddepartamento) {
+    console.log(empresas);
+    let rows = [];
+    for (let i = 0;i<empresas.length;i++){
+      
+      if (empresas[i].areas){
+        
+        for (let j = 0;j<empresas[i].areas.length;j++){
+          
+          if (empresas[i].areas[j].departamentos ){
+           
+            for (let d = 0;d<empresas[i].areas[j].departamentos.length;d++){
+              
+                if (empresas[i].areas[j].departamentos[d].puestos && empresas[i].areas[j].departamentos[d]._id === iddepartamento){
+           
+                    for (let p = 0;p<empresas[i].areas[j].departamentos[d].puestos.length;p++){
+                  
+                  let puesto = {
+                    id: empresas[i].areas[j].departamentos[d].puestos[p]._id,
+                    name: empresas[i].areas[j].departamentos[d].puestos[p].name,
+                    departamentoname: empresas[i].areas[j].departamentos[d].name,
+                    areaname: empresas[i].areas[j].name,
+                    empresaname: empresas[i].name,
+                  }
+                  rows.push(puesto)
+                }}
+
+             
+            }
+          }
+        }
+      }
+    }
+
+
+
+    return rows
+  }
+
+
+  function cargarDepartamentos(id) {
+    EmpresaService.getAll()
+      .then(response => {
+        setdepartamentos(obtenerDepartamentos(response.data, id))
+        setStatedepartamento({
+          ...statedepartamento,
+          iddepartamento: '',
+        });
+
+
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  function cargarPuestos(id) {
+    EmpresaService.getAll()
+      .then(response => {
+        setpuestos(obtenerPuestos(response.data, id))
+        setStatepuesto({
+          ...statepuesto,
+          idpuestos: '',
+        });
+
+
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+      const [stateempresa, setStateempresa] = React.useState({
+        idempresa: '',
+        name: '',
+      });
+    
+      const handleChangeempresa = (event) => {
+        if (event.target.value != '') {
+          cargarAreas(event.target.value)
+        }
+        const name = event.target.name;
+        setStateempresa({
+          ...stateempresa,
+          [name]: event.target.value,
+        });
+        setStatearea({
+          ...statearea,
+          idarea: '',
+        });
+       
+        setStatedepartamento({
+          ...statedepartamento,
+          iddepartamento: '',
+        });
+        //console.log(state)
+      };
+      const [statearea, setStatearea] = React.useState({
+        idarea: '',
+        name: '',
+      });
+    
+      const handleChangearea = (event) => {
+        if (event.target.value != '') {
+          cargarDepartamentos(event.target.value)
+        }
+        const name = event.target.name;
+        setStatearea({
+          ...statearea,
+          [name]: event.target.value,
+        });
+        //console.log(state)
+      };
+      const [statedepartamento, setStatedepartamento] = React.useState({
+        iddepartamento: '',
+        name: '',
+      });
+    
+      const handleChangedepartamento = (event) => {
+        if (event.target.value != '') {
+            cargarPuestos(event.target.value)
+          }
+        const name = event.target.name;
+        setStatedepartamento({
+          ...statedepartamento,
+          [name]: event.target.value,
+        });
+        //console.log(state)
+      };
+      const [statepuesto, setStatepuesto] = React.useState({
+        iddepartamento: '',
+        name: '',
+      });
+
+      const handleChangepuesto = (event) => {
+        const name = event.target.name;
+        setStatepuesto({
+          ...statepuesto,
+          [name]: event.target.value,
+        });
+        //console.log(state)
+      };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const [cuil, setCuil] = React.useState('');
+    const [apellido, setApellido] = React.useState('');
+    const [nombre, setNombre] = React.useState('');
+
+    const [nacimiento, setNacimiento] = React.useState('');
+    const [nacionalidad, setNacionalidad] = React.useState('');
+    const [estadocivil, setEstadocivil] = React.useState('');
+
+    const [telefono, setTelefono] = React.useState('');
+    const [correo, setCorreo] = React.useState('');
+    const [direccion, setDireccion] = React.useState('');
+
+
+
+
+
+
+
+    var saveEmpleado =  function () {
         var data = {
           cuil: cuil,
           nombre: nombre,
@@ -81,34 +390,47 @@ export default function HorizontalLabelPositionBelowStepper() {
           nacionalidad: nacionalidad,
           fechaNacimiento: nacimiento,
         };
-    
+        if (data.cuil != '' && data.nombre != '' && data.apellido != '' && data.telefono != '' && data.correo != '' && data.direccion != '' && data.estadocivil != '' && data.nacionalidad != '' && data.nacimiento != '') {
+            console.log('correcto');
+        } else {
+            swal("Error!", "Complete todos los campos!", "error");
+            return 1;
+        }
+        
         EmpleadoService.create(data)
           .then(response => {
             
             console.log(response.data);
-            this.child.current.refreshList();
+            //this.child.current.refreshList();
             // borrar todos los campos con set
-            this.setCuil('');
-            this.setApellido('');
-            this.setNombre('');
+            setCuil('');
+            setApellido('');
+            setNombre('');
 
-            this.setNacimiento('');
-            this.setNacionalidad('');
-            this.setEstadocivil('');
+            setNacimiento('');
+            setNacionalidad('');
+            setEstadocivil('');
 
-            this.setTelefono('');
-            this.setCorreo('');
-            this.setDireccion('');
+            setTelefono('');
+            setCorreo('');
+            setDireccion('');
 
 
               //msj cargado exitosament
               swal("Correcto!", "Se agrego con exito a la tabla!", "success");
+              // permitir pasar a la otra pagina
+              setActiveStep((prevActiveStep) => prevActiveStep + 1);
+             
+
     
           })
           .catch(e => {
             console.log(e);
             swal("Error!", "No se logro cargarlo!", "error");
+      
           });
+      
+          
       }
 
     const handleBack = () => {
@@ -119,15 +441,24 @@ export default function HorizontalLabelPositionBelowStepper() {
         setActiveStep(0);
     };
 
-    const [valueEmpresa, setValueEmpresa] = React.useState(countries[0]);
-    const [inputValueEmpresa, setInputValueEmpresa] = React.useState('');
 
-    function cambioEmpresa() {
-        console.log(valueEmpresa);
-        console.log(inputValueEmpresa);
-    }
+   
+
+    
+
+
+
+
+
+
     function asignarPuesto(){
-        console.log('ok');
+        var data = {
+            idPuesto: statepuesto.idpuesto,
+          };
+
+          //cuil de empleado o id?
+          
+        //actualizar empleado 
     }
     function changeCuil(e) {
         setCuil( e.target.value)
@@ -164,24 +495,6 @@ export default function HorizontalLabelPositionBelowStepper() {
 
 
 
-    const [cuil, setCuil] = React.useState('');
-    const [apellido, setApellido] = React.useState('');
-    const [nombre, setNombre] = React.useState('');
-
-    const [nacimiento, setNacimiento] = React.useState('');
-    const [nacionalidad, setNacionalidad] = React.useState('');
-    const [estadocivil, setEstadocivil] = React.useState('');
-
-    const [telefono, setTelefono] = React.useState('');
-    const [correo, setCorreo] = React.useState('');
-    const [direccion, setDireccion] = React.useState('');
-
-
-
-
-
-
-
 
 
 
@@ -208,150 +521,102 @@ export default function HorizontalLabelPositionBelowStepper() {
                                 justifyContent="center"
                                 direction="row"
                                 alignItems="center">
-                                <Grid item> <Autocomplete
-                                    id="country-select-empresa"
-                                    value={valueEmpresa}
-                                    onChange={(event, newValue) => {
-                                        setValueEmpresa(newValue);
-                                        cambioEmpresa();
-                                    }}
-                                    inputValue={inputValueEmpresa}
-                                    onInputChange={(event, newInputValue) => {
-                                        setInputValueEmpresa(newInputValue);
-                                    }}
-                                    style={{ minWidth: '35vh' }} 
-                                    options={countries}
-                                    classes={{
-                                        option: classes.option,
-                                    }}
-                                    autoHighlight
-                                    getOptionLabel={(option) => option.label}
-                                    renderOption={(option) => (
-                                        <React.Fragment>
-                                            <span>{option.code}</span>
-                                            {option.label} ({option.code}) +{option.phone}
-                                        </React.Fragment>
-                                    )}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Seleccione empresa"
-                                            variant="outlined"
-                                            inputProps={{
-                                                ...params.inputProps,
-                                                autoComplete: 'new-password', // disable autocomplete and autofill
-                                            }}
-                                        />
-                                    )}
-                                /></Grid>
-                                <Grid item> <Autocomplete
-                                    id="country-select-empresa"
-                                    value={valueEmpresa}
-                                    onChange={(event, newValue) => {
-                                        setValueEmpresa(newValue);
-                                        cambioEmpresa();
-                                    }}
-                                    inputValue={inputValueEmpresa}
-                                    onInputChange={(event, newInputValue) => {
-                                        setInputValueEmpresa(newInputValue);
-                                    }}
-                                    style={{ width: 250 }}
-                                    options={countries}
-                                    classes={{
-                                        option: classes.option,
-                                    }}
-                                    autoHighlight
-                                    getOptionLabel={(option) => option.label}
-                                    renderOption={(option) => (
-                                        <React.Fragment>
-                                            <span>{option.code}</span>
-                                            {option.label} ({option.code}) +{option.phone}
-                                        </React.Fragment>
-                                    )}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Seleccione empresa"
-                                            variant="outlined"
-                                            inputProps={{
-                                                ...params.inputProps,
-                                                autoComplete: 'new-password', // disable autocomplete and autofill
-                                            }}
-                                        />
-                                    )}
-                                /></Grid>
-                                <Grid item> <Autocomplete
-                                    id="country-select-empresa"
-                                    value={valueEmpresa}
-                                    onChange={(event, newValue) => {
-                                        setValueEmpresa(newValue);
-                                        cambioEmpresa();
-                                    }}
-                                    inputValue={inputValueEmpresa}
-                                    onInputChange={(event, newInputValue) => {
-                                        setInputValueEmpresa(newInputValue);
-                                    }}
-                                    style={{ width: 250 }}
-                                    options={countries}
-                                    classes={{
-                                        option: classes.option,
-                                    }}
-                                    autoHighlight
-                                    getOptionLabel={(option) => option.label}
-                                    renderOption={(option) => (
-                                        <React.Fragment>
-                                            <span>{option.code}</span>
-                                            {option.label} ({option.code}) +{option.phone}
-                                        </React.Fragment>
-                                    )}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Seleccione empresa"
-                                            variant="outlined"
-                                            inputProps={{
-                                                ...params.inputProps,
-                                                autoComplete: 'new-password', // disable autocomplete and autofill
-                                            }}
-                                        />
-                                    )}
-                                /></Grid>
-                                <Grid item> <Autocomplete 
-                                    id="country-select-empresa"
-                                    value={valueEmpresa}
-                                    onChange={(event, newValue) => {
-                                        setValueEmpresa(newValue);
-                                        cambioEmpresa();
-                                    }}
-                                    inputValue={inputValueEmpresa}
-                                    onInputChange={(event, newInputValue) => {
-                                        setInputValueEmpresa(newInputValue);
-                                    }}
-                                    style={{ minWidth: '55vh' }} 
-                                    options={countries}
-                                    classes={{
-                                        option: classes.option,
-                                    }}
-                                    autoHighlight
-                                    getOptionLabel={(option) => option.label}
-                                    renderOption={(option) => (
-                                        <React.Fragment>
-                                            <span>{option.code}</span>
-                                            {option.label} ({option.code}) +{option.phone}
-                                        </React.Fragment>
-                                    )}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Seleccione empresa"
-                                            variant="outlined"
-                                            inputProps={{
-                                                ...params.inputProps,
-                                                autoComplete: 'new-password', // disable autocomplete and autofill
-                                            }}
-                                        />
-                                    )}
-                                /></Grid>
+                                
+                                <Grid item>                    
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Empresa</InputLabel>
+            <Select
+              native
+              value={stateempresa.idempresa}
+              onChange={handleChangeempresa}
+              inputProps={{
+                name: 'idempresa',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              {options.map((option) => (
+                <option value={option._id}>{option.name}</option>
+              ))}
+
+            </Select>
+          </FormControl>
+        </Grid>
+         
+         
+          <Grid item>
+         
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Area</InputLabel>
+            <Select
+              native
+              style={{width: 150}}
+              value={statearea.idarea}
+              onChange={handleChangearea}
+              inputProps={{
+                name: 'idarea',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              {areas.map((option) => (
+                <option value={option.id}>{option.name}</option>
+              ))}
+
+            </Select>
+          </FormControl>
+         </Grid>
+          
+          
+          <Grid item>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Departamento</InputLabel>
+            <Select
+              native
+              style={{width: 150}}
+              value={statedepartamento.iddepartamento}
+              onChange={handleChangedepartamento}
+              inputProps={{
+                name: 'iddepartamento',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              {departamentos.map((option) => (
+                <option value={option.id}>{option.name}</option>
+              ))}
+
+            </Select>
+          </FormControl>
+         
+       </Grid>
+          
+         
+          <Grid item>
+
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Puesto</InputLabel>
+            <Select
+              native
+              value={statepuesto.idpuesto}
+              onChange={handleChangepuesto}
+              style={{width: 150}}
+              inputProps={{
+                name: 'idpuesto',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              {puestos.map((option) => (
+                <option value={option.id}>{option.name}</option>
+              ))}
+
+            </Select>
+          </FormControl>
+
+
+          </Grid>
+                                
                                 <Grid item>
                                     <Button variant="contained" color="primary" onClick={asignarPuesto} >
                                         Asignar puesto
@@ -395,7 +660,7 @@ export default function HorizontalLabelPositionBelowStepper() {
                         <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
                         <div>
                             <Button
-                                disabled={activeStep === 0}
+                                disabled={activeStep === 0 || mode === 'nuevo'}
                                 onClick={handleBack}
                                 className={classes.backButton}
                             >
