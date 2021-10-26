@@ -13,6 +13,7 @@ exports.create = (req, res) => {
   //Se crea el puesto con lo recibido
   const puesto = new Puesto({
       name: req.body.name,
+      empleados: [],
   });
 
   
