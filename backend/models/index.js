@@ -14,6 +14,7 @@ db.empresas = require('./empresa.model.js')(mongoose);
 db.areas = require('./area.model.js')(mongoose);
 db.departamentos = require('./departamento.model.js')(mongoose);
 db.puestos = require('./puesto.model.js')(mongoose);
+db.empleados = require('./empleado.model.js')(mongoose);
 
 
 module.exports = db;
