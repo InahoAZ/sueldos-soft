@@ -70,7 +70,10 @@ const useStyles = makeStyles({
 export default function PuestosAsignados(props) {
 
     const classes = useStyles();
-
+    let puestos = [];
+    if (props.puestos) {
+      puestos = props.puestos;
+    }
 
     return (
         <div>
@@ -87,8 +90,8 @@ export default function PuestosAsignados(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
+          {puestos.map((row) => (
+            <TableRow key={row._id}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>

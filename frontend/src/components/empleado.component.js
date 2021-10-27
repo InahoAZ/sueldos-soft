@@ -61,6 +61,7 @@ export default function CargaEmpleado(props) {
                 <Grid>
                     <DataEmpleado 
                     estado={situacion}
+                    cuil = {cuil}
                     />
                 </Grid>
 

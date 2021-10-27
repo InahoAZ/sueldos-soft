@@ -19,6 +19,8 @@ import EmpleadosService from '../services/empleados.service'
 import CloseIcon from '@material-ui/icons/Close';
 import Divider from '@material-ui/core/Divider';
 import VerEmpleado from './verdatosempleado.component';
+
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -26,44 +28,21 @@ const useStyles = makeStyles({
 });
 
 
-const rows = [
-  {
-    cuil: 64838383,
-    apellido: 'gola',
-    nombre: 'efefef',
-    telefono: 98989898
-  },
-  {
-    cuil: 64838383,
-    apellido: 'gola',
-    nombre: 'efefef',
-    telefono: 98989898
-  },
-  {
-    cuil: 64838383,
-    apellido: 'gola',
-    nombre: 'efefef',
-    telefono: 98989898
-  },
-  {
-    cuil: 64838383,
-    apellido: 'gola',
-    nombre: 'efefef',
-    telefono: 98989898
-  },
-];
+
 
 
 
 export default function ListaEmpleados(props) {
   const classes = useStyles();
   const [empleados, setEmpleados] = React.useState([]);
+  const [persona, setPersona] = React.useState([]);
 
   React.useEffect(() => {
     async function retrieveEmpleados() {
       EmpleadosService.getAll()
         .then(response => {
           setEmpleados(response.data)
+         
 
         })
         .catch(e => {
@@ -77,8 +56,8 @@ export default function ListaEmpleados(props) {
   function cambiarPage() {
     props.history.push('/empleado/0')
   }
-  function editarEmpleado(cuil) {
-    props.history.push('/empleado/' + cuil)
+  function editarEmpleado(id) {
+    props.history.push('/empleado/' + id)
   }
 
 
@@ -94,17 +73,27 @@ export default function ListaEmpleados(props) {
   }
 
   function refreshList() {
-    this.retrieveEmpleados();
+    retrieveEmpleados();
   }
 
   function closeSection() {
     console.log('dd');
     document.getElementById('gridSection').style.display = 'none'
   }
-  function openSection(num) {
-    console.log(num);
+  function openSection(id) {
+    console.log(id);
     document.getElementById('gridSection').style.display = 'block'
     //ir al top de la pagina
+    window.scrollTo(0, 0);
+
+    //buscar la data, pasarla
+    for (let i = 0;i < empleados.length ;i++) {
+      if(empleados[i]._id === id){
+        setPersona(empleados[i]);
+
+        return 0
+      }
+    }
   }
 
   function deleteEmpleado(num) {
@@ -119,7 +108,7 @@ export default function ListaEmpleados(props) {
       .then((willDelete) => {
         if (willDelete) {
 
-
+          console.log(num);
           EmpleadosService.delete(num)
             .then(response => {
               console.log(response.data);
@@ -128,7 +117,7 @@ export default function ListaEmpleados(props) {
                 icon: "success",
               });
               //actualizar tabla
-              this.refreshList()
+              refreshList();
             })
             .catch(e => {
               console.log(e);
@@ -168,7 +157,7 @@ export default function ListaEmpleados(props) {
             alignItems="center">
             <Grid>
               <Typography variant="h5" >
-                Informacion
+                Información
               </Typography>
             </Grid>
             <Grid>
@@ -180,7 +169,9 @@ export default function ListaEmpleados(props) {
           </Grid>
           <Grid>
 
-            <VerEmpleado/>
+            <VerEmpleado
+              persona = {persona}
+            />
           </Grid>
           <Grid container
             direction="column"
@@ -228,8 +219,8 @@ export default function ListaEmpleados(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.cuil}>
+                {empleados.map((row) => (
+                  <TableRow key={row._id}>
                     <TableCell component="th" scope="row">
                       {row.cuil}
                     </TableCell>
@@ -248,17 +239,17 @@ export default function ListaEmpleados(props) {
                       >
                         <Grid>
 
-                          <IconButton color="primary" onClick={() => openSection(row.cuil)}>
+                          <IconButton color="primary" onClick={() => openSection(row._id)}>
                             <VisibilityIcon />
                           </IconButton>
                         </Grid>
                         <Grid>
-                          <IconButton onClick={() => editarEmpleado(row.cuil)}>
+                          <IconButton onClick={() => editarEmpleado(row._id)}>
                             <EditIcon />
                           </IconButton>
                         </Grid>
                         <Grid>
-                          <IconButton color="secondary" onClick={() => deleteEmpleado(row.cuil)}>
+                          <IconButton color="secondary" onClick={() => deleteEmpleado(row._id)}>
                             <DeleteForeverIcon />
                           </IconButton>
                         </Grid>
@@ -274,6 +265,7 @@ export default function ListaEmpleados(props) {
 
 
       </Grid>
+      <br></br>
 
     </Grid>
 

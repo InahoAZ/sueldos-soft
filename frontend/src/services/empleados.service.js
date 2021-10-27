@@ -17,6 +17,10 @@ class empleadoService {
     return http.delete(`/empleados/${id}`);
   }
 
+  getOne(id) {
+    return http.get(`/empleados/${id}`);
+  }
+
  
 }
 
