@@ -127,7 +127,7 @@ exports.linkPuesto = (req, res) => {
     const id = req.params.id;
     const idPuesto = req.body.idPuesto;
     Empleado.findByIdAndUpdate(id,{
-        $push: {
+        $addToSet: {
             puestos: idPuesto,
         }
     },
@@ -137,7 +137,7 @@ exports.linkPuesto = (req, res) => {
             res.status(404).send({ message: "No se encontro un Empleado con ese Id."});
         else {
             return Puesto.findByIdAndUpdate(idPuesto, {
-                $push: {
+                $addToSet: {
                     empleados: id,
                 }
             }, 
