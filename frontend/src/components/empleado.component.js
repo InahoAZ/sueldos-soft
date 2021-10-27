@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import DataEmpleado from './crearempleado.component'
+import DataEmpleado from './datosempleado.component'
 
 export default function CargaEmpleado(props) {
     
@@ -15,10 +15,13 @@ export default function CargaEmpleado(props) {
     }
 
     let frase = '';
+    let situacion = 'nuevo';
     if (cuil != 0) {
         frase = 'Formulario para editar un empleado';
+        situacion = 'editar';
     } else {
         frase = ' Formulario para cargar un nuevo empleado ';
+        situacion = 'nuevo';
     }
 
     return (
@@ -56,7 +59,10 @@ export default function CargaEmpleado(props) {
 
 
                 <Grid>
-                    <DataEmpleado/>
+                    <DataEmpleado 
+                    estado={situacion}
+                    cuil = {cuil}
+                    />
                 </Grid>
 
 

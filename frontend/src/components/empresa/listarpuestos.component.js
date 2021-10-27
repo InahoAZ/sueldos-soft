@@ -14,6 +14,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import IconButton from '@material-ui/core/IconButton';
 import swal from 'sweetalert';
 
+import EmpresaService from '../../services/empresa.service'
 import PuestoService from '../../services/puesto.service'
 import Editarpuesto from './editpuestos.component'
 
@@ -40,6 +41,1272 @@ export default class ListarPuesto extends Component {
         },
       ],
     };
+    this.empresas = [
+      {
+        id: '8r38ru3',
+        name: 'erroror',
+        areas: [
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8r38ru3',
+        name: 'erroror',
+        areas: [
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8r38ru3',
+        name: 'erroror',
+        areas: [
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '8r38ru3',
+        name: 'erroror',
+        areas: [
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '8r38ru3',
+            name: 'erroror',
+            departamentos: [
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+              {
+                id: '8r38ru3',
+                name: 'erroror',
+                puestos: [
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                  {
+                    id: '8r38ru3',
+                     name: 'erroror',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+  }
+
+  obtenerPuestos(empresas) {
+    console.log(empresas);
+    let rows = [];
+    for (let i = 0;i<empresas.length;i++){
+      
+      if (empresas[i].areas){
+        
+        for (let j = 0;j<empresas[i].areas.length;j++){
+          
+          if (empresas[i].areas[j].departamentos){
+           
+            for (let d = 0;d<empresas[i].areas[j].departamentos.length;d++){
+              
+              if (empresas[i].areas[j].departamentos[d].puestos){
+                for (let p = 0;p<empresas[i].areas[j].departamentos[d].puestos.length;p++){
+                  
+                  let puesto = {
+                    id: empresas[i].areas[j].departamentos[d].puestos[p]._id,
+                    name: empresas[i].areas[j].departamentos[d].puestos[p].name,
+                    departamentoname: empresas[i].areas[j].departamentos[d].name,
+                    areaname: empresas[i].areas[j].name,
+                    empresaname: empresas[i].name,
+                  }
+                  rows.push(puesto)
+
+                }
+
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+
+    return rows
   }
 
   componentDidMount() {
@@ -47,10 +1314,12 @@ export default class ListarPuesto extends Component {
   }
 
   retrievePuestos() {
-    PuestoService.getAll()
+    EmpresaService.getAll()
       .then(response => {
+        //paso intermedio transformar las empresas a solo las que poseen puestos
+        
         this.setState({
-          puestos: response.data
+          puestos: this.obtenerPuestos(response.data)
         });
         console.log(response.data);
       })
@@ -141,7 +1410,7 @@ export default class ListarPuesto extends Component {
                     </TableCell>
                     <TableCell align="center">
 
-                      {row.departamentoname}
+                      {row.departamentoname} 
                     </TableCell>
                     <TableCell align="center">
 
@@ -149,7 +1418,7 @@ export default class ListarPuesto extends Component {
                     </TableCell>
                     <TableCell align="center">
 
-                      {row.empresaname}
+                      {row.empresaname} 
                     </TableCell>
 
 

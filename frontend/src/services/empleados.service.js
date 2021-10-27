@@ -17,6 +17,16 @@ class empleadoService {
     return http.delete(`/empleados/${id}`);
   }
 
+  getOne(id) {
+    return http.get(`/empleados/${id}`);
+  }
+  updateWork(id, data) {
+    return http.put(`/empleados/${id}/asignarPuesto`, data);
+  };
+  updateWithoutWork(id, data) {
+    return http.put(`/empleados/${id}/desasignarPuesto`, data);
+  };
+
  
 }
 

@@ -132,7 +132,7 @@ export default class ListarEmpresa extends Component {
               </TableHead>
               <TableBody>
                 {empresas.map((row) => (
-                  <TableRow key={row.id}>
+                  <TableRow key={row._id}>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
@@ -146,13 +146,13 @@ export default class ListarEmpresa extends Component {
                       >
                         <Grid>
                           <Editarempresa
-                            empresaid={row.id}
+                            empresaid={row._id}
                             empresaname={row.name}
                             refreshList={this.refreshList}
                           />
                         </Grid>
                         <Grid>
-                          <IconButton color="secondary" onClick={() => this.deleteEmpresa(row.id)}>
+                          <IconButton color="secondary" onClick={() => this.deleteEmpresa(row._id)}>
                             <DeleteForeverIcon />
                           </IconButton>
                         </Grid>

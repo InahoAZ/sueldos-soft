@@ -49,15 +49,16 @@ export default function CrearArea() {
     retrieveEmpresasauto();
   }, []);
 
-  let state2 = {
+  const [state2, setState2] = React.useState({
     id: 'null',
     name: "",
-  };
+  });
   
   function onChangeName(e) {
-    
-      state2.name = e.target.value
-  
+    setState2({
+      id: 'null',
+       name: e.target.value,
+    })
   }
  
  
@@ -83,10 +84,11 @@ export default function CrearArea() {
   function saveArea() {
     var data = {
       name: state2.name,
-      idempresa: state.idempresa,
+      idEmpresa: state.idempresa,
     };
    
     AreaService.create(data)
+    
       .then(response => {
         
         console.log(response.data);
@@ -97,13 +99,17 @@ export default function CrearArea() {
           ...state,
           idempresa: '',
         });
-        document.getElementById("areanombre").value='';
+        setState2({
+          id: 'null',
+           name: '',
+        })
         
           swal("Correcto!", "Se agrego con exito a la tabla!", "success");
 
       })
       .catch(e => {
         console.log(e);
+        console.log(data);
         swal("Error!", "No se logro cargarlo!", "error");
       });
   }
@@ -137,7 +143,7 @@ export default function CrearArea() {
           Crear Area
         </Typography>
    
-        <TextField id="areanombre" label="Nombre del area" color="secondary" onChange={onChangeName} style={{marginTop: '8px'}}/>
+        <TextField id="areanombre" label="Nombre del area" color="secondary" onChange={onChangeName} value={state2.name} style={{marginTop: '8px'}}/>
         
         <FormControl className={classes.formControl}>
         <InputLabel htmlFor="age-native-simple">Empresa</InputLabel>
@@ -152,7 +158,7 @@ export default function CrearArea() {
         >
           <option aria-label="None" value="" />
           {options.map((option) => (
-              <option value={option.id}>{option.name}</option>
+              <option value={option._id}>{option.name}</option>
             ))}
           
         </Select>

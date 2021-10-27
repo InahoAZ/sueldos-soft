@@ -17,7 +17,7 @@ import swal from 'sweetalert';
 import AreaService from '../../services/area.service'
 import Editararea from './editarea.component'
 
-
+import EmpresaService from '../../services/empresa.service'
 
 
 
@@ -42,15 +42,41 @@ export default class ListarArea extends Component {
     };
   }
 
+  obtenerAreas(empresas) {
+    console.log(empresas);
+    let rows = [];
+    for (let i = 0;i<empresas.length;i++){
+      
+      if (empresas[i].areas){
+        
+        for (let j = 0;j<empresas[i].areas.length;j++){
+          
+         
+                  let area = {
+                    id: empresas[i].areas[j]._id,
+                    name: empresas[i].areas[j].name,
+                    empresaname: empresas[i].name,
+                  }
+                  rows.push(area)
+
+        }
+      }
+    }
+
+
+
+    return rows
+  }
+
   componentDidMount() {
     this.retrieveAreas();
   }
 
   retrieveAreas() {
-    AreaService.getAll()
+    EmpresaService.getAll()
       .then(response => {
         this.setState({
-          areas: response.data
+          areas: this.obtenerAreas(response.data)
         });
         console.log(response.data);
       })

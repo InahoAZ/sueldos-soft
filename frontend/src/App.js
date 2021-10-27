@@ -9,6 +9,7 @@ import Datosempresa from "./components/datosempresa.component";
 import Opciones from "./components/opciones.component";
 import Empleados from "./components/empleados.component";
 import Empleado from "./components/empleado.component";
+import Footer from "./components/footer.component"
 
 import Convenios from "./components/convenios.component";
 import Sueldos from "./components/sueldos/sueldo.component";
@@ -23,6 +24,7 @@ class App extends Component {
 
     return (
       <div>
+        <div style={{minHeight: '94vh'}}>
         <AppBar className={classes.appBar} position="static">
           <Toolbar>
             <Grid
@@ -74,6 +76,8 @@ class App extends Component {
             <Route exact path="/empleado/:cuil" component={Empleado} />
             <Route exact path="/opciones" component={Opciones} />
           </Switch>
+          </div>
+          <Footer/>
       </div>
     );
   }

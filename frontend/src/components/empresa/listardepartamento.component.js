@@ -17,7 +17,7 @@ import swal from 'sweetalert';
 import DepartamentoService from '../../services/departamento.service'
 import Editardepartamento from './editdepartamento.component'
 
-
+import EmpresaService from '../../services/empresa.service'
 
 
 
@@ -42,15 +42,50 @@ export default class ListarDepartamento extends Component {
     };
   }
 
+  obtenerDepartamentos(empresas) {
+    console.log(empresas);
+    let rows = [];
+    for (let i = 0;i<empresas.length;i++){
+      
+      if (empresas[i].areas){
+        
+        for (let j = 0;j<empresas[i].areas.length;j++){
+          
+          if (empresas[i].areas[j].departamentos){
+           
+            for (let d = 0;d<empresas[i].areas[j].departamentos.length;d++){
+              
+              
+                  let departamento = {
+                    id: empresas[i].areas[j].departamentos[d]._id,
+                    name: empresas[i].areas[j].departamentos[d].name,
+                    areaname: empresas[i].areas[j].name,
+                    empresaname: empresas[i].name,
+                  
+                  }
+                  rows.push(departamento)
+
+            
+            }
+          }
+        }
+      }
+    }
+
+
+
+    return rows
+  }
+
   componentDidMount() {
     this.retrieveDepartamentos();
   }
 
   retrieveDepartamentos() {
-    DepartamentoService.getAll()
+    EmpresaService.getAll()
       .then(response => {
         this.setState({
-          departamentos: response.data
+          departamentos: this.obtenerDepartamentos(response.data)
         });
         console.log(response.data);
       })
