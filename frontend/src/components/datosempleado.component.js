@@ -61,8 +61,8 @@ export default function Datos(props) {
 
   const handleNext = () => {
 
-    //saveEmpleado()
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    saveEmpleado()
+    //setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
 
   };
@@ -271,8 +271,6 @@ export default function Datos(props) {
       }
     }
 
-
-
     return rows
   }
 
@@ -366,7 +364,7 @@ export default function Datos(props) {
     //console.log(state)
   };
   const [statepuesto, setStatepuesto] = React.useState({
-    iddepartamento: '',
+    idpuesto: '',
     name: '',
   });
 
@@ -390,7 +388,7 @@ export default function Datos(props) {
 
 
 
-
+  const [id, setId] = React.useState('');
 
 
 
@@ -437,6 +435,9 @@ export default function Datos(props) {
       .then(response => {
 
         console.log(response.data);
+
+        setId(response.data.body._id);
+
         //this.child.current.refreshList();
         // borrar todos los campos con set
         setCuil('');
@@ -483,7 +484,7 @@ export default function Datos(props) {
 
 
 
-
+  const [puestosEmpleado, setPuestosEmpleado] = React.useState([]);
 
 
 
@@ -493,9 +494,78 @@ export default function Datos(props) {
     };
 
     //cuil de empleado o id?
+    console.log(id);
 
     //actualizar empleado 
+    EmpleadoService.updateWork(id, data)
+      .then(response => {
+
+        console.log(response.data);
+
+
+
+        // borrar todos los campos del combo box
+        setStateempresa({
+          idempresa: '',
+          name: '',
+        });
+        setStatedepartamento({
+          iddepartamento: '',
+          name: '',
+        });
+        setStatearea({
+          idarea: '',
+          name: '',
+        });
+        setStatepuesto({
+          idpuesto: '',
+          name: '',
+        });
+
+
+        //msj cargado exitosament
+        swal("Correcto!", "Se agrego con exito!", "success");
+
+        // actualizar tabla -> pedir el empleado, ver sus puestos (por cada puesto ver a que pertenece)
+        actualizarEmpleado();
+
+
+
+
+      })
+      .catch(e => {
+        console.log(e);
+        swal("Error!", "No se logro asociar el puesto!", "error");
+
+      });
+
+
+
+
+
   }
+
+
+
+  function actualizarEmpleado() {
+    EmpleadosService.getOne(id)
+      .then(response => {
+
+        console.log('actualiza empleado: '+ response.data)
+        setPuestosEmpleado(response.data.puestos);
+        
+
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
+
+  }
+
+
+
+
   function changeCuil(e) {
     setCuil(e.target.value)
   }
@@ -659,7 +729,12 @@ export default function Datos(props) {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <PuestosAsignados />
+                  <PuestosAsignados
+                    puestos={puestosEmpleado}
+                    verDatos = {false}
+                    idEmpleado = {id}
+                    actualizarDatoEmpleado = {actualizarEmpleado}
+                  />
                 </Grid>
 
               </Grid>
@@ -728,16 +803,16 @@ export default function Datos(props) {
                     </Button>
                   ) : (
                     <div>
-                  <Button variant="contained" color="primary" onClick={handleNext}>
-                  actualizar Datos
-                </Button>
+                      <Button variant="contained" color="primary" onClick={handleNext}>
+                        actualizar Datos
+                      </Button>
 
-                  <Button variant="contained" color="primary" >
-                  modificar puesto
-                </Button>
-                </div>
+                      <Button variant="contained" color="primary" >
+                        modificar puesto
+                      </Button>
+                    </div>
 
-              
+
 
                   )}
                 </div>

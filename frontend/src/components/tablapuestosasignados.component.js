@@ -10,8 +10,9 @@ import Paper from '@material-ui/core/Paper';
 import swal from 'sweetalert';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import IconButton from '@material-ui/core/IconButton';
-
+import EmpresaService from '../services/empresa.service';
 import PuestoService from '../services/puesto.service';
+import EmpleadoService from '../services/empleados.service';
 
 const useStyles = makeStyles({
     table: {
@@ -28,52 +29,124 @@ const useStyles = makeStyles({
   
   ];
 
-  function deleteEmpleado(num) {
-
-    swal({
-      title: "Esta seguro?",
-      text: "Una vez borrado no se puede recuperar!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-
-
-            PuestoService.delete(num)
-            .then(response => {
-              console.log(response.data);
-              //eliminado correctamente msj
-              swal("Se ha borrado!", {
-                icon: "success",
-              });
-              //actualizar tabla
-              //this.refreshList()
-            })
-            .catch(e => {
-              console.log(e);
-              swal("Error!", "no se logro borrar", "error");
-            });
-
-
-
-        } else {
-          swal("Cancelado!");
-        }
-      });
-
-
-  }
+  
 
 
 export default function PuestosAsignados(props) {
+
+  const [puestosAsociados, setPuestosAsociados] = React.useState([]);
 
     const classes = useStyles();
     let puestos = [];
     if (props.puestos) {
       puestos = props.puestos;
+      
+      // si no vacio sobrecargar
+      if (puestos.length > 0) {
+        cargarPuestos(puestos);
+      }
     }
+
+
+    function cargarPuestos(puestos) {
+      EmpresaService.getAll()
+        .then(response => {
+          setPuestosAsociados(obtenerPuestos(response.data, puestos))
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+
+  
+
+    function desasociarPuesto(idPuesto) {
+      var data = {
+        idPuesto: idPuesto,
+      };
+  
+      swal({
+        title: "Esta seguro?",
+        text: "se dara de baja a este empleado del puesto!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((willDelete) => {
+          if (willDelete) {
+  
+            console.log('id empleado: '+ props.idEmpleado);
+            console.log('data idpuesto: '+ data);
+            EmpleadoService.updateWithoutWork(props.idEmpleado, data)
+              .then(response => {
+                //console.log(response.data);
+                //eliminado correctamente msj
+                setPuestosAsociados([]);
+                swal("Se desasocio el puesto del empleado!", {
+                  icon: "success",
+                });
+                //actualizar tabla
+                
+                props.actualizarDatoEmpleado();
+                //this.refreshList()
+              })
+              .catch(e => {
+                console.log(e);
+                swal("Error!", "la operacion no logro realizarce", "error");
+              });
+  
+  
+  
+          } else {
+            swal("Cancelado!");
+          }
+        });
+  
+  
+    }
+
+
+    // tener todas las empresas con sus datos
+    function obtenerPuestos(empresas, puestos) {
+      let rows = [];
+      //console.log(puestos);
+      for (let i = 0; i < empresas.length; i++) {
+        if (empresas[i].areas) {
+          for (let j = 0; j < empresas[i].areas.length; j++) {
+            if (empresas[i].areas[j].departamentos) {
+              for (let d = 0; d < empresas[i].areas[j].departamentos.length; d++) {
+                if (empresas[i].areas[j].departamentos[d].puestos) {
+                  for (let p = 0; p < empresas[i].areas[j].departamentos[d].puestos.length; p++) {
+
+                    for (let c = 0; c < puestos.length; c++) {
+                      if(puestos[c]._id === empresas[i].areas[j].departamentos[d].puestos[p]._id){
+
+                        let puesto = {
+                          id: empresas[i].areas[j].departamentos[d].puestos[p]._id,
+                          name: empresas[i].areas[j].departamentos[d].puestos[p].name,
+                          departamentoname: empresas[i].areas[j].departamentos[d].name,
+                          areaname: empresas[i].areas[j].name,
+                          empresaname: empresas[i].name,
+                        }
+                        rows.push(puesto)
+
+
+
+                      }
+                    }
+  
+                    
+                  }
+                }
+              }
+            }
+          }
+        }
+      } 
+      return rows
+    }
+
+
 
     return (
         <div>
@@ -86,25 +159,36 @@ export default function PuestosAsignados(props) {
             <TableCell align="right">AREA</TableCell>
             <TableCell align="right">DEPARTAMENTO</TableCell>
             <TableCell align="right">EMPRESA</TableCell>
-            <TableCell align="right">OPCIONES</TableCell>
+            
+            {props.verDatos ? (
+                <div></div>
+              ):(
+                <TableCell align="right">OPCIONES</TableCell>
+              )}
           </TableRow>
         </TableHead>
         <TableBody>
-          {puestos.map((row) => (
-            <TableRow key={row._id}>
+          {puestosAsociados.map((row) => (
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">
-
-              <IconButton color="secondary" onClick={() => deleteEmpleado(row.fat)} style={{padding:0}}>
+              <TableCell align="right">{row.areaname}</TableCell>
+              <TableCell align="right">{row.departamentoname}</TableCell>
+              <TableCell align="right">{row.empresaname}</TableCell>
+              
+              {props.verDatos ? (
+                <div></div>
+              ):(
+                <TableCell align="right">
+                <IconButton color="secondary" onClick={() => desasociarPuesto(row.id)} style={{padding:0}}>
                             <DeleteForeverIcon />
                           </IconButton>
+                          </TableCell>
+              )}
               
-              </TableCell>
+              
+              
             </TableRow>
           ))}
         </TableBody>

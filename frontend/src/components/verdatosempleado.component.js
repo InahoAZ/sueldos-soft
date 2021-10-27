@@ -32,6 +32,8 @@ export default function CustomResponsiveFontSizes(props) {
 
         <TablaPuestosAsignados
           puestos = {props.persona.puestos}
+          verDatos = {true}
+          idEmpleado = {''}
         />
     </Grid>
 
