@@ -21,6 +21,9 @@ module.exports = app => {
     //asocia un empleado con un puesto:
     router.put("/:id/asignarPuesto", empleados.linkPuesto);
 
+    //desasocia un empleado con un puesto:
+    router.put("/:id/desasignarPuesto", empleados.linkPuesto);
+
 
     app.use('/api/empleados', router)
 }
