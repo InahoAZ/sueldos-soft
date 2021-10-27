@@ -3,7 +3,7 @@ const { Schema } = require("mongoose");
 module.exports = mongoose => {
     const schema = mongoose.Schema(
         {
-            cuil: String,
+            cuil: {type: String, unique: true, dropDups: true},
             apellido: String,
             nombre: String,
             telefono: String,
