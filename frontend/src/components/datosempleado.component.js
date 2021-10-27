@@ -59,6 +59,8 @@ export default function Datos(props) {
   const [areas, setareas] = React.useState([]);
   const [options, setOptions] = React.useState([]);
 
+  
+
   const handleNext = () => {
 
     saveEmpleado()
@@ -404,7 +406,59 @@ export default function Datos(props) {
   const [correo, setCorreo] = React.useState('');
   const [direccion, setDireccion] = React.useState('');
 
+function modificarPuesto () {
+  setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  setId(props.cuil);
+}
 
+
+ function ActualizarEmpleado () {
+    var data = {
+      cuil: cuil,
+      nombre: nombre,
+      apellido: apellido,
+
+      telefono: telefono,
+      correo: correo,
+      direccion: direccion,
+
+      estadoCivil: estadocivil,
+      nacionalidad: nacionalidad,
+      fechaNacimiento: nacimiento,
+    };
+    if (data.cuil != '' && data.nombre != '' && data.apellido != '' && data.telefono != '' && data.correo != '' && data.direccion != '' && data.estadocivil != '' && data.nacionalidad != '' && data.nacimiento != '') {
+      console.log('correcto');
+    } else {
+      swal("Error!", "Complete todos los campos!", "error");
+      return 1;
+    }
+
+    EmpleadoService.update(props.cuil, data)
+      .then(response => {
+
+        console.log(response.data);
+
+        setId(response.data.body._id);
+
+      
+     
+
+        //msj cargado exitosament
+        swal("Correcto!", "Se agrego con exito a la tabla!", "success");
+        // permitir pasar a la otra pagina
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+
+
+      })
+      .catch(e => {
+        console.log(e);
+        swal("Error!", "No se logro cargarlo!", "error");
+
+      });
+
+
+  }
 
 
 
@@ -438,7 +492,7 @@ export default function Datos(props) {
 
         setId(response.data.body._id);
 
-        //this.child.current.refreshList();
+      
         // borrar todos los campos con set
         setCuil('');
         setApellido('');
@@ -527,7 +581,8 @@ export default function Datos(props) {
         swal("Correcto!", "Se agrego con exito!", "success");
 
         // actualizar tabla -> pedir el empleado, ver sus puestos (por cada puesto ver a que pertenece)
-        actualizarEmpleado();
+        //actualizarEmpleado();
+      
 
 
 
@@ -536,7 +591,7 @@ export default function Datos(props) {
       .catch(e => {
         console.log(e);
         swal("Error!", "No se logro asociar el puesto!", "error");
-
+     
       });
 
 
@@ -734,6 +789,7 @@ export default function Datos(props) {
                     verDatos = {false}
                     idEmpleado = {id}
                     actualizarDatoEmpleado = {actualizarEmpleado}
+                    
                   />
                 </Grid>
 
@@ -803,11 +859,11 @@ export default function Datos(props) {
                     </Button>
                   ) : (
                     <div>
-                      <Button variant="contained" color="primary" onClick={handleNext}>
+                      <Button variant="contained" color="primary" onClick={ActualizarEmpleado}>
                         actualizar Datos
                       </Button>
 
-                      <Button variant="contained" color="primary" >
+                      <Button variant="contained" color="primary" onClick={modificarPuesto} style={{float:'right'}}>
                         modificar puesto
                       </Button>
                     </div>
