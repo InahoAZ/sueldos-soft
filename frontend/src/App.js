@@ -14,6 +14,8 @@ import Footer from "./components/footer.component"
 import Convenios from "./components/convenios.component";
 import Sueldos from "./components/sueldos/sueldo.component";
 
+import Prueba from "./components/reporte/pdf.component";
+
 import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -57,6 +59,11 @@ class App extends Component {
                 Sueldos
             </Typography>
             </Link>
+            <Link to={"/prueba"} className={classes.link}>
+              <Typography variant="body2">
+                Prueba
+            </Typography>
+            </Link>
             </Grid>
             <Grid>
             <Link to={"/opciones"} className={classes.link}>
@@ -70,7 +77,7 @@ class App extends Component {
           <Switch>
             <Route exact path={["/", "/sueldos"]} component={Sueldos} />
             <Route exact path="/convenios" component={Convenios} />
-
+            <Route exact path="/prueba" component={Prueba} />
             <Route exact path="/datosempresa" component={Datosempresa} />
             <Route exact path="/empleados" component={Empleados} />
             <Route exact path="/empleado/:cuil" component={Empleado} />
