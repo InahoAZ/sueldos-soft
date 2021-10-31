@@ -12,6 +12,7 @@ module.exports = mongoose => {
             estadoCivil: String,
             nacionalidad: String,
             fechaNacimiento: Date,
+            activo: Boolean,
             puestos: [
                 {
                     type: mongoose.Schema.Types.ObjectId,

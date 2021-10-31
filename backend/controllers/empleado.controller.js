@@ -21,7 +21,8 @@ exports.create = (req, res) => {
       estadoCivil: req.body.estadoCivil,
       nacionalidad: req.body.nacionalidad,
       fechaNacimiento: req.body.fechaNacimiento,
-      puestos: []
+      puestos: [],
+      activo: true,
   });
 
   
@@ -43,7 +44,7 @@ exports.create = (req, res) => {
 
 //devuelve todos los empleados
 exports.findAll = (req, res) => {
-    Empleado.find({}).populate('puestos', '-empleados')
+    Empleado.find({activo: true}).populate('puestos', '-empleados')
     .then(data => {
         res.send(data);
     })
@@ -97,7 +98,7 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Empleado.findByIdAndRemove(id)
+  Empleado.findByIdAndUpdate(id, {activo: false}, { useFindAndModify: false })
   .then(data => {
     if (!data) {
         res.status(404).send({

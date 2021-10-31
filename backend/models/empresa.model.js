@@ -4,6 +4,11 @@ module.exports = (mongoose) => {
   const schema = mongoose.Schema(
     {
       name: String,
+      tipo: String,
+      cuit: String,
+      direccion: String,
+      telefono: String,
+      web: String,
       areas: [{
         type: Schema.Types.ObjectId,
         ref: "area",
