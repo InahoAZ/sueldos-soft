@@ -56,6 +56,7 @@ require("./routes/area.routes")(app);
 require("./routes/departamento.routes")(app);
 require("./routes/puesto.routes")(app);
 require("./routes/empleado.routes")(app);
+require("./routes/convenio.routes")(app);
 
 
 //bucle donde queda escuchando el server
