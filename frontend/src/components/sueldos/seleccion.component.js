@@ -48,6 +48,9 @@ export default function Sueldos(props) {
     const [valueEmpleado, setValueEmpleado] = React.useState(empleados[0]);
     const [inputValueEmpleado, setInputValueEmpleado] = React.useState('');
 
+    const [convenios, setConvenios] = React.useState([{id:'768787878', name: 'Comerciantes'}]);
+    const [valueConvenio, setValueConvenio] = React.useState(convenios[0]);
+    const [inputValueConvenio, setInputValueConvenio] = React.useState('');
 
     React.useEffect(() => {
         async function retrieveEmpleados() {
@@ -147,20 +150,20 @@ export default function Sueldos(props) {
 
     function cambioEmpresa(input) {
 
-       
+
         setValueEmpresa(input);
         console.log(input);
         // llamar a cargar lista de puestos
-   
+
         actualizarPuestos(input.id);
-        
+
 
     }
-    function actualizarPuestos(idempresa){
+    function actualizarPuestos(idempresa) {
         //empleado -> puestos [] [] []
         let puestosFinales = [];
-        for (let i = 0 ; i < empresas.length ;i++){
-            if(empresas[i].id === idempresa){
+        for (let i = 0; i < empresas.length; i++) {
+            if (empresas[i].id === idempresa) {
                 let p = {
                     id: empresas[i].idpuesto,
                     name: empresas[i].namepuesto,
@@ -278,7 +281,7 @@ export default function Sueldos(props) {
                 renderOption={(option) => (
                     <React.Fragment>
                         <span>{option.name}</span>
-                        
+
                     </React.Fragment>
                 )}
                 renderInput={(params) => (
@@ -293,6 +296,45 @@ export default function Sueldos(props) {
                     />
                 )}
             />
+
+
+
+            <Autocomplete
+                id="country-select-convenio" // puesto
+                value={valueConvenio}
+                onChange={(event, newValue) => {
+                    setValueConvenio(newValue);
+
+                }}
+                inputValue={inputValueConvenio}
+                onInputChange={(event, newInputValue) => {
+                    setInputValueConvenio(newInputValue);
+                }}
+                style={{ width: 250 }}
+                options={convenios}
+                classes={{
+                    option: classes.option,
+                }}
+                autoHighlight
+                getOptionLabel={(option) => option.name}
+                renderOption={(option) => (
+                    <React.Fragment>
+                        <span>{option.name}</span>
+
+                    </React.Fragment>
+                )}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label="Seleccione convenio"
+                        variant="outlined"
+                        inputProps={{
+                            ...params.inputProps,
+                            autoComplete: 'new-password', // disable autocomplete and autofill
+                        }}
+                    />
+                )}
+            disabled/>
 
         </Grid>
     );

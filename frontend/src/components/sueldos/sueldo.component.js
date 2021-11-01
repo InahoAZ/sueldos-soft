@@ -7,7 +7,8 @@ import SelectMain from './seleccion.component'
 import Table from './tabla.component'
 import background from "../../img/wood.png";
 import Button from '@material-ui/core/Button';
-
+import Reporte from '../reporte/pdf.component';
+import { height } from 'dom-helpers';
 
 const theme = createTheme();
 
@@ -26,8 +27,18 @@ theme.typography.h3 = {
 export default function Sueldos(props) {
 
 
+    function generarReporte(){
+        if (document.getElementById('reporte').style.display === 'none'){
+            document.getElementById('reporte').style.display= 'block';
+        }else{
+            document.getElementById('reporte').style.display= 'none';
+        }
+        
+       
+    }
+
     return (
-        <div style={{height:'100vh', 
+        <div style={{minHeight:'100vh', 
             backgroundImage: `url(${background})`, backgroundSize: 'cover',
             overflow: 'hidden' 
           }}>
@@ -60,12 +71,25 @@ export default function Sueldos(props) {
                     <TabsUtilities />
                     <br></br>
                     <Grid>
+                            {/*
+                            
+                            <Table/>
+                            
+                            */}
+                        
 
-                        <Table/>
                     </Grid>
-                    <Button variant="contained"   style={{ marginBottom: '20px', marginTop: '20px', backgroundColor:'#95f5aabf' }} >
+                    <center>
+                    <Button variant="contained" onClick={generarReporte}   style={{ marginBottom: '20px', marginTop: '20px', backgroundColor:'#95f5aabf' }} >
                             GENERAR REPORTE
                         </Button>
+                        </center>
+
+                        <div id='reporte' style={{display: 'none'}}>
+
+                            <Reporte/>
+                        </div>
+                       
                     
 
 

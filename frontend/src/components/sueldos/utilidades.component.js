@@ -22,7 +22,7 @@ import GavelIcon from '@material-ui/icons/Gavel';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import ListIcon from '@material-ui/icons/List';
 import ListAltIcon from '@material-ui/icons/ListAlt';
-
+import Basicos from './parametros/basicos.component';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -62,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
+  tabs:{
+    backgroundColor: '#dbe8ff9c',
+  },
 }));
 
 export default function ScrollableTabsButtonForce() {
@@ -71,6 +74,10 @@ export default function ScrollableTabsButtonForce() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  function onChangeCategoria(valor){
+    console.log('rellene : '+ valor);
+  }
 
   return (
     <div className={classes.root}>
@@ -95,28 +102,30 @@ export default function ScrollableTabsButtonForce() {
           <Tab label="Descuentos" icon={<TrendingDownIcon />} {...a11yProps(7)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}  style={{backgroundColor:'#95f5aabf'}}>
-        Opciones basicas
+      <TabPanel value={value} index={0}   className={classes.tabs}>
+        <Basicos
+          onChangeCategoria={onChangeCategoria}
+        />
       </TabPanel>
-      <TabPanel value={value} index={1} style={{backgroundColor:'#95f5aabf'}} >
+      <TabPanel value={value} index={1} className={classes.tabs} >
         Opciones generales
       </TabPanel>
-      <TabPanel value={value} index={2} style={{backgroundColor:'#95f5aabf'}}>
+      <TabPanel value={value} index={2}  className={classes.tabs}>
         Adicionales
       </TabPanel>
-      <TabPanel value={value} index={3} style={{backgroundColor:'#95f5aabf'}}>
+      <TabPanel value={value} index={3}  className={classes.tabs}>
         Feriados
       </TabPanel>
-      <TabPanel value={value} index={4} style={{backgroundColor:'#95f5aabf'}}>
+      <TabPanel value={value} index={4}  className={classes.tabs}>
         Horas extras
       </TabPanel>
-      <TabPanel value={value} index={5} style={{backgroundColor:'#95f5aabf'}}>
+      <TabPanel value={value} index={5}  className={classes.tabs}>
         Vacaciones
       </TabPanel>
-      <TabPanel value={value} index={6} style={{backgroundColor:'#95f5aabf'}}>
+      <TabPanel value={value} index={6}  className={classes.tabs}>
         Licencias
       </TabPanel>
-      <TabPanel value={value} index={7} style={{backgroundColor:'#95f5aabf'}}>
+      <TabPanel value={value} index={7}  className={classes.tabs}>
         Descuentos
       </TabPanel>
     </div>
