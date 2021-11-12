@@ -62,6 +62,9 @@ export default function EditarEmpresa(props) {
     function onChangeName(e){
         data.name = e.target.value
     }
+    function onChangeTipo(e){
+        data.tipo = e.target.value
+    }
 
     function updateEmpresa() {
         console.log(data)
@@ -108,11 +111,37 @@ export default function EditarEmpresa(props) {
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <h3 id="transition-modal-title">Editar </h3>
-                        <TextField id="name2" label="Nombre de empresa" color="secondary" onChange={onChangeName} defaultValue={props.empresaname} />
+                        <br></br>
+                        <center>
+                        <Grid container xs={10} 
+                         justifyContent="center"
+                         alignItems="center"
+                        >
+                        <Grid item xs={6}>
+                        <TextField style={{ margin: 15 }} id="name2" label="Nombre de empresa" color="secondary" onChange={onChangeName} defaultValue={props.empresaname} />
+                        <TextField style={{ margin: 15 }} id="telefono" label="Telefono" color="secondary" onChange={onChangeName} defaultValue={props.empresaname} />
+                        <TextField style={{ margin: 15 }} id="provincia" label="Provincia" color="secondary" onChange={onChangeTipo} defaultValue={props.empresaname} />
+                        <TextField style={{ margin: 15 }} id="codigoPostal" label="Codigo postal" color="secondary" onChange={onChangeName} defaultValue={props.empresaname} />
+                        
+                        </Grid>
+                        <Grid item xs={6}>
+                        <TextField style={{ margin: 15 }} id="tipo" label="Tipo de empresa" color="secondary" onChange={onChangeTipo} defaultValue={props.empresaname} />
+                        <TextField style={{ margin: 15 }} id="web" label="Web" color="secondary" onChange={onChangeName} defaultValue={props.empresaname} />
+                        <TextField style={{ margin: 15 }} id="localidad" label="Localidad" color="secondary" onChange={onChangeTipo} defaultValue={props.empresaname} />
+                        <TextField style={{ margin: 15 }} id="calle" label="Calle" color="secondary" onChange={onChangeName} defaultValue={props.empresaname} />
+                        </Grid>
+                        </Grid>
+                        </center>
 
+
+                        
+                        <br></br>
+                        <center>
                         <Button variant="contained" color="primary" onClick={updateEmpresa}>
                             Guardar
                         </Button>
+                        </center>
+                        
                     </div>
                 </Fade>
             </Modal>
