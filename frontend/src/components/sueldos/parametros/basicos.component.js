@@ -9,7 +9,8 @@ import clsx from 'clsx';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 
-
+const edades = ['Mayor','17 años','16 años'];
+const jornadas = ['4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','48'];
 const useStyles = makeStyles({
     option: {
         fontSize: 15,
@@ -26,6 +27,12 @@ export default function Basicos({ onChangeCategoria }) {
     const classes = useStyles();
 
     const [puestos, setPuestos] = React.useState([]);
+
+    const [categoria, setCategoria] = React.useState('');
+    const [edad, setEdad] = React.useState('');
+    const [jornada, setJornada] = React.useState('');
+
+
     const [valuePuesto, setValuePuesto] = React.useState(puestos[0]);
     const [inputValuePuesto, setInputValuePuesto] = React.useState('');
 
@@ -116,23 +123,20 @@ export default function Basicos({ onChangeCategoria }) {
                     value={valueEmpresa}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
-                        setValueEmpresa(newValue);
+                        setEdad(newValue);
 
                     }}
-                    inputValue={inputValueEmpresa}
-                    onInputChange={(event, newInputValue) => {
-                        setInputValueEmpresa(newInputValue);
-                    }}
+                    
                     style={{ width: 250, marginBottom: 12, marginLeft: 12 }}
-                    options={empresas}
+                    options={edades}
                     classes={{
                         option: classes.option,
                     }}
                     autoHighlight
-                    getOptionLabel={(option) => option.name}
+                    getOptionLabel={(option) => option}
                     renderOption={(option) => (
                         <React.Fragment>
-                            <span>{option.name}</span>
+                            <span>{option}</span>
 
                         </React.Fragment>
                     )}
@@ -152,23 +156,20 @@ export default function Basicos({ onChangeCategoria }) {
                     id="country-select-puesto" // puesto
                     value={valuePuesto}
                     onChange={(event, newValue) => {
-                        setValuePuesto(newValue);
+                        setJornada(newValue);
 
                     }}
-                    inputValue={inputValuePuesto}
-                    onInputChange={(event, newInputValue) => {
-                        setInputValuePuesto(newInputValue);
-                    }}
+                    
                     style={{ width: 250, marginBottom: 12, marginLeft: 12 }}
-                    options={puestos}
+                    options={jornadas}
                     classes={{
                         option: classes.option,
                     }}
                     autoHighlight
-                    getOptionLabel={(option) => option.name}
+                    getOptionLabel={(option) => option}
                     renderOption={(option) => (
                         <React.Fragment>
-                            <span>{option.name}</span>
+                            <span>{option} hs</span>
 
                         </React.Fragment>
                     )}
@@ -185,16 +186,9 @@ export default function Basicos({ onChangeCategoria }) {
                     )}
                 />
 
-            </Grid>
+           
 
-
-            <Grid container
-                direction="row"
-
-                justifyContent="center"
-                alignItems="center">
-
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25}}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Trabajador jubilado
                     <Switch
                         checked={state.checkedA}
@@ -228,17 +222,9 @@ export default function Basicos({ onChangeCategoria }) {
 
 
 
-            </Grid>
+         
 
-
-
-            <Grid container
-                direction="row"
-
-                justifyContent="center"
-                alignItems="center">
-
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25}}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Incremento solidario (Dto. 14/20)
                     <Switch
                         checked={state.checkedD}
@@ -272,20 +258,14 @@ export default function Basicos({ onChangeCategoria }) {
 
 
 
-            </Grid>
-
-            <Grid container
-                direction="row"
-
-                justifyContent="center"
-                alignItems="center">
+           
 
                 <TextField
                     label="Antigüedad (años)"
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-                    
+
                     variant="outlined"
                 />
 
@@ -301,12 +281,12 @@ export default function Basicos({ onChangeCategoria }) {
                     variant="outlined"
                 />
 
-<TextField
+                <TextField
                     label="Redondear"
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-                    
+
                     variant="outlined"
                 />
 

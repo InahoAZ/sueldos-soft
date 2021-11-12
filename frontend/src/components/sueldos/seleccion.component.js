@@ -196,7 +196,7 @@ export default function Sueldos(props) {
                     //cambioEmpleado(newInputValue);
                     setInputValueEmpleado(newInputValue);
                 }}
-                style={{ width: 250 }}
+                style={{ width: 200, marginBottom: 10 }}
                 options={empleados}
                 classes={{
                     option: classes.option,
@@ -235,7 +235,7 @@ export default function Sueldos(props) {
                 onInputChange={(event, newInputValue) => {
                     setInputValueEmpresa(newInputValue);
                 }}
-                style={{ width: 250 }}
+                style={{ width: 200, marginBottom: 10 }}
                 options={empresas}
                 classes={{
                     option: classes.option,
@@ -271,7 +271,7 @@ export default function Sueldos(props) {
                 onInputChange={(event, newInputValue) => {
                     setInputValuePuesto(newInputValue);
                 }}
-                style={{ width: 250 }}
+                style={{ width: 200, marginBottom: 10 }}
                 options={puestos}
                 classes={{
                     option: classes.option,
@@ -310,7 +310,7 @@ export default function Sueldos(props) {
                 onInputChange={(event, newInputValue) => {
                     setInputValueConvenio(newInputValue);
                 }}
-                style={{ width: 250 }}
+                style={{ width: 200, marginBottom: 10 }}
                 options={convenios}
                 classes={{
                     option: classes.option,

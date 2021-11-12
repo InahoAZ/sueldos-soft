@@ -374,7 +374,7 @@ export default function CustomResponsiveFontSizes() {
     return (
         <div>
            <br></br>
-            <PDFViewer style={{ width: '100%', height: '130vh' }}>
+            <PDFViewer style={{ width: '100%', minHeight: '130vh' }}>
                 <MyDocument />
             </PDFViewer>
                 
