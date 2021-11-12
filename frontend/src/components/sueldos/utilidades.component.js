@@ -25,6 +25,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import Basicos from './parametros/basicos.component';
 import Adicionales from './parametros/adicionales.component'
 import Feriados from './parametros/feriados.component'
+import Extras from './parametros/extras.component'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -124,7 +125,9 @@ export default function ScrollableTabsButtonForce() {
         />
       </TabPanel>
       <TabPanel value={value} index={4}  className={classes.tabs}>
-        Horas extras
+      <Extras
+          onChangeCategoria={onChangeCategoria}
+        />
       </TabPanel>
       <TabPanel value={value} index={5}  className={classes.tabs}>
         Vacaciones
