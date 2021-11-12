@@ -16,6 +16,7 @@ import swal from 'sweetalert';
 
 import EmpresaService from '../../services/empresa.service'
 import Editarempresa from './editempresa.component'
+import VerEmpresa from './verdatosempresa.component'
 
 
 
@@ -35,6 +36,7 @@ const Child = forwardRef((props, ref) => {
           setState({
             empresas: response.data
           });
+          console.log('Empresas: ');
           console.log(response.data);
         })
         .catch(e => {
@@ -134,7 +136,10 @@ const Child = forwardRef((props, ref) => {
           <Table style={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
+                <TableCell>CUIT</TableCell>
                 <TableCell>Nombre</TableCell>
+                <TableCell>Tipo</TableCell>
+                <TableCell>Telefono</TableCell>
 
                 <TableCell align="right">Opciones</TableCell>
               </TableRow>
@@ -143,7 +148,16 @@ const Child = forwardRef((props, ref) => {
               {state.empresas.map((row) => (
                 <TableRow key={row._id}>
                   <TableCell component="th" scope="row">
+                    {row.cuit}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
                     {row.name}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {row.tipo}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {row.telefono}
                   </TableCell>
 
                   <TableCell align="right">
@@ -153,6 +167,13 @@ const Child = forwardRef((props, ref) => {
                       justifyContent="flex-end"
                       alignItems="center"
                     >
+                      <Grid>
+                        <VerEmpresa
+                          empresaid={row._id}
+                          empresaname={row.name}
+                          refreshList={refreshList}
+                        />
+                      </Grid>
                       <Grid>
                         <Editarempresa
                           empresaid={row._id}

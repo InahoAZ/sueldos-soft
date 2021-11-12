@@ -11,7 +11,7 @@ import Empleados from "./components/empleados.component";
 import Empleado from "./components/empleado.component";
 import Footer from "./components/footer.component"
 
-import Convenios from "./components/convenios.component";
+import Convenios from "./components/convenio/convenios.component";
 import Sueldos from "./components/sueldos/sueldo.component";
 
 

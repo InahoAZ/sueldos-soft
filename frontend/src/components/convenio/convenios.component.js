@@ -5,9 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import Listaempresas from './listaempresa.component'
 
-import EmpresaService from '../../services/empresa.service'
 import Divider from '@material-ui/core/Divider';
 import swal from 'sweetalert';
 
@@ -99,8 +97,9 @@ export default function CrearEmpresa() {
     });
   }
 
+function saveEmpresa(){}
 
-
+/*
   function saveEmpresa() {
     var data = {
       name: state.name,
@@ -138,7 +137,7 @@ export default function CrearEmpresa() {
         swal("Error!", "No se logro cargarlo!", "error");
       });
   }
-
+*/
 
   const classes = useStyles();
   return (
@@ -162,35 +161,9 @@ export default function CrearEmpresa() {
         <Grid item>
 
           <Typography variant="h5" >
-            Crear empresa
+            Gestionar convenios
           </Typography>
-          <br></br>
-          <Grid
-          container
-          alignItems="center"
-          justifyContent="center">
-            <TextField style={{ margin: 15 }} id="empresanombre" value={state.name} label="Nombre de empresa" color="secondary" onChange={onChangeName} />
-            <TextField style={{ margin: 15 }} id="cuit" label="CUIT" value={state.cuit} color="secondary" onChange={onChangeCuit} />
-            <TextField style={{ margin: 15 }} id="telefono" label="Telefono" value={state.telefono} color="secondary" onChange={onChangeTelefono} />
-            <TextField style={{ margin: 15 }} id="web" label="Web" value={state.web} color="secondary" onChange={onChangeWeb} />
-            <TextField style={{ margin: 15 }} id="tipo" label="tipo" value={state.tipo} color="secondary" onChange={onChangeTipo} />
-
-
-            <input
-        accept="image/*"
-        className={classes.input}
-        id="contained-button-file"
-        multiple
-        type="file"
-      />
-      <label htmlFor="contained-button-file">
-        <Button variant="contained" color="default" component="span" style={{marginTop:20}}>
-          Logo / imagen
-        </Button>
-      </label>
-
-
-          </Grid>
+  
 
         </Grid>
 
@@ -198,7 +171,7 @@ export default function CrearEmpresa() {
         <Divider></Divider>
         <br></br>
         <Typography variant="h6" >
-          Dirección:
+          Agregar:
         </Typography>
         <Grid
           container
@@ -207,10 +180,10 @@ export default function CrearEmpresa() {
         >
 
 
-          <TextField style={{ margin: 5 }} id="provincia"  label="Provincia" color="secondary" onChange={onChangeProvincia} />
-          <TextField style={{ margin: 5 }} id="localidad"  label="Localidad" color="secondary" onChange={onChangeLocalidad} />
-          <TextField style={{ margin: 5 }} id="codigoPostal"  label="Codigo postal" color="secondary" onChange={onChangeCodigoPostal} />
-          <TextField style={{ margin: 5 }} id="calle" value={state.calle} label="Calle y numero" color="secondary" onChange={onChangeCalle} />
+          <TextField style={{ margin: 5 }} id="provincia"  label="Convenio" color="secondary" onChange={onChangeProvincia} />
+          <TextField style={{ margin: 5 }} id="localidad"  label="Categoria" color="secondary" onChange={onChangeLocalidad} />
+          <TextField style={{ margin: 5 }} id="codigoPostal"  label="Sub-Categoria" color="secondary" onChange={onChangeCodigoPostal} />
+          <TextField style={{ margin: 5 }} id="calle" value={state.calle} label="Basico" color="secondary" onChange={onChangeCalle} />
 
 
         </Grid>
@@ -223,7 +196,8 @@ export default function CrearEmpresa() {
         </center>
         <br></br>
         <Grid item>
-          <Listaempresas ref={childRef} />
+          {/*   <Listaempresas ref={childRef} />*/}
+         
         </Grid>
       </Grid>
 
