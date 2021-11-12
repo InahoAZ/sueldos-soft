@@ -6,7 +6,7 @@ module.exports = mongoose => {
             name: String,
             subcategorias: [{
                 type: Schema.Types.ObjectId,
-                ref: 'subcat_conv'
+                ref: 'subcategorias_conv'
 
             }]
         },
