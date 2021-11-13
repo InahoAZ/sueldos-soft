@@ -12,6 +12,10 @@ exports.create = (req, res) => {
   //Se crea la empresa con lo recibido
   const empresa = new Empresa({
       name: req.body.name,
+      tipo: req.body.tipo,
+      cuit: req.body.cuit,
+      direccion: req.body.direccion,
+      web: req.body.web,
       areas: [],
   });
 

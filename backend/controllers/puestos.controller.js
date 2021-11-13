@@ -13,7 +13,8 @@ exports.create = (req, res) => {
   //Se crea el puesto con lo recibido
   const puesto = new Puesto({
       name: req.body.name,
-      empleados: [],
+      //convenio?
+
   });
 
   
@@ -47,7 +48,7 @@ exports.create = (req, res) => {
 
 
 exports.findAll = (req, res) => {
-    Puesto.find({}).populate('empleados', '-puestos')
+    Puesto.find({})
     .then(data => {
         res.send(data);
     })
@@ -62,7 +63,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Puesto.findById(id).populate('empleados', '-puestos')
+    Puesto.findById(id)
     .then(data => {
         if (!data)
             res.status(404).send({ message: "No se encontro una Puesto con ese Id."});

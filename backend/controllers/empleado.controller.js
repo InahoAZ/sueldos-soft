@@ -1,6 +1,7 @@
 const db = require("../models");
 const Puesto = db.puestos;
 const Empleado = db.empleados;
+const EmpleadosPuestos = db.empleados_puestos;
 
 
 exports.create = (req, res) => {
@@ -13,6 +14,7 @@ exports.create = (req, res) => {
   //Se crea el empleado con lo recibido
   const empleado = new Empleado({
       cuil: req.body.cuil,
+      legajo: req.body.legajo,
       apellido: req.body.apellido,
       nombre: req.body.nombre,
       telefono: req.body.telefono,
@@ -44,7 +46,7 @@ exports.create = (req, res) => {
 
 //devuelve todos los empleados
 exports.findAll = (req, res) => {
-    Empleado.find({activo: true}).populate('puestos', '-empleados')
+    Empleado.find({activo: true})
     .then(data => {
         res.send(data);
     })
@@ -59,7 +61,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Empleado.findById(id).populate('puestos', '-empleados')
+    Empleado.findById(id)
     .then(data => {
         if (!data)
             res.status(404).send({ message: "No se encontro un empleado con ese Id."});
@@ -120,6 +122,7 @@ exports.delete = (req, res) => {
 
 //asocia un empleado con un puesto, y a ese puesto con ese empleado ("many-to-many")
 exports.linkPuesto = (req, res) => {
+
     if(!req.body){
         res.status(400).send({ message: 'El contenido no puede estar vacio'});
         return;
@@ -127,29 +130,41 @@ exports.linkPuesto = (req, res) => {
 
     const id = req.params.id;
     const idPuesto = req.body.idPuesto;
-    Empleado.findByIdAndUpdate(id,{
-        $addToSet: {
-            puestos: idPuesto,
-        }
-    },
-    {new: true, useFindAndModify: false})
+
+
+    Empleado.findById(id)
+    .then(data => {
+        if (!data) 
+            throw Error("No se encontro un empleado con ese Id.");        
+        else
+            return Puesto.findById(idPuesto);
+    })
     .then(data => {
         if (!data)
-            res.status(404).send({ message: "No se encontro un Empleado con ese Id."});
-        else {
-            return Puesto.findByIdAndUpdate(idPuesto, {
-                $addToSet: {
-                    empleados: id,
-                }
-            }, 
-            {new: true, useFindAndModify: false})            
-        }
-    })
-    .then( data => {
-        if(!data)
-            res.status(404).send({ message: "No se encontro un Puesto con ese Id."});
+            throw Error("No se encontro un puesto con ese Id.");
         else
-            res.send({ message: "Empleado y Puesto asociado."});
+            return EmpleadosPuestos.find({empleado: id, puesto: idPuesto, activo:true});
+
+    },)
+    .then(data => {
+        if(data.length)
+            throw Error("Ya existe la asociacion entre el empleado y el puesto y esta activo.");        
+        else {
+            //asocio el empleado con su puesto registrando su fecha de ingreso.
+        
+            const empleado_puesto = new EmpleadosPuestos({
+                fecha_ingreso: req.body.fecha_ingreso,
+                fecha_egreso: null,
+                activo: true,
+                empleado: id,
+                puesto: idPuesto,
+            })
+            return empleado_puesto.save(empleado_puesto)
+        }
+        
+    })
+    .then(data => {
+        res.send({ message: "Empleado asociado a puesto correctamente", body: data,});
     })
     .catch(err => {
         res
@@ -166,25 +181,27 @@ exports.unlinkPuesto = (req, res) => {
 
     const id = req.params.id;
     const idPuesto = req.body.idPuesto;
-    Empleado.findByIdAndUpdate(id,{
-        $pull: {
-            puestos: idPuesto,
-        }
+
+    Empleado.findById(id)
+    .then(data => {
+        if (!data) 
+            throw Error("No se encontro un empleado con ese Id.");        
+        else
+            return Puesto.findById(idPuesto);
     })
     .then(data => {
         if (!data)
-            res.status(404).send({ message: "No se encontro un Empleado con ese Id."});
-        else {
-            return Puesto.findByIdAndUpdate(idPuesto, {
-                $pull: {
-                    empleados: id,
-                }
-            })            
-        }
-    })
+            throw Error("No se encontro un puesto con ese Id.");
+        else
+            return EmpleadosPuestos.findOneAndUpdate({empleado: id, puesto: idPuesto, activo:true},{
+                fecha_egreso: req.body.fecha_egreso,
+                activo: false
+            });
+
+    },)    
     .then( data => {
         if(!data)
-            res.status(404).send({ message: "No se encontro un Puesto con ese Id."});
+            res.status(404).send({ message: "No se encontro un Empleado con ese Puesto activo"});
         else
             res.send({ message: "Empleado y Puesto desasociado."});
     })

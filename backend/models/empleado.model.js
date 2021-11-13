@@ -4,6 +4,7 @@ module.exports = mongoose => {
     const schema = mongoose.Schema(
         {
             cuil: {type: String, unique: true, dropDups: true},
+            legajo: String,
             apellido: String,
             nombre: String,
             telefono: String,
@@ -12,13 +13,7 @@ module.exports = mongoose => {
             estadoCivil: String,
             nacionalidad: String,
             fechaNacimiento: Date,
-            activo: Boolean,
-            puestos: [
-                {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "puesto"
-                }
-            ]
+            activo: Boolean,           
 
             
         },

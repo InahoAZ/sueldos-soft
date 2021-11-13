@@ -1,5 +1,7 @@
 const db = require("../models");
 const Convenio = db.convenios;
+const SubCategoriaConv = db.subcategorias_conv;
+const CategoriaConv = db.categorias_conv;
 const OpcionesBasicas = db.convenios;
 const SumasRemunerativas = db.sumas_remunerativas;
 
@@ -38,7 +40,12 @@ exports.create = (req, res) => {
 
 
 exports.findAll = (req, res) => {
-    Convenio.find().populate('categorias')
+    Convenio.find().populate({
+        path: 'categorias',
+        populate: {
+            path: 'subcategorias'
+        }
+    })
         .then(data => {
             res.send(data);
         })
