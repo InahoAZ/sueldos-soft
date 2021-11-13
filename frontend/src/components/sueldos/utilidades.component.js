@@ -26,6 +26,7 @@ import Basicos from './parametros/basicos.component';
 import Adicionales from './parametros/adicionales.component'
 import Feriados from './parametros/feriados.component'
 import Extras from './parametros/extras.component'
+import Vacaciones from './parametros/vacaciones.component'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -130,7 +131,9 @@ export default function ScrollableTabsButtonForce() {
         />
       </TabPanel>
       <TabPanel value={value} index={5}  className={classes.tabs}>
-        Vacaciones
+      <Vacaciones
+          onChangeCategoria={onChangeCategoria}
+        />
       </TabPanel>
       <TabPanel value={value} index={6}  className={classes.tabs}>
         Licencias
