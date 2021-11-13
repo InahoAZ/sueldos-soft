@@ -5,82 +5,156 @@ import "./App.css";
 import { styles } from "./css-common"
 
 
+
 import Datosempresa from "./components/datosempresa.component";
 
 import Empleados from "./components/empleados.component";
 import Empleado from "./components/empleado.component";
 import Footer from "./components/footer.component"
-
+import IconButton from '@material-ui/core/IconButton';
 import Convenios from "./components/convenio/convenios.component";
 import Sueldos from "./components/sueldos/sueldo.component";
 
-
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Button from '@material-ui/core/Button';
 import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import SettingsIcon from '@material-ui/icons/Settings';
 
+import Login from './components/login.component';
+
+function login(nombre) {
+  if (nombre == 'admin') {
+    document.getElementById('paginaAdmin').style.display = 'block'
+    document.getElementById('paginaEmpleado').style.display = 'none'
+    document.getElementById('login').style.display = 'none'
+  } else {
+    document.getElementById('paginaAdmin').style.display = 'none'
+    document.getElementById('paginaEmpleado').style.display = 'block'
+    document.getElementById('login').style.display = 'none'
+  }
+
+}
+
+function logout() {
+
+  document.getElementById('login').style.display = 'block'
+  document.getElementById('paginaAdmin').style.display = 'none'
+  document.getElementById('paginaEmpleado').style.display = 'none'
+}
+
 class App extends Component {
+
+
+
+
   render() {
     const { classes } = this.props
 
     return (
       <div>
-        <div style={{minHeight: '94vh'}}>
-        <AppBar className={classes.appBar} position="static">
-          <Toolbar>
-            <Grid
-              item xs={12}
-              container
-              direction="row"
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-            <Typography className={classes.name} variant="h6">
-              SueldoSoft
-            </Typography>
-            <Link to={"/datosempresa"} className={classes.link}>
-              <Typography variant="body2">
-                Empresa
-              </Typography>
-            </Link>
-            <Link to={"/empleados"} className={classes.link}>
-              <Typography variant="body2">
-                Empleados
-            </Typography>
-            </Link>
-            <Link to={"/convenios"} className={classes.link}>
-              <Typography variant="body2">
-                Convenios
-            </Typography>
-            </Link>
-            <Link to={"/sueldos"} className={classes.link}>
-              <Typography variant="body2">
-                Sueldos
-            </Typography>
-            </Link>
-        
-            </Grid>
-            <Grid>
-            <Link to={"/opciones"} className={classes.link}>
-            <SettingsIcon/>
-            </Link>
-            </Grid>
-            
-          </Toolbar>
-        </AppBar>
+        <div id='login' style={{ minHeight: '94vh' }}>
 
+          
+
+          <Login
+          login={login}
+          />
+
+        </div>
+        <div id='paginaEmpleado' style={{ minHeight: '94vh', display: 'none' }}>
+          <AppBar className={classes.appBar} position="static">
+            <Toolbar>
+              <Grid
+                item xs={12}
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+              >
+                <Typography className={classes.name} variant="h6">
+                  SueldoSoft
+                </Typography>
+
+
+
+              </Grid>
+              <Grid>
+                <IconButton color="secondary" onClick={logout} >
+                  <ExitToAppIcon />
+                </IconButton>
+              </Grid>
+
+            </Toolbar>
+          </AppBar>
+          <Switch>
+            <Route exact path="/" />
+
+
+          </Switch>
+
+        </div>
+        <div id='paginaAdmin' style={{ minHeight: '94vh', display: 'none' }}>
+          <AppBar className={classes.appBar} position="static">
+            <Toolbar>
+              <Grid
+                item xs={12}
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+              >
+                <Typography className={classes.name} variant="h6">
+                  SueldoSoft
+                </Typography>
+                <Link to={"/datosempresa"} className={classes.link}>
+                  <Typography variant="body2">
+                    Empresa
+                  </Typography>
+                </Link>
+                <Link to={"/empleados"} className={classes.link}>
+                  <Typography variant="body2">
+                    Empleados
+                  </Typography>
+                </Link>
+                <Link to={"/convenios"} className={classes.link}>
+                  <Typography variant="body2">
+                    Convenios
+                  </Typography>
+                </Link>
+                <Link to={"/sueldos"} className={classes.link}>
+                  <Typography variant="body2">
+                    Sueldos
+                  </Typography>
+                </Link>
+
+              </Grid>
+              <Grid>
+
+
+                <IconButton color="secondary" onClick={logout} >
+                  <ExitToAppIcon />
+                </IconButton>
+
+              </Grid>
+
+            </Toolbar>
+          </AppBar>
           <Switch>
             <Route exact path={["/", "/sueldos"]} component={Sueldos} />
             <Route exact path="/convenios" component={Convenios} />
-            
+
             <Route exact path="/datosempresa" component={Datosempresa} />
             <Route exact path="/empleados" component={Empleados} />
             <Route exact path="/empleado/:cuil" component={Empleado} />
-            <Route exact path="/opciones" component={Sueldos} />
+
           </Switch>
-          </div>
-          <Footer/>
+
+        </div>
+        <Footer />
+
+
+
       </div>
     );
   }
