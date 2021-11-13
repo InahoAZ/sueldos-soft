@@ -15,6 +15,7 @@ db.areas = require('./area.model.js')(mongoose);
 db.departamentos = require('./departamento.model.js')(mongoose);
 db.puestos = require('./puesto.model.js')(mongoose);
 db.empleados = require('./empleado.model.js')(mongoose);
+db.empleados_puestos = require('./empleados_puestos.model.js')(mongoose);
 db.convenios = require('./convenio.model.js')(mongoose);
 db.categorias_conv = require('./categorias_conv.model.js')(mongoose);
 db.subcategorias_conv = require('./subcategorias_conv.model.js')(mongoose);
