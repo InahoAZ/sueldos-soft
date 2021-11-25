@@ -47,14 +47,18 @@ export default function Sueldos(props) {
 
             <Grid
                 container
-                xs={12}
+                
                 direction="column"
                 alignItems="center"
             >
 
                 <Grid
 
-                    xs={8}
+                    xs={12}
+                    sm={11}
+                    md={10}
+                    lg={8}
+                    xl={6}
                     direction="column"
                     alignItems="flex-start"
                 >
