@@ -42,7 +42,7 @@ export default function ListaEmpleados(props) {
       EmpleadosService.getAll()
         .then(response => {
           setEmpleados(response.data)
-         
+
 
         })
         .catch(e => {
@@ -87,8 +87,8 @@ export default function ListaEmpleados(props) {
     window.scrollTo(0, 0);
 
     //buscar la data, pasarla
-    for (let i = 0;i < empleados.length ;i++) {
-      if(empleados[i]._id === id){
+    for (let i = 0; i < empleados.length; i++) {
+      if (empleados[i]._id === id) {
         setPersona(empleados[i]);
 
         return 0
@@ -146,7 +146,11 @@ export default function ListaEmpleados(props) {
 
       <Grid
 
-        xs={7}
+        xs={12}
+        sm={11}
+        md={10}
+        lg={8}
+        xl={6}
         direction="column"
         alignItems="flex-start"
       >
@@ -170,7 +174,7 @@ export default function ListaEmpleados(props) {
           <Grid>
 
             <VerEmpleado
-              persona = {persona}
+              persona={persona}
             />
           </Grid>
           <Grid container

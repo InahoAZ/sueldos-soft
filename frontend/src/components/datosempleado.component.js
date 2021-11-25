@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useRef, useImperativeHandle } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -48,6 +48,7 @@ function getStepContent(stepIndex) {
 
 
 export default function Datos(props) {
+  const childRef = useRef();
   const mode = props.estado;
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -587,6 +588,7 @@ function modificarPuesto () {
 
         // actualizar tabla -> pedir el empleado, ver sus puestos (por cada puesto ver a que pertenece)
         //actualizarEmpleado();
+        childRef.current.refreshListPuestos();
       
 
 
@@ -793,6 +795,7 @@ function modificarPuesto () {
                 </Grid>
                 <Grid item>
                   <PuestosAsignados
+                    ref={childRef}
                     puestos={puestosEmpleado}
                     verDatos = {false}
                     idEmpleado = {id}

@@ -1,5 +1,5 @@
-import React from 'react';
 
+import React, { forwardRef, useImperativeHandle } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -34,7 +34,7 @@ const rows = [
 
 
 
-export default function PuestosAsignados(props) {
+const Child = forwardRef((props, ref) => {
 
   const [puestosAsociados, setPuestosAsociados] = React.useState([]);
 
@@ -83,7 +83,14 @@ export default function PuestosAsignados(props) {
 
 
 
-
+  useImperativeHandle(
+    ref,
+    () => ({
+      refreshListPuestos() {
+        actualizarEmpleado()
+        }
+     }),
+ )
 
 
 
@@ -258,9 +265,7 @@ export default function PuestosAsignados(props) {
                   <div></div>
                 ) : (
                   <center>
-                  <Button variant="contained" color="primary" onClick={actualizarEmpleado} >
-                                Actualizar
-                              </Button>
+                  
                               </center>
                 )}
 
@@ -271,4 +276,10 @@ export default function PuestosAsignados(props) {
     </div>
   );
 
-}
+
+
+
+});
+
+export default Child;
+
