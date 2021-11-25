@@ -12,7 +12,7 @@ import Empleados from "./components/empleados.component";
 import Empleado from "./components/empleado.component";
 import Footer from "./components/footer.component"
 import IconButton from '@material-ui/core/IconButton';
-import Convenios from "./components/convenio/convenios.component";
+import Convenios from "./components/convenio/gestionconvenios.component";
 import Sueldos from "./components/sueldos/sueldo.component";
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
