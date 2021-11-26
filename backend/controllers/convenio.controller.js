@@ -142,6 +142,7 @@ exports.agregarCategoria = (req, res) => {
             }
         })
         .then(data => {
+            cat_agregada = data;
             return Convenio.findByIdAndUpdate(id, {
                 $push: {
                     categorias: data.id
@@ -149,7 +150,7 @@ exports.agregarCategoria = (req, res) => {
             }, { new: true, useFindAndModify: false })
         })
         .then(data => {
-            res.send({ message: "Se agrego la categoria al convenio correctamente", data: data });
+            res.send({ message: "Se agrego la categoria al convenio correctamente", data: cat_agregada });
         })
         .catch(err => {
             res
@@ -248,6 +249,75 @@ exports.quitarSubCategoria = (req, res) => {
                     } else {
                         res.send({
                             message: "La SubCategoria se borró correctamente."
+                        });
+                    }
+                })
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .send({ message: err.message })
+        })
+};
+
+exports.agregarSumaRemunerativa = (req, res) => {
+    const id = req.params.id;
+
+    Convenio.findById(id)
+        .then(data => {
+            if (!data)
+                res.status(404).send({ message: "No se encontro un convenio con ese Id." });
+            else {
+                //Se valida la request
+                convenio = data;
+                if (!req.body) {
+                    res.status(400).send({ message: 'Falta algun campo xd' });
+                    return;
+                }
+
+                //Se crea la suma remunerativa del convenio con lo recibido
+                const suma_remunerativa = new SumasRemunerativas({
+                    name: req.body.name,
+                    monto: req.body.monto
+                });
+
+                return suma_remunerativa.save(suma_remunerativa);
+                
+            }
+        })
+        .then(data => {
+            suma_creada = data;
+            convenio.sumas_remunerativas.push(suma_creada);
+            return convenio.save();
+        })        
+        .then(data => {
+            res.send({ message: "Se agrego la suma remunerativa al convenio correctamente", data: suma_creada });
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .send({ message: err.message })
+        })
+};
+
+exports.quitarSumaRemunerativa = (req, res) => {
+    const id = req.params.id;
+    const idSum = req.body.idSum;
+    Convenio.findByIdAndUpdate(id, {
+            $pull: {
+                sumas_remunerativas: idSum
+            }
+        }, { new: true, useFindAndModify: false })
+        .then(data => {
+            SumasRemunerativas.findByIdAndRemove(idSum)
+                .then(data => {
+                    if (!data) {
+                        res.status(404).send({
+                            message: "No se encontro La Suma Remunerativa con ese id."
+                        });
+                    } else {
+                        res.send({
+                            message: "La Suma Remunerativa se borró correctamente."
                         });
                     }
                 })

@@ -32,5 +32,11 @@ module.exports = app => {
     //endpoint para eliminar y quitar una nueva categoria a un convenio
     router.put("/:id/quitarSubCategoria", convenios.quitarSubCategoria);
 
+    //endpoint para agregar y asociar una suma remunerativa a un convenio
+    router.put("/:id/agregarSumaRemunerativa", convenios.agregarSumaRemunerativa);
+
+    //endpoint para quitar y desasociar una suma remunerativa a un convenio
+    router.put("/:id/quitarSumaRemunerativa", convenios.quitarSumaRemunerativa);
+
     app.use('/api/convenios', router)
 }
