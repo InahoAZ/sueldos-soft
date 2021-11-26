@@ -19,16 +19,16 @@ import Paper from '@material-ui/core/Paper';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
-
+import swal from 'sweetalert';
 import IconButton from '@material-ui/core/IconButton';
 
 import TablePagination from '@material-ui/core/TablePagination';
 
 
+import ConveniosService from '../../services/convenio.service'
 
 
-
-const rows = [{ name: 'name', calories: 'uni', fat: 'hhh' }];
+import EditarConvenio from './editconvenio.component'
 
 const useStyles = makeStyles({
     root: {
@@ -44,6 +44,11 @@ export default function Convenios(props) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+    const [rows, setRows] = React.useState([]);
+
+    const [name, setStateName] = React.useState('');
+    const [vigenteDesde, setStateVigenteDesde] = React.useState('');
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -53,7 +58,41 @@ export default function Convenios(props) {
         setPage(0);
     };
 
-    function deleteConvenio() {
+    function deleteConvenio(num) {
+
+        swal({
+            title: "Esta seguro?",
+            text: "Una vez borrado no se puede recuperar!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+
+
+                    ConveniosService.delete(num)
+                        .then(response => {
+                            console.log(response.data);
+                            //eliminado correctamente msj
+                            swal("Se ha borrado!", {
+                                icon: "success",
+                            });
+                            //actualizar tabla
+                            listarConvenios()
+                        })
+                        .catch(e => {
+                            console.log(e);
+                            swal("Error!", "no se logro borrar", "error");
+                        });
+
+
+
+                } else {
+                    swal("Cancelado!");
+                }
+            });
+
 
 
     }
@@ -63,8 +102,63 @@ export default function Convenios(props) {
 
     }
 
+    function listarConvenios() {
+        ConveniosService.getAll()
+            .then(response => {
+                setRows(response.data);
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
+    React.useEffect(() => {
+        async function autoListaStart() {
+            ConveniosService.getAll()
+                .then(response => {
+                    setRows(response.data);
+                    console.log(response.data);
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+        }
+        autoListaStart();
+    }, []);
+
+
+
+    function onChangeName(e) {
+        setStateName(e.target.value);
+    }
+    function onChangeVigenteDesde(e) {
+        setStateVigenteDesde(e.target.value);
+    }
+
 
     function saveConvenio() {
+        var data = {
+            name: name,
+            vigente_desde: vigenteDesde,
+
+        };
+        console.log(data);
+        ConveniosService.create(data)
+            .then(response => {
+                setStateName('');
+                setStateVigenteDesde('');
+                console.log(response.data);
+
+                // borrar text y actualizar tabla
+                listarConvenios()
+                //msj cargado exitosament
+                swal("Correcto!", "Se agrego con exito a la tabla!", "success");
+
+            })
+            .catch(e => {
+                console.log(e);
+                swal("Error!", "No se logro cargarlo!", "error");
+            });
 
 
     }
@@ -102,15 +196,16 @@ export default function Convenios(props) {
                                 label="Nombre"
                                 placeholder='11/755 Comercio'
                                 style={{ width: 250, margin: 10 }}
-
-
+                                onChange={onChangeName}
+                                value={name}
                                 variant="outlined"
                             />
                             <TextField
                                 label="Fecha de Vigencia"
                                 placeholder='10/10/1990'
                                 style={{ width: 250, margin: 10 }}
-
+                                onChange={onChangeVigenteDesde}
+                                value={vigenteDesde}
                                 variant="outlined"
                             />
 
@@ -156,7 +251,7 @@ export default function Convenios(props) {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Convenios</TableCell>
-                                          
+
                                             <TableCell align="right">Vigencia desde</TableCell>
 
                                             <TableCell align="right">Opciones</TableCell>
@@ -169,7 +264,7 @@ export default function Convenios(props) {
                                                     <TableCell component="th" scope="row">
                                                         {row.name}
                                                     </TableCell>
-                                                    <TableCell align="center">{row.calories}</TableCell>
+                                                    <TableCell align="center">{row.vigente_desde}</TableCell>
                                                     <TableCell align="right">
 
                                                         <Grid
@@ -181,9 +276,13 @@ export default function Convenios(props) {
 
 
                                                             <Grid>
-                                                                <IconButton onClick={() => editarConvenio(row._id)}>
-                                                                    <EditIcon />
-                                                                </IconButton>
+                                                                
+                                                                <EditarConvenio
+                                                                    convenioid={row._id}
+                                                                    name={row.name}
+                                                                    vigenteDesde={row.vigente_desde}
+                                                                    listarConvenios={listarConvenios}
+                                                                />
                                                             </Grid>
                                                             <Grid>
                                                                 <IconButton color="secondary" onClick={() => deleteConvenio(row._id)}>
