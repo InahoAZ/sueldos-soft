@@ -1,5 +1,9 @@
+const { categorias_conv } = require("../models");
 const db = require("../models");
 const Liquidacion = db.liquidacion;
+const SubCategoriaConv = db.subcategorias_conv;
+const Puesto = db.puestos;
+const Convenio = db.convenios;
 
 
 exports.create = (req, res) => {
@@ -8,9 +12,26 @@ exports.create = (req, res) => {
         res.status(400).send({ message: 'El contenido no puede estar vacio.' });
         return;
     }
+    //recibe JSON con
+    const idEmpleado = req.body.idEmpleado;
+    const idSubCategoriaConv = req.body.idSubCategoriaConv;
+    console.log("idSub: ", idSubCategoriaConv);
 
-    //Se crea la empresa con lo recibido
-    const empresa = new Empresa({
+    //TODO: a partir del puesto buscar la subcategoria con el basico y el convenio asociado
+    const test = Convenio.aggregate([
+        {
+            "$lookup": {
+                "from": Convenio.collection.name,
+                "localField":"categorias_conv",
+                "foreignField": "_id",
+                "as": "categoria_conv"
+            }
+        }
+    ])
+    console.log("askljgla----> ", test[0]);
+    return;
+    /* //Se crea la liquidacion con lo recibido
+    const liquidacion = new Empresa({
         name: req.body.name,
         areas: [],
     });
@@ -27,7 +48,7 @@ exports.create = (req, res) => {
                 message: err.message
             });
         });
-
+ */
 };
 
 
