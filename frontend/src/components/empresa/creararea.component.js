@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function CrearArea() {
-  
+
   let child = React.createRef();
 
   const [options, setOptions] = React.useState([]);
@@ -39,8 +39,8 @@ export default function CrearArea() {
     async function retrieveEmpresasauto() {
       EmpresaService.getAll()
         .then(response => {
-          setOptions( response.data)
-          
+          setOptions(response.data)
+
         })
         .catch(e => {
           console.log(e);
@@ -53,18 +53,18 @@ export default function CrearArea() {
     id: 'null',
     name: "",
   });
-  
+
   function onChangeName(e) {
     setState2({
       id: 'null',
-       name: e.target.value,
+      name: e.target.value,
     })
   }
- 
- 
- 
 
- 
+
+
+
+
 
 
   const classes = useStyles();
@@ -86,11 +86,11 @@ export default function CrearArea() {
       name: state2.name,
       idEmpresa: state.idempresa,
     };
-   
+
     AreaService.create(data)
-    
+
       .then(response => {
-        
+
         console.log(response.data);
         child.current.refreshList();
         // borrar text del selec
@@ -101,10 +101,10 @@ export default function CrearArea() {
         });
         setState2({
           id: 'null',
-           name: '',
+          name: '',
         })
-        
-          swal("Correcto!", "Se agrego con exito a la tabla!", "success");
+
+        swal("Correcto!", "Se agrego con exito a la tabla!", "success");
 
       })
       .catch(e => {
@@ -114,74 +114,78 @@ export default function CrearArea() {
       });
   }
 
-  
 
-    return (
-     
+
+  return (
+
 
 
     <Grid
-    container
-    xs={12}
-    direction="column"
-    alignItems="center"
+      container
+      xs={12}
+      direction="column"
+      alignItems="center"
     >
-      
+
       <Grid
-    
-    xs={7}
-    direction="column"
-    alignItems="flex-start"
-    >
-      
 
-      
+        xs={12}
+        sm={11}
+        md={10}
+        lg={8}
+        xl={6}
+        direction="column"
+        alignItems="flex-start"
+      >
 
-      <Grid item>
-        
-        <Typography variant="h5" >
-          Crear Area
-        </Typography>
-   
-        <TextField id="areanombre" label="Nombre del area" color="secondary" onChange={onChangeName} value={state2.name} style={{marginTop: '8px'}}/>
-        
-        <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-native-simple">Empresa</InputLabel>
-        <Select
-          native
-          value={state.idempresa}
-          onChange={handleChange}
-          inputProps={{
-            name: 'idempresa',
-            id: 'age-native-simple',
-          }}
-        >
-          <option aria-label="None" value="" />
-          {options.map((option) => (
-              <option value={option._id}>{option.name}</option>
-            ))}
-          
-        </Select>
-      </FormControl>
-        <Button variant="contained" color="primary" onClick={saveArea} style={{marginTop: '20px', marginLeft:'20px'}} >
-          Crear
-        </Button>
-        
+
+
+
+        <Grid item>
+
+          <Typography variant="h5" >
+            Crear Area
+          </Typography>
+
+          <TextField id="areanombre" label="Nombre del area" color="secondary" onChange={onChangeName} value={state2.name} style={{ marginTop: '8px' }} />
+
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Empresa</InputLabel>
+            <Select
+              native
+              value={state.idempresa}
+              onChange={handleChange}
+              inputProps={{
+                name: 'idempresa',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              {options.map((option) => (
+                <option value={option._id}>{option.name}</option>
+              ))}
+
+            </Select>
+          </FormControl>
+          <Button variant="contained" color="primary" onClick={saveArea} style={{ marginTop: '20px', marginLeft: '20px' }} >
+            Crear
+          </Button>
+
+        </Grid>
+        <br></br>
+        <Divider></Divider>
+        <br></br>
+        <Grid item>
+          <Listarareas ref={child} />
+        </Grid>
       </Grid>
-      <br></br>
-      <Divider></Divider>
-      <br></br>
-      <Grid item>
-        <Listarareas ref={child}/>
-      </Grid>
-    </Grid>
 
     </Grid>
-    );
+  );
 
-  
+
 
 
 
 }
- 
+

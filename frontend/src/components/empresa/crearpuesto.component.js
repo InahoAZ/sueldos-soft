@@ -15,7 +15,7 @@ import EmpresaService from '../../services/empresa.service'
 import InputLabel from '@material-ui/core/InputLabel';
 import AreaService from '../../services/area.service'
 import DepartamentoService from '../../services/departamento.service'
-
+import ConveniosService from '../../services/convenio.service'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -39,8 +39,15 @@ export default function CrearPuesto() {
 
   const [options, setOptions] = React.useState([]);
 
+  const [subCategorias, setSubCategorias] = React.useState([]);
+
+  const [categorias, setCategorias] = React.useState([]);
+
+  const [convenios, setConvenios] = React.useState([]);
+
   React.useEffect(() => {
     async function retrieveEmpresasauto() {
+      obtenerData();
       EmpresaService.getAll()
         .then(response => {
           setOptions(response.data)
@@ -53,6 +60,18 @@ export default function CrearPuesto() {
     retrieveEmpresasauto();
   }, []);
 
+  function obtenerData (){
+    ConveniosService.getAll()
+    .then(response => {
+        //setRows(response.data);
+        console.log(response.data);
+    })
+    .catch(e => {
+        console.log(e);
+    });
+
+  }
+
   const [state2, setState2] = React.useState({
     id: 'null',
     name: "",
@@ -62,7 +81,7 @@ export default function CrearPuesto() {
 
     setState2({
       id: 'null',
-       name: e.target.value,
+      name: e.target.value,
     })
 
   }
@@ -70,20 +89,20 @@ export default function CrearPuesto() {
   function obtenerAreas(empresas) {
     console.log(empresas);
     let areas = [];
-    for (let i = 0;i<this.empresas.length;i++){
-      
-      if (this.empresas[i].areas && this.empresas[i].id === stateempresa.idempresa){
-        
-        for (let j = 0;j<this.empresas[i].areas.length;j++){
-          
-          
-                  let area = {
-                    id: this.empresas[i].areas[j].id,
-                    name: this.empresas[i].areas[j].name,
-                    
-                  }
-                  areas.push(area)
-                
+    for (let i = 0; i < this.empresas.length; i++) {
+
+      if (this.empresas[i].areas && this.empresas[i].id === stateempresa.idempresa) {
+
+        for (let j = 0; j < this.empresas[i].areas.length; j++) {
+
+
+          let area = {
+            id: this.empresas[i].areas[j].id,
+            name: this.empresas[i].areas[j].name,
+
+          }
+          areas.push(area)
+
         }
       }
     }
@@ -96,19 +115,19 @@ export default function CrearPuesto() {
   function obtenerAreas(empresas, id) {
     console.log(empresas);
     let rows = [];
-    for (let i = 0;i<empresas.length;i++){
-      
-      if (empresas[i].areas && empresas[i]._id === id){
-        
-        for (let j = 0;j<empresas[i].areas.length;j++){
-          
-         
-                  let area = {
-                    id: empresas[i].areas[j]._id,
-                    name: empresas[i].areas[j].name,
-               
-                  }
-                  rows.push(area)
+    for (let i = 0; i < empresas.length; i++) {
+
+      if (empresas[i].areas && empresas[i]._id === id) {
+
+        for (let j = 0; j < empresas[i].areas.length; j++) {
+
+
+          let area = {
+            id: empresas[i].areas[j]._id,
+            name: empresas[i].areas[j].name,
+
+          }
+          rows.push(area)
 
         }
       }
@@ -137,28 +156,28 @@ export default function CrearPuesto() {
   function obtenerDepartamentos(empresas, idarea) {
     console.log(empresas);
     let rows = [];
-    for (let i = 0;i<empresas.length;i++){
-      
-      if (empresas[i].areas){
-        
-        for (let j = 0;j<empresas[i].areas.length;j++){
-          
-          if (empresas[i].areas[j].departamentos && empresas[i].areas[j]._id === idarea){
-           
-            for (let d = 0;d<empresas[i].areas[j].departamentos.length;d++){
-              
-             
-                  
-                  let depa = {
-                    id: empresas[i].areas[j].departamentos[d]._id,
-                    name: empresas[i].areas[j].departamentos[d].name,
-                    
-                    areaname: empresas[i].areas[j].name,
-                    empresaname: empresas[i].name,
-                  }
-                  rows.push(depa)
+    for (let i = 0; i < empresas.length; i++) {
 
-             
+      if (empresas[i].areas) {
+
+        for (let j = 0; j < empresas[i].areas.length; j++) {
+
+          if (empresas[i].areas[j].departamentos && empresas[i].areas[j]._id === idarea) {
+
+            for (let d = 0; d < empresas[i].areas[j].departamentos.length; d++) {
+
+
+
+              let depa = {
+                id: empresas[i].areas[j].departamentos[d]._id,
+                name: empresas[i].areas[j].departamentos[d].name,
+
+                areaname: empresas[i].areas[j].name,
+                empresaname: empresas[i].name,
+              }
+              rows.push(depa)
+
+
             }
           }
         }
@@ -208,7 +227,7 @@ export default function CrearPuesto() {
       ...statearea,
       idarea: '',
     });
-   
+
     setStatedepartamento({
       ...statedepartamento,
       iddepartamento: '',
@@ -248,6 +267,7 @@ export default function CrearPuesto() {
     var data = {
       name: state2.name,
       idDepartamento: statedepartamento.iddepartamento,
+      idSubCategoriaConv: '888'
     };
 
     PuestoService.create(data)
@@ -271,7 +291,7 @@ export default function CrearPuesto() {
         });
         setState2({
           id: 'null',
-           name: '',
+          name: '',
         });
 
         setareas([]);
@@ -301,7 +321,11 @@ export default function CrearPuesto() {
 
       <Grid
 
-        xs={7}
+        xs={12}
+        sm={11}
+        md={10}
+        lg={8}
+        xl={6}
         direction="column"
         alignItems="flex-start"
       >
@@ -316,9 +340,9 @@ export default function CrearPuesto() {
           </Typography>
 
           <TextField id="puestonombre" label="Nombre del puesto" color="secondary" value={state2.name} onChange={onChangeName} style={{ marginTop: '8px' }} />
-    <br></br>
+          <br></br>
 
-    
+
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="age-native-simple">Empresa</InputLabel>
             <Select
@@ -373,9 +397,67 @@ export default function CrearPuesto() {
 
             </Select>
           </FormControl>
-         
-         
-         
+
+          <br></br>
+
+
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Convenio</InputLabel>
+            <Select
+              native
+              value={stateempresa.idempresa}
+              onChange={handleChangeempresa}
+              inputProps={{
+                name: 'idempresa',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              {options.map((option) => (
+                <option value={option._id}>{option.name}</option>
+              ))}
+
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Categoria</InputLabel>
+            <Select
+              native
+              value={statearea.idarea}
+              onChange={handleChangearea}
+              inputProps={{
+                name: 'idarea',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              {areas.map((option) => (
+                <option value={option.id}>{option.name}</option>
+              ))}
+
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Sub-Categoria</InputLabel>
+            <Select
+              native
+              value={statedepartamento.iddepartamento}
+              onChange={handleChangedepartamento}
+              inputProps={{
+                name: 'iddepartamento',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              {departamentos.map((option) => (
+                <option value={option.id}>{option.name}</option>
+              ))}
+
+            </Select>
+          </FormControl>
+
+
+
           <Button variant="contained" color="primary" onClick={savePuesto} style={{ marginTop: '20px', marginLeft: '20px' }} >
             Crear
           </Button>

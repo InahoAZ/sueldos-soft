@@ -151,7 +151,11 @@ export default function CrearEmpresa() {
 
       <Grid
 
-        xs={7}
+        xs={12}
+        sm={11}
+        md={10}
+        lg={8}
+        xl={6}
         direction="column"
         alignItems="flex-start"
       >
@@ -166,9 +170,9 @@ export default function CrearEmpresa() {
           </Typography>
           <br></br>
           <Grid
-          container
-          alignItems="center"
-          justifyContent="center">
+            container
+            alignItems="center"
+            justifyContent="center">
             <TextField style={{ margin: 15 }} id="empresanombre" value={state.name} label="Nombre de empresa" color="secondary" onChange={onChangeName} />
             <TextField style={{ margin: 15 }} id="cuit" label="CUIT" value={state.cuit} color="secondary" onChange={onChangeCuit} />
             <TextField style={{ margin: 15 }} id="telefono" label="Telefono" value={state.telefono} color="secondary" onChange={onChangeTelefono} />
@@ -177,17 +181,17 @@ export default function CrearEmpresa() {
 
 
             <input
-        accept="image/*"
-        className={classes.input}
-        id="contained-button-file"
-        multiple
-        type="file"
-      />
-      <label htmlFor="contained-button-file">
-        <Button variant="contained" color="default" component="span" style={{marginTop:20}}>
-          Logo / imagen
-        </Button>
-      </label>
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+            />
+            <label htmlFor="contained-button-file">
+              <Button variant="contained" color="default" component="span" style={{ marginTop: 20 }}>
+                Logo / imagen
+              </Button>
+            </label>
 
 
           </Grid>
@@ -207,9 +211,9 @@ export default function CrearEmpresa() {
         >
 
 
-          <TextField style={{ margin: 5 }} id="provincia"  label="Provincia" color="secondary" onChange={onChangeProvincia} />
-          <TextField style={{ margin: 5 }} id="localidad"  label="Localidad" color="secondary" onChange={onChangeLocalidad} />
-          <TextField style={{ margin: 5 }} id="codigoPostal"  label="Codigo postal" color="secondary" onChange={onChangeCodigoPostal} />
+          <TextField style={{ margin: 5 }} id="provincia" label="Provincia" color="secondary" onChange={onChangeProvincia} />
+          <TextField style={{ margin: 5 }} id="localidad" label="Localidad" color="secondary" onChange={onChangeLocalidad} />
+          <TextField style={{ margin: 5 }} id="codigoPostal" label="Codigo postal" color="secondary" onChange={onChangeCodigoPostal} />
           <TextField style={{ margin: 5 }} id="calle" value={state.calle} label="Calle y numero" color="secondary" onChange={onChangeCalle} />
 
 

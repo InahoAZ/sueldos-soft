@@ -20,6 +20,9 @@ class convenioService {
   addCategoria(id, data) {
     return http.put(`/convenios/${id}/agregarCategoria`, data);
   }
+  addSubCategoria(id, data) {
+    return http.put(`/convenios/${id}/agregarSubCategoria`, data);
+  }
 }
 
 export default new convenioService();
