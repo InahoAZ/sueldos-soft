@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Categorias(props) {
+export default function SumasRemunerativas(props) {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -68,7 +68,7 @@ export default function Categorias(props) {
                     alignItems="center"
                 >
                     <Typography variant="h5" style={{ margin: 20 }}>
-                        Agregar nueva categoría
+                        Carga de sumas remunerativas
                     </Typography>
                     <br></br>
                     <Grid container
@@ -86,31 +86,24 @@ export default function Categorias(props) {
 
                                 variant="outlined"
                             />
-                            <TextField
-                                label="Categoria"
-                                placeholder='seleccione convenio'
-                                style={{ width: 250, margin: 10 }}
-
-
-                                variant="outlined"
-                            />
                         </Grid>
 
                         <Grid item >
 
-                        <TextField
-                                label="Sub-Categoria"
-                                placeholder='seleccione convenio'
+
+
+                            <TextField
+                                label="Suma remunerativa"
+                                placeholder='nombre'
                                 style={{ width: 250, margin: 10 }}
 
 
                                 variant="outlined"
                             />
                             <TextField
-                                label="Basico"
-                                placeholder='seleccione convenio'
-                                style={{ width: 250, margin: 10 }}
-
+                                label="Unidad"
+                                placeholder=''
+                                style={{ width: 200, margin: 10 }}
 
                                 variant="outlined"
                             />
@@ -132,7 +125,7 @@ export default function Categorias(props) {
                     <br></br>
                     <center>
                     <Typography variant="h5" style={{ margin: 20 }}>
-                        Lista de todas las categorias/subcategorias
+                        Lista de todas las sumas remunerativas cargadas
                     </Typography>
                     </center>
                     <br></br>
@@ -148,9 +141,8 @@ export default function Categorias(props) {
                                         <TableHead>
                                             <TableRow>
                                             <TableCell>Convenios</TableCell>
-                                                <TableCell>Categoria</TableCell>
-                                                <TableCell>Sub-Categoría</TableCell>
-                                                <TableCell align="right">Básico</TableCell>
+                                                <TableCell>Suma remunerativa</TableCell>
+                                                <TableCell align="right">Unidad</TableCell>
 
                                                 <TableCell align="right">Opciones</TableCell>
                                             </TableRow>
@@ -159,9 +151,6 @@ export default function Categorias(props) {
                                             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                                 return (
                                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                        <TableCell component="th" scope="row">
-                                                            {row.name}
-                                                        </TableCell>
                                                         <TableCell component="th" scope="row">
                                                             {row.name}
                                                         </TableCell>
