@@ -78,44 +78,6 @@ export default function Basicos({ onChangeCategoria }) {
 
 
 
-                <Autocomplete
-                    id="country-select-empleado"
-                    value={valueEmpleado}
-                    onChange={(event, newValue) => {
-                        setValueEmpleado(newValue);
-
-
-                    }}
-                    inputValue={inputValueEmpleado}
-                    onInputChange={(event, newInputValue) => {
-                        //cambioEmpleado(newInputValue);
-                        setInputValueEmpleado(newInputValue);
-                    }}
-                    style={{ width: 250, marginBottom: 12, marginLeft: 12 }}
-                    options={empleados}
-                    classes={{
-                        option: classes.option,
-                    }}
-                    autoHighlight
-                    getOptionLabel={(option) => option.apellido + ', ' + option.nombre}
-                    renderOption={(option) => (
-                        <React.Fragment>
-                            <span>{option.apellido},{option.nombre}</span>
-
-                        </React.Fragment>
-                    )}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label="Seleccione categoria"
-                            variant="outlined"
-                            inputProps={{
-                                ...params.inputProps,
-                                autoComplete: 'new-password', // disable autocomplete and autofill
-                            }}
-                        />
-                    )}
-                />
 
 
                 <Autocomplete

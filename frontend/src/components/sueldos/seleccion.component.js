@@ -299,42 +299,7 @@ export default function Sueldos(props) {
 
 
 
-            <Autocomplete
-                id="country-select-convenio" // puesto
-                value={valueConvenio}
-                onChange={(event, newValue) => {
-                    setValueConvenio(newValue);
-
-                }}
-                inputValue={inputValueConvenio}
-                onInputChange={(event, newInputValue) => {
-                    setInputValueConvenio(newInputValue);
-                }}
-                style={{ width: 200, marginBottom: 10 }}
-                options={convenios}
-                classes={{
-                    option: classes.option,
-                }}
-                autoHighlight
-                getOptionLabel={(option) => option.name}
-                renderOption={(option) => (
-                    <React.Fragment>
-                        <span>{option.name}</span>
-
-                    </React.Fragment>
-                )}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label="Seleccione convenio"
-                        variant="outlined"
-                        inputProps={{
-                            ...params.inputProps,
-                            autoComplete: 'new-password', // disable autocomplete and autofill
-                        }}
-                    />
-                )}
-            disabled/>
+            
 
         </Grid>
     );
