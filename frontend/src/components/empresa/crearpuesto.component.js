@@ -40,10 +40,67 @@ export default function CrearPuesto() {
   const [options, setOptions] = React.useState([]);
 
   const [subCategorias, setSubCategorias] = React.useState([]);
-
   const [categorias, setCategorias] = React.useState([]);
-
   const [convenios, setConvenios] = React.useState([]);
+
+  const [subCategoriasSelect, setSubCategoriasSelect] = React.useState('');
+  const [categoriasSelect, setCategoriasSelect] = React.useState('');
+  const [conveniosSelect, setConveniosSelect] = React.useState('');
+
+  function handleChangeConvenio(e) {
+    setConveniosSelect(e.target.value);
+    getCatbyConvId(e.target.value)
+    setSubCategoriasSelect('');
+    setCategoriasSelect('');
+}
+function getCatbyConvId(id){
+  if(id !== ''){
+    for(let i = 0 ;i<convenios.length;i++){
+
+      if(id === convenios[i]._id){
+
+        setCategorias(convenios[i].categorias);
+      }
+    }
+
+  }else{
+    setCategorias([]);
+    setSubCategorias([]);
+    setSubCategoriasSelect('');
+    setCategoriasSelect('');
+
+  }
+}
+
+function handleChangeCategoria(e) {
+  setCategoriasSelect(e.target.value);
+  getSubCatbyConvId(e.target.value);
+  setSubCategoriasSelect('');
+}
+
+function getSubCatbyConvId(id){
+  if(id !== ''){
+    for(let i = 0 ;i<categorias.length;i++){
+
+      if(id === categorias[i]._id){
+
+        setSubCategorias(categorias[i].subcategorias);
+      }
+    }
+
+  }else{
+    
+    setSubCategorias([]);
+    setSubCategoriasSelect('');
+
+  }
+}
+
+function handleChangeSubCategoria(e){
+  setSubCategoriasSelect(e.target.value);
+
+}
+
 
   React.useEffect(() => {
     async function retrieveEmpresasauto() {
@@ -63,7 +120,7 @@ export default function CrearPuesto() {
   function obtenerData (){
     ConveniosService.getAll()
     .then(response => {
-        //setRows(response.data);
+        setConvenios(response.data);
         console.log(response.data);
     })
     .catch(e => {
@@ -264,10 +321,23 @@ export default function CrearPuesto() {
     //console.log(state)
   };
   function savePuesto() {
+
+
+    if (setSubCategoriasSelect === '' || state2.name === '' || statedepartamento.iddepartamento === ''){
+      swal("Error!", "No deje campos vacios!", "error");
+      return 0
+    }
+
+
+
+
+
     var data = {
       name: state2.name,
       idDepartamento: statedepartamento.iddepartamento,
-      idSubCategoriaConv: '888'
+
+      idSubCategoriaConv: subCategoriasSelect,
+      idConvenio: conveniosSelect,
     };
 
     PuestoService.create(data)
@@ -405,15 +475,15 @@ export default function CrearPuesto() {
             <InputLabel htmlFor="age-native-simple">Convenio</InputLabel>
             <Select
               native
-              value={stateempresa.idempresa}
-              onChange={handleChangeempresa}
+              value={conveniosSelect}
+              onChange={handleChangeConvenio}
               inputProps={{
-                name: 'idempresa',
-                id: 'age-native-simple',
+                name: 'name',
+                id: 'id',
               }}
             >
               <option aria-label="None" value="" />
-              {options.map((option) => (
+              {convenios.map((option) => (
                 <option value={option._id}>{option.name}</option>
               ))}
 
@@ -423,16 +493,16 @@ export default function CrearPuesto() {
             <InputLabel htmlFor="age-native-simple">Categoria</InputLabel>
             <Select
               native
-              value={statearea.idarea}
-              onChange={handleChangearea}
+              value={categoriasSelect}
+              onChange={handleChangeCategoria}
               inputProps={{
-                name: 'idarea',
-                id: 'age-native-simple',
+                name: 'name',
+                id: 'id',
               }}
             >
               <option aria-label="None" value="" />
-              {areas.map((option) => (
-                <option value={option.id}>{option.name}</option>
+              {categorias.map((option) => (
+                <option value={option._id}>{option.name}</option>
               ))}
 
             </Select>
@@ -441,16 +511,16 @@ export default function CrearPuesto() {
             <InputLabel htmlFor="age-native-simple">Sub-Categoria</InputLabel>
             <Select
               native
-              value={statedepartamento.iddepartamento}
-              onChange={handleChangedepartamento}
+              value={subCategoriasSelect}
+              onChange={handleChangeSubCategoria}
               inputProps={{
-                name: 'iddepartamento',
-                id: 'age-native-simple',
+                name: 'name',
+                id: 'id',
               }}
             >
               <option aria-label="None" value="" />
-              {departamentos.map((option) => (
-                <option value={option.id}>{option.name}</option>
+              {subCategorias.map((option) => (
+                <option value={option._id}>{option.name}</option>
               ))}
 
             </Select>

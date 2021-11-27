@@ -22,7 +22,7 @@ import swal from 'sweetalert';
 
 import ConveniosService from '../../services/convenio.service'
 
-import EditarCategoria from './editconvenio.component'
+
 
 const useStyles = makeStyles({
     root: {
@@ -35,7 +35,6 @@ const useStyles = makeStyles({
 
 
 
-const listaCategorias = ['uno', 'dos'];
 
 
 export default function Categorias(props) {
@@ -46,6 +45,10 @@ export default function Categorias(props) {
     const [rows, setRows] = React.useState([]);
 
     const [listaConvenios, setListaConvenios] = React.useState([]);
+    const [totalConveniosDic, setTotalConveniosDic] = React.useState([]);
+    const [listaSubCategorias, setListaSubCategorias] = React.useState([]);
+    
+    const [listaCategorias, setListaCategorias] = React.useState([]);
 
     const [subCat, setSubCat] = React.useState('');
     const [basico, setBasico] = React.useState('');
@@ -74,17 +77,66 @@ export default function Categorias(props) {
         setSubCat(e.target.value);
     }
 
+    function listarCat(conv) {
+        if (conv) {
+
+            for (let i = 0; i < totalConveniosDic.length; i++) {
+
+                if (totalConveniosDic[i]._id === conv.id) {
+                    setListaCategorias(totalConveniosDic[i].categorias);
+
+                    return 0
+                }
+            }
+        }
+    }
+
+    function listarSubCat(categoria) {
+        if (categoria) {
+
+            if (categoria.subcategorias) {
+                setListaSubCategorias(categoria.subcategorias);
+
+                return 0
+            }
+        }
+    }
+
+    function existeSubCat(name){
+        for (let i = 0;i<listaSubCategorias.length;i++){
+            if(listaSubCategorias[i].name === name){
+                return true
+            }
+        }
+        return false
+    }
+
 
     function saveSubCategoria(idCat) {
-       
+
+        if(existeSubCat(subCat)){
+            swal("Error!", "Ya exisye la sub categoria, si quiere editarla valla a la tabla!", "error");
+            return 0
+        }
+
         var dataSubCat = {
             name: subCat,
             basico: basico,
+            idCat: idCat,
         };
-        ConveniosService.addSubCategoria(idCat, dataSubCat)
+        ConveniosService.addSubCategoria(valueConvenio.id, dataSubCat)
             .then(response => {
 
                 console.log(response.data)
+
+                //actualizar tabla
+                listarConvenios();
+                //restear todos los campos
+                setConvenio('');
+                setCategoria('');
+                setSubCat('');
+                setBasico('');
+                swal("Correcto!", "Se agrego con exito!", "success");
 
 
 
@@ -98,16 +150,24 @@ export default function Categorias(props) {
 
 
     function addCategoria() {
-
-        console.log('inpu' + inputCategoria);
-        console.log(valueCategoria);
-
-        var categoriaV = '';
-        if (valueCategoria === inputCategoria) {
-            //llamar a cargar sub categoria nomas, con id de cat 
-            saveSubCategoria('5225888')
+        
+        if (basico === '' || subCat === '' || inputCategoria === '' || inputConvenio === '') {
+            swal("Error!", "No deje nada vacio!", "error");
             return 0
         }
+
+       
+        if (valueCategoria) {
+            if (valueCategoria.name === inputCategoria) {
+                //llamar a cargar sub categoria nomas, con id de cat 
+                saveSubCategoria(valueCategoria._id)
+                
+
+                return 0
+            }
+        }
+
+        
 
 
         var idConv = valueConvenio.id;
@@ -117,9 +177,9 @@ export default function Categorias(props) {
         console.log(dataCat);
         ConveniosService.addCategoria(idConv, dataCat)
             .then(response => {
-                console.log(response.data)
+                console.log(response.data.data._id)
 
-                //saveSubCategoria(id);
+                saveSubCategoria(response.data.data._id);
 
 
 
@@ -132,7 +192,12 @@ export default function Categorias(props) {
 
 
     }
-    function deleteCategoria(num) {
+    function deleteSubCategoria(idsubcat, cat, conv) {
+
+        var data = {
+            idCat: cat,
+            idSubCat: idsubcat,
+        }
 
         swal({
             title: "Esta seguro?",
@@ -145,7 +210,7 @@ export default function Categorias(props) {
                 if (willDelete) {
 
 
-                    ConveniosService.delete(num)
+                    ConveniosService.deleteSubCategoria(conv, data)
                         .then(response => {
                             console.log(response.data);
                             //eliminado correctamente msj
@@ -184,12 +249,50 @@ export default function Categorias(props) {
         return listdic
     }
 
+    function obtenerFilas(diclist) {
+
+        let rows = [];
+        for (let i = 0; i < diclist.length; i++) {
+
+            if (diclist[i].categorias) {
+
+                for (let j = 0; j < diclist[i].categorias.length; j++) {
+
+                    if (diclist[i].categorias[j].subcategorias) {
+
+                        for (let d = 0; d < diclist[i].categorias[j].subcategorias.length; d++) {
+
+
+                            let subC = {
+                                idSub: diclist[i].categorias[j].subcategorias[d]._id,
+                                idCat: diclist[i].categorias[j]._id,
+                                idConv: diclist[i]._id,
+                                convenio: diclist[i].name,
+                                categoria: diclist[i].categorias[j].name,
+                                subCategoria: diclist[i].categorias[j].subcategorias[d].name,
+                                basico: diclist[i].categorias[j].subcategorias[d].basico,
+                            }
+                            rows.push(subC)
+
+
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        return rows
+    }
+
 
     function listarConvenios() {
         ConveniosService.getAll()
             .then(response => {
-                setRows(response.data);
+                setRows(obtenerFilas(response.data));
                 setListaConvenios(onlyConvenios(response.data))
+                setTotalConveniosDic(response.data);
                 console.log(response.data);
             })
             .catch(e => {
@@ -243,8 +346,13 @@ export default function Categorias(props) {
 
                                     value={valueConvenio}
                                     onChange={(event, newValue) => {
-
+                                        setCategoria('');
+                                        setSubCat('');
+                                        setBasico('');
+                        
                                         setConvenio(newValue);
+                                        listarCat(newValue);
+                                        
 
                                     }}
                                     inputValue={inputConvenio}
@@ -284,6 +392,7 @@ export default function Categorias(props) {
                                     onChange={(event, newValue) => {
 
                                         setCategoria(newValue);
+                                        listarSubCat(newValue);
 
                                     }}
                                     inputValue={inputCategoria}
@@ -297,10 +406,10 @@ export default function Categorias(props) {
                                         option: classes.option,
                                     }}
                                     autoHighlight
-                                    getOptionLabel={(option) => option}
+                                    getOptionLabel={(option) => option.name}
                                     renderOption={(option) => (
                                         <React.Fragment>
-                                            <span>{option}</span>
+                                            <span>{option.name}</span>
 
                                         </React.Fragment>
                                     )}
@@ -390,15 +499,15 @@ export default function Categorias(props) {
                                                 return (
                                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                                         <TableCell component="th" scope="row">
-                                                            {row.name}
+                                                            {row.convenio}
                                                         </TableCell>
                                                         <TableCell component="th" scope="row">
-                                                            {row.name}
+                                                            {row.categoria}
                                                         </TableCell>
                                                         <TableCell component="th" scope="row">
-                                                            {row.name}
+                                                            {row.subCategoria}
                                                         </TableCell>
-                                                        <TableCell align="right">{row.name}</TableCell>
+                                                        <TableCell align="right">{row.basico}</TableCell>
                                                         <TableCell align="right">
 
                                                             <Grid
@@ -409,17 +518,9 @@ export default function Categorias(props) {
                                                             >
 
 
+                                                                
                                                                 <Grid>
-
-                                                                    <EditarCategoria
-                                                                        categoriaid={row._id}
-                                                                        name={row.name}
-                                                                        vigenteDesde={row.name}
-                                                                        listarConvenios={listarConvenios}
-                                                                    />
-                                                                </Grid>
-                                                                <Grid>
-                                                                    <IconButton color="secondary" onClick={() => deleteCategoria(row._id)}>
+                                                                    <IconButton color="secondary" onClick={() => deleteSubCategoria(row.idSub,row.idCat,row.idConv)}>
                                                                         <DeleteForeverIcon />
                                                                     </IconButton>
                                                                 </Grid>

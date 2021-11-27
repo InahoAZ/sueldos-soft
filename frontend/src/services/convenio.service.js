@@ -23,6 +23,20 @@ class convenioService {
   addSubCategoria(id, data) {
     return http.put(`/convenios/${id}/agregarSubCategoria`, data);
   }
+  deleteSubCategoria(id, data) {
+    return http.put(`/convenios/${id}/quitarSubCategoria`, data);
+  }
+
+  addSubSumaR(id, data) {
+    return http.put(`/convenios/${id}/agregarSumaRemunerativa`, data);
+  }
+  deleteSubSumaR(id, data) {
+    return http.put(`/convenios/${id}/quitarSumaRemunerativa`, data);
+  }
+
+
+
+
 }
 
 export default new convenioService();
