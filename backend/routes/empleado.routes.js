@@ -8,6 +8,9 @@ module.exports = app => {
 
     //devuelve todos los empleados
     router.get("/", empleados.findAll);
+
+    //devuelve una empleado por su CUIL
+    router.get("/buscarPorCuil/:cuil", empleados.findOnebyCuil);
     
     //devuelve una empleado por id
     router.get("/:id", empleados.findOne);
