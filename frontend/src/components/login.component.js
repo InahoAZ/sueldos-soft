@@ -12,7 +12,7 @@ import background from "../img/wood.png";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import swal from 'sweetalert';
 
-
+import EmpleadosService from '../services/empleados.service'
 
 const useStyles = makeStyles({
     root: {
@@ -37,69 +37,83 @@ export default function Login(props) {
     const [user, setUser] = React.useState('');
 
     const [pass, setPass] = React.useState('');
-    
-    function ingresar (){
 
-        if (user != '' && pass != ''){
+    function ingresar() {
+
+        if (user != '' && pass != '') {
 
             document.getElementById('carga').style.display = 'block';
             setStatusTime(true);
-    
-            
-            
-            setTimeout(() => {  console.log("disimulando..."); 
-            document.getElementById('carga').style.display = 'none';
-            setStatusTime(false);
-    
-            if(user == 'admin' && pass == 'admin'){
-                props.login('admin')
-    
-            } else {
-                //el empleado existe -> cargar vista
-                props.login('empleado')
-            }
-            setUser('');
-            setPass('');
-        
-        
-        
-        }, 3000);
-        }else{
+
+
+
+            setTimeout(() => {
+                console.log("disimulando...");
+                document.getElementById('carga').style.display = 'none';
+                setStatusTime(false);
+
+                if (user == 'admin' && pass == 'admin') {
+                    props.login('admin')
+
+                } else {
+                    //el empleado existe -> cargar vista sino error msj
+                    EmpleadosService.getOnebyCuil(user)
+                        .then(response => {
+                            
+                            props.login(response.data)
+
+
+                        })
+                        .catch(e => {
+                            console.log(e);
+                            swal("Error!", "CUIL o contraseña incorrectos!", "error");
+                        });
+
+                    
+                }
+                setUser('');
+                setPass('');
+
+
+
+            }, 3000);
+        } else {
 
             swal("Error!", "Los campos no deben estar vacios!", "error");
         }
 
-       
-        
-        
+
+
+
     }
-   
+
 
     function onChangeUser(e) {
         setUser(e.target.value);
-      }
+    }
 
-      function onChangePass(e) {
+    function onChangePass(e) {
         setPass(e.target.value);
-      }
+    }
 
 
 
     return (
-        <div style={{minHeight:'100vh', 
+        <div style={{
+            minHeight: '100vh',
             backgroundImage: `url(${background})`, backgroundSize: 'cover',
-            overflow: 'hidden' 
-          }}>
+            overflow: 'hidden'
+        }}>
             <Grid container spacing={3}
                 justifyContent="center"
                 alignItems="center">
-                <Grid item xs={6}  md={3}>
-                
+                <Grid item xs={6} md={3}>
 
-                    <Card className={classes.root} style={{marginTop:70}}>
-                    
+
+                    <Card className={classes.root} style={{ marginTop: 70 }}>
+
                         <Typography variant="h5" style={{ textAlign: 'center' }}>Login</Typography>
-                        <LinearProgress id='carga' style={{display:'none'}}/>
+                        <LinearProgress id='carga' style={{ display: 'none' }} />
                         <br></br>
                         <Grid container spacing={3}
                             justifyContent="center"
@@ -126,6 +140,7 @@ export default function Login(props) {
                                 onChange={onChangePass}
                                 variant="outlined"
                                 value={pass}
+                                type="password"
                             />
 
                         </Grid>
@@ -134,7 +149,7 @@ export default function Login(props) {
                             <Button variant="contained" disabled={statusTime} onClick={ingresar} style={{ minWidth: 250, backgroundColor: 'black', color: 'white' }}>
                                 INGRESAR
                             </Button>
-                            
+
                         </center>
                         <br></br>
 

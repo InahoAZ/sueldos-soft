@@ -15,6 +15,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Convenios from "./components/convenio/gestionconvenios.component";
 import Sueldos from "./components/sueldos/sueldo.component";
 
+import InicioEmpleado from "./components/vistaEmpleado/inicio.component"
+
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Button from '@material-ui/core/Button';
 import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
@@ -23,6 +25,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 
 import Login from './components/login.component';
 
+
+
+var personaInfo = {nombre: ''};
 function login(nombre) {
   if (nombre == 'admin') {
     document.getElementById('paginaAdmin').style.display = 'block'
@@ -32,8 +37,17 @@ function login(nombre) {
     document.getElementById('paginaAdmin').style.display = 'none'
     document.getElementById('paginaEmpleado').style.display = 'block'
     document.getElementById('login').style.display = 'none'
+   
+    personaInfo = nombre;
+    
   }
 
+}
+
+function persona() {
+  
+  var aux = personaInfo
+return aux
 }
 
 function logout() {
@@ -87,11 +101,10 @@ class App extends Component {
 
             </Toolbar>
           </AppBar>
-          <Switch>
-            <Route exact path="/" />
-
-
-          </Switch>
+          <InicioEmpleado
+              persona={persona}
+          />
+          
 
         </div>
         <div id='paginaAdmin' style={{ minHeight: '94vh', display: 'none' }}>
