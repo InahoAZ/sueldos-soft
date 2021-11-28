@@ -504,10 +504,10 @@ export default function Categorias(props) {
                                                         <TableCell component="th" scope="row">
                                                             {row.categoria}
                                                         </TableCell>
-                                                        <TableCell component="th" scope="row">
+                                                        <TableCell component="th" scope="row" align="center">
                                                             {row.subCategoria}
                                                         </TableCell>
-                                                        <TableCell align="right">{row.basico}</TableCell>
+                                                        <TableCell align="right">${row.basico}</TableCell>
                                                         <TableCell align="right">
 
                                                             <Grid

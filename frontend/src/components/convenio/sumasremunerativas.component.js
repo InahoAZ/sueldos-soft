@@ -65,7 +65,7 @@ export default function SumasRemunerativas(props) {
         }
 
         var data = {
-            nombre: sumaRemunerativa,
+            name: sumaRemunerativa,
             monto: unidadMonto
 
         }
@@ -94,11 +94,11 @@ export default function SumasRemunerativas(props) {
 
     }
     function deleteSuma(suma, conv) {
-
+    
         var data = {
             idSum: suma,
         }
-
+console.log(data);
         swal({
             title: "Esta seguro?",
             text: "Una vez borrado no se puede recuperar!",
@@ -110,7 +110,7 @@ export default function SumasRemunerativas(props) {
                 if (willDelete) {
 
 
-                    ConveniosService.deleteSubCategoria(conv, data)
+                    ConveniosService.deleteSubSumaR(conv, data)
                         .then(response => {
                             console.log(response.data);
                             //eliminado correctamente msj
@@ -158,6 +158,7 @@ export default function SumasRemunerativas(props) {
 
 
     function obtenerFilas(diclist) {
+        console.log(diclist);
 
         let rows = [];
         for (let i = 0; i < diclist.length; i++) {
@@ -351,13 +352,13 @@ export default function SumasRemunerativas(props) {
                                                 return (
                                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                                         <TableCell component="th" scope="row">
-                                                            {row.name}
+                                                            {row.convenio}
                                                         </TableCell>
                                                         <TableCell component="th" scope="row">
-                                                            {row.name}
+                                                            {row.sumaRemunerativa}
                                                         </TableCell>
-                                                        <TableCell align="right">{row.calories}</TableCell>
-                                                        <TableCell align="right"><IconButton color="secondary" onClick={() => deleteSuma(row._id, row.idConv)}>
+                                                        <TableCell align="right">{row.unidad}</TableCell>
+                                                        <TableCell align="right"><IconButton color="secondary" onClick={() => deleteSuma(row.idSumaR, row.idConv)}>
                                                             <DeleteForeverIcon />
                                                         </IconButton></TableCell>
                                                     </TableRow>
