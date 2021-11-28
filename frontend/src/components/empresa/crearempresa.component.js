@@ -38,6 +38,7 @@ export default function CrearEmpresa() {
     localidad: '',
     codigoPostal: '',
     calle: '',
+    pais: '',
   });
 
 
@@ -98,15 +99,32 @@ export default function CrearEmpresa() {
       codigoPostal: e.target.value
     });
   }
+  function onChangePais(e) {
+    setState({
+      ...state,
+      pais: e.target.value
+    });
+  }
 
 
 
   function saveEmpresa() {
+
+    if (state.name === '' || state.tipo === '' || state.cuit === '' || state.pais === '' || state.provincia === '' || state.localidad === '' || state.codigoPostal === '' || state.calleNumero === '' || state.telefono === '' || state.web === '' ){
+      swal("Error!", "No deje campos vacios!", "error");
+      return 0;
+    }
+
+
     var data = {
       name: state.name,
       tipo: state.tipo,
       cuit: state.cuit,
-      direccion: state.calle,
+      pais: state.pais,
+      provincia: state.provincia,
+      localidad: state.localidad,
+      codigoPostal: state.codigoPostal,
+      calleNumero: state.calle,
       telefono: state.telefono,
       web: state.web,
     };
@@ -118,6 +136,7 @@ export default function CrearEmpresa() {
           name: '',
           tipo: "",
           telefono: '',
+          pais: "",
           web: '',
           cuit: '',
           provincia: "",
@@ -209,11 +228,11 @@ export default function CrearEmpresa() {
           alignItems="center"
           justifyContent="center"
         >
+          <TextField style={{ margin: 5 }} id="pais" value={state.pais} label="Pais" color="secondary" onChange={onChangePais} />
 
-
-          <TextField style={{ margin: 5 }} id="provincia" label="Provincia" color="secondary" onChange={onChangeProvincia} />
-          <TextField style={{ margin: 5 }} id="localidad" label="Localidad" color="secondary" onChange={onChangeLocalidad} />
-          <TextField style={{ margin: 5 }} id="codigoPostal" label="Codigo postal" color="secondary" onChange={onChangeCodigoPostal} />
+          <TextField style={{ margin: 5 }} id="provincia" value={state.provincia} label="Provincia" color="secondary" onChange={onChangeProvincia} />
+          <TextField style={{ margin: 5 }} id="localidad" value={state.localidad} label="Localidad" color="secondary" onChange={onChangeLocalidad} />
+          <TextField style={{ margin: 5 }} id="codigoPostal" value={state.codigoPostal} label="Codigo postal" color="secondary" onChange={onChangeCodigoPostal} />
           <TextField style={{ margin: 5 }} id="calle" value={state.calle} label="Calle y numero" color="secondary" onChange={onChangeCalle} />
 
 

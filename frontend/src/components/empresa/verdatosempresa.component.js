@@ -86,28 +86,28 @@ export default function EditarEmpresa(props) {
                         <Grid container>
                         <Grid item xs={6}>
                         <h6 >Nombre:  </h6>
-                        <h5  >{props.empresaname} </h5>
+                        <h5  >{props.empresa[0].name} </h5>
                         <br></br>
                         
                         <h6 >Telefono:  </h6>
-                        <h5  >{props.empresaname} </h5>
+                        <h5  >{props.empresa[0].telefono} </h5>
                         <br></br>
                         <h6 >Direccion:  </h6>
-                        <h5  >{props.empresaname}</h5>
-                        <h5  >{props.empresaname}</h5>
-                        <h5  >{props.empresaname}</h5>
-                        <h5  >{props.empresaname}</h5>
+                        <h5  >{props.empresa[0].pais}</h5>
+                        <h5  >{props.empresa[0].provincia}</h5>
+                        <h5  >{props.empresa[0].localidad}</h5>
+                        <h5  >{props.empresa[0].calleNumero}</h5>
                         
                         </Grid>
                         <Grid item xs={6}>
                         <h6 >Tipo:  </h6>
-                        <h5  >{props.empresaname} </h5>
+                        <h5  >{props.empresa[0].tipo} </h5>
                         <br></br>
                         <h6 >Web:  </h6>
-                        <h5  >{props.empresaname} </h5>
+                        <h5  >{props.empresa[0].web} </h5>
                         <br></br>
                         <h6 >Logo:  </h6>
-                        <img src='https://picsum.photos/70/70' alt={props.empresaname} />
+                        <img src='https://picsum.photos/70/70' />
                         </Grid>
                         </Grid>
                         

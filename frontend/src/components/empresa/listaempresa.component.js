@@ -154,7 +154,7 @@ const Child = forwardRef((props, ref) => {
                     {row.name}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {row.tipo}
+                    {row.tipo} 
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {row.telefono}
@@ -170,14 +170,14 @@ const Child = forwardRef((props, ref) => {
                       <Grid>
                         <VerEmpresa
                           empresaid={row._id}
-                          empresaname={row.name}
+                          empresa={[row]}
                           refreshList={refreshList}
                         />
                       </Grid>
                       <Grid>
                         <Editarempresa
                           empresaid={row._id}
-                          empresaname={row.name}
+                          empresa={[row]}
                           refreshList={refreshList}
                         />
                       </Grid>
