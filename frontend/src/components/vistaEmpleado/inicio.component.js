@@ -109,6 +109,7 @@ export default function GestionarInicio(props) {
                 disablePortal
                 disableEnforceFocus
                 disableAutoFocus
+                disableScrollLock={true}
                 open={modalState}
                 aria-labelledby="server-modal-title"
                 aria-describedby="server-modal-description"
