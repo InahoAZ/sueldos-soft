@@ -2,12 +2,16 @@ const { Schema } = require("mongoose");
 
 module.exports = (mongoose) => {
     const schema = mongoose.Schema({
-        name: String,
-        convenio: {
+        fecha_liquidacion: Date,
+        empresa: {
             type: Schema.Types.ObjectId,
-            ref: 'convenio',
-
+            ref: 'empresa',
+        },
+        empleado_puesto: {
+            type: Schema.Types.ObjectId,
+            ref: 'empleados_puestos',
         }
+
 
     }, { timestamps: true });
 

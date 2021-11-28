@@ -1,4 +1,4 @@
-const { categorias_conv } = require("../models");
+const { categorias_conv, sumas_remunerativas } = require("../models");
 const db = require("../models");
 const Liquidacion = db.liquidacion;
 const SubCategoriaConv = db.subcategorias_conv;
@@ -12,23 +12,40 @@ exports.create = (req, res) => {
         res.status(400).send({ message: 'El contenido no puede estar vacio.' });
         return;
     }
+    const liquidacion = {
+        "empleado" : {},
+        "empresa": {},
+        "empleado_puesto": {},
+    };
     //recibe JSON con
     const idEmpleado = req.body.idEmpleado;
-    const idSubCategoriaConv = req.body.idSubCategoriaConv;
-    console.log("idSub: ", idSubCategoriaConv);
+    const idPuesto = req.body.idPuesto;
+    
 
-    //TODO: a partir del puesto buscar la subcategoria con el basico y el convenio asociado
-    const test = Convenio.aggregate([
-        {
-            "$lookup": {
-                "from": Convenio.collection.name,
-                "localField":"categorias_conv",
-                "foreignField": "_id",
-                "as": "categoria_conv"
-            }
-        }
-    ])
-    console.log("askljgla----> ", test[0]);
+    //Antiguedad: Se recibe por parametro. Para versiones futuras se puede calcular a partir 
+    //del tiempo del empleado en el puesto. (numero)
+    const antiguedad = req.body.antiguedad;
+
+    //Para saber si se contempla presentismo o no. (Si falto ese mes, no iria, 
+    //o si la empresa no usa ese concepto) (boolean)
+    const presentismo = req.body.presentismo;
+
+    Puesto.findById(idPuesto).populate('convenio').populate('convenio_subcat')
+    .then(data=>{
+        const sueldo_basico = data.convenio_subcat.basico;
+        const sumas_remunerativas = data.convenio.sumas_remunerativas;
+        //console.log(sueldo_basico, "- - - > ", sumas_remunerativas);
+        return Promise.all([sueldo_basico, sumas_remunerativas]);
+        
+    })
+    .then(([sueldo_basico, sumas_remunerativas]) =>{
+        console.log(sueldo_basico, sumas_remunerativas);
+        
+    })
+    .catch(err => {
+        console.log("err: ", err);
+    })
+
     return;
     /* //Se crea la liquidacion con lo recibido
     const liquidacion = new Empresa({

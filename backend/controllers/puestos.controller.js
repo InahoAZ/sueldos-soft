@@ -4,27 +4,30 @@ const Departamento = db.departamentos;
 
 
 exports.create = (req, res) => {
-  //Se valida la request
-  if(!req.body.name){
-      res.status(400).send({ message: 'Falta algun campo xd'});
-      return;
-  }
-  console.log("ID Departamento: ", req.body.idDepartamento)
-  //Se crea el puesto con lo recibido
-  const puesto = new Puesto({
-      name: req.body.name,
-      convenio_subcat: req.body.idSubCategoriaConv
-
-  });
-
+    //Se valida la request
+    if(!req.body){
+        res.status(400).send({ message: 'Falta algun campo xd'});
+        return;
+    }
+    const idConvenio = req.body.idConvenio;
+    console.log("ID Departamento: ", req.body.idDepartamento)
+    //Se crea el puesto con lo recibido
+    const puesto = new Puesto({
+        name: req.body.name,
+        convenio: idConvenio,
+        convenio_subcat: req.body.idSubCategoriaConv,
+        
+    });
+    console.log("Puesto: " , puesto)
   
 
   //Se guarda el puesto en la db
   puesto
   .save(puesto)
   .then(data => {
-        console.log('data: ', data.id);
-      
+        puesto_creado = data;
+        console.log('data: ', data.convenio);
+
         //Asociamos el puesto al area
         return Departamento.findByIdAndUpdate(req.body.idDepartamento, {
             $push: {
@@ -35,7 +38,7 @@ exports.create = (req, res) => {
       
   })
     .then(data => {
-        res.send({message: 'Se creo el puesto correctamente'});
+        res.send({message: 'Se creo el puesto correctamente', data: puesto_creado});
     })
     
   .catch(err => {
