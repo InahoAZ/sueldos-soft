@@ -122,7 +122,7 @@ class App extends Component {
                 </Typography>
                 <Link to={"/datosempresa"} className={classes.link}>
                   <Typography variant="body2">
-                    Empresa
+                    Empresas
                   </Typography>
                 </Link>
                 <Link to={"/empleados"} className={classes.link}>
