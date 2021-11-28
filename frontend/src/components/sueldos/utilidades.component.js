@@ -22,6 +22,13 @@ import GavelIcon from '@material-ui/icons/Gavel';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import ListIcon from '@material-ui/icons/List';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import Basicos from './parametros/basicos.component';
+import Adicionales from './parametros/adicionales.component'
+import Feriados from './parametros/feriados.component'
+import Extras from './parametros/extras.component'
+import Vacaciones from './parametros/vacaciones.component'
+import Descuentos from './parametros/descuentos.component'
+import Licencias from './parametros/licencias.component'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
+  tabs:{
+    backgroundColor: '#dbe8ff9c',
+  },
 }));
 
 export default function ScrollableTabsButtonForce() {
@@ -71,6 +81,10 @@ export default function ScrollableTabsButtonForce() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  function onChangeCategoria(valor){
+    console.log('rellene : '+ valor);
+  }
 
   return (
     <div className={classes.root}>
@@ -86,38 +100,52 @@ export default function ScrollableTabsButtonForce() {
          
         >
           <Tab label="Opciones basicas" icon={<ListIcon />} {...a11yProps(0)} />
-          <Tab label="Opciones generales" icon={<ListAltIcon />} {...a11yProps(1)} />
-          <Tab label="Adicionales" icon={<LibraryAddIcon />} {...a11yProps(2)} />
-          <Tab label="Feriados" icon={<TodayIcon />} {...a11yProps(3)} />
-          <Tab label="Horas extras" icon={<ScheduleIcon />} {...a11yProps(4)} />
-          <Tab label="Vacaciones" icon={<FlightTakeoffIcon />} {...a11yProps(5)} />
-          <Tab label="Licencias" icon={<GavelIcon />} {...a11yProps(6)} />
-          <Tab label="Descuentos" icon={<TrendingDownIcon />} {...a11yProps(7)} />
+          
+          <Tab label="Adicionales" icon={<LibraryAddIcon />} {...a11yProps(1)} />
+          <Tab label="Feriados" icon={<TodayIcon />} {...a11yProps(2)} />
+          <Tab label="Horas extras" icon={<ScheduleIcon />} {...a11yProps(3)} />
+          <Tab label="Vacaciones" icon={<FlightTakeoffIcon />} {...a11yProps(4)} />
+          <Tab label="Licencias" icon={<GavelIcon />} {...a11yProps(5)} />
+          <Tab label="Descuentos" icon={<TrendingDownIcon />} {...a11yProps(6)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}  style={{backgroundColor:'#95f5aabf'}}>
-        Opciones basicas
+      <TabPanel value={value} index={0}   className={classes.tabs}>
+        <Basicos
+          onChangeCategoria={onChangeCategoria}
+        />
       </TabPanel>
-      <TabPanel value={value} index={1} style={{backgroundColor:'#95f5aabf'}} >
-        Opciones generales
+
+    
+
+      <TabPanel value={value} index={1}  className={classes.tabs}>
+      <Adicionales
+          onChangeCategoria={onChangeCategoria}
+        />
       </TabPanel>
-      <TabPanel value={value} index={2} style={{backgroundColor:'#95f5aabf'}}>
-        Adicionales
+      <TabPanel value={value} index={2}  className={classes.tabs}>
+      <Feriados
+          onChangeCategoria={onChangeCategoria}
+        />
       </TabPanel>
-      <TabPanel value={value} index={3} style={{backgroundColor:'#95f5aabf'}}>
-        Feriados
+      <TabPanel value={value} index={3}  className={classes.tabs}>
+      <Extras
+          onChangeCategoria={onChangeCategoria}
+        />
       </TabPanel>
-      <TabPanel value={value} index={4} style={{backgroundColor:'#95f5aabf'}}>
-        Horas extras
+      <TabPanel value={value} index={4}  className={classes.tabs}>
+      <Vacaciones
+          onChangeCategoria={onChangeCategoria}
+        />
       </TabPanel>
-      <TabPanel value={value} index={5} style={{backgroundColor:'#95f5aabf'}}>
-        Vacaciones
+      <TabPanel value={value} index={5}  className={classes.tabs}>
+      <Licencias
+          onChangeCategoria={onChangeCategoria}
+        />
       </TabPanel>
-      <TabPanel value={value} index={6} style={{backgroundColor:'#95f5aabf'}}>
-        Licencias
-      </TabPanel>
-      <TabPanel value={value} index={7} style={{backgroundColor:'#95f5aabf'}}>
-        Descuentos
+      <TabPanel value={value} index={6}  className={classes.tabs}>
+      <Descuentos
+          onChangeCategoria={onChangeCategoria}
+        />
       </TabPanel>
     </div>
   );

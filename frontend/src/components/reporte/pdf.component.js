@@ -373,13 +373,11 @@ theme.typography.h3 = {
 export default function CustomResponsiveFontSizes() {
     return (
         <div>
-            <ThemeProvider theme={theme}>
-                <Typography variant="h3">Prueba de generar recibo de sueldo</Typography>
-            </ThemeProvider>
-            <PDFViewer style={{ width: '100%', height: '90vh' }}>
+           <br></br>
+            <PDFViewer style={{ width: '100%', height: '200vh' }}>
                 <MyDocument />
             </PDFViewer>
-
+                
 
 
 

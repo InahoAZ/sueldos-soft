@@ -20,6 +20,9 @@ class empleadoService {
   getOne(id) {
     return http.get(`/empleados/${id}`);
   }
+  getOnebyCuil(cuil) {
+    return http.get(`/empleados/buscarPorCuil/${cuil}`);
+  }
   updateWork(id, data) {
     return http.put(`/empleados/${id}/asignarPuesto`, data);
   };

@@ -14,8 +14,13 @@ exports.create = (req, res) => {
       name: req.body.name,
       tipo: req.body.tipo,
       cuit: req.body.cuit,
-      direccion: req.body.direccion,
       web: req.body.web,
+      telefono: req.body.telefono,
+      pais: req.body.pais,
+      localidad: req.body.localidad,
+      codigoPostal: req.body.codigoPostal,
+      provincia: req.body.provincia,
+      calleNumero: req.body.calleNumero,
       areas: [],
   });
 

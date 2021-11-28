@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function CrearDepartamento() {
-  
+
   let child = React.createRef();
   const [areas, setareas] = React.useState([]);
 
@@ -40,8 +40,8 @@ export default function CrearDepartamento() {
     async function retrieveEmpresasauto() {
       EmpresaService.getAll()
         .then(response => {
-          setOptions( response.data)
-          
+          setOptions(response.data)
+
         })
         .catch(e => {
           console.log(e);
@@ -54,31 +54,31 @@ export default function CrearDepartamento() {
     id: 'null',
     name: "",
   });
-  
+
   function onChangeName(e) {
-    
+
     setState2({
       id: 'null',
-       name: e.target.value,
+      name: e.target.value,
     })
-  
+
   }
   function obtenerAreas(empresas, id) {
     console.log(empresas);
     let rows = [];
-    for (let i = 0;i<empresas.length;i++){
-   
-      if (empresas[i].areas && empresas[i]._id === id){
-        
-        for (let j = 0;j<empresas[i].areas.length;j++){
-          
-         
-                  let area = {
-                    id: empresas[i].areas[j]._id,
-                    name: empresas[i].areas[j].name,
-               
-                  }
-                  rows.push(area)
+    for (let i = 0; i < empresas.length; i++) {
+
+      if (empresas[i].areas && empresas[i]._id === id) {
+
+        for (let j = 0; j < empresas[i].areas.length; j++) {
+
+
+          let area = {
+            id: empresas[i].areas[j]._id,
+            name: empresas[i].areas[j].name,
+
+          }
+          rows.push(area)
 
         }
       }
@@ -88,25 +88,25 @@ export default function CrearDepartamento() {
 
     return rows
   }
- 
- function cargarAreas(idempresa){
-  EmpresaService.getAll()
-  .then(response => {
-    setareas( obtenerAreas(response.data, idempresa))
-    setStatearea({
-      ...statearea,
-      idarea: '',
-    });
 
-    
-  })
-  .catch(e => {
-    console.log(e);
-  });
- }
- 
+  function cargarAreas(idempresa) {
+    EmpresaService.getAll()
+      .then(response => {
+        setareas(obtenerAreas(response.data, idempresa))
+        setStatearea({
+          ...statearea,
+          idarea: '',
+        });
 
- 
+
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+
+
 
 
   const classes = useStyles();
@@ -117,9 +117,9 @@ export default function CrearDepartamento() {
 
   const handleChangeempresa = (event) => {
     if (event.target.value != '') {
-      
+
       const name = event.target.name;
-   
+
       setStateempresa({
         ...stateempresa,
         [name]: event.target.value,
@@ -128,11 +128,11 @@ export default function CrearDepartamento() {
         ...statearea,
         idarea: '',
       });
-      
+
       cargarAreas(event.target.value)
     }
-   
-    
+
+
     //console.log(state)
   };
   const [statearea, setStatearea] = React.useState({
@@ -153,10 +153,10 @@ export default function CrearDepartamento() {
       name: state2.name,
       idArea: statearea.idarea,
     };
-   
+
     DepartamentoService.create(data)
       .then(response => {
-        
+
         console.log(response.data);
         child.current.refreshList();
         // borrar text del selec
@@ -171,12 +171,12 @@ export default function CrearDepartamento() {
         });
         setState2({
           id: 'null',
-           name: '',
+          name: '',
         })
         setareas([])
-       
-        
-          swal("Correcto!", "Se agrego con exito a la tabla!", "success");
+
+
+        swal("Correcto!", "Se agrego con exito a la tabla!", "success");
 
       })
       .catch(e => {
@@ -185,92 +185,96 @@ export default function CrearDepartamento() {
       });
   }
 
-  
 
-    return (
-     
+
+  return (
+
 
 
     <Grid
-    container
-    xs={12}
-    direction="column"
-    alignItems="center"
+      container
+      xs={12}
+      direction="column"
+      alignItems="center"
     >
-      
+
       <Grid
-    
-    xs={7}
-    direction="column"
-    alignItems="flex-start"
-    >
-      
 
-      
+        xs={12}
+        sm={11}
+        md={10}
+        lg={8}
+        xl={6}
+        direction="column"
+        alignItems="flex-start"
+      >
 
-      <Grid item>
-        
-        <Typography variant="h5" >
-          Crear Departamento
-        </Typography>
-   
-        <TextField  label="Nombre del departamento" color="secondary" value={state2.name} onChange={onChangeName} style={{marginTop: '8px'}}/>
-        
-        <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-native-simple">Empresa</InputLabel>
-        <Select
-          native
-          value={stateempresa.idempresa}
-          onChange={handleChangeempresa}
-          inputProps={{
-            name: 'idempresa',
-            id: 'age-native-simple',
-          }}
-        >
-          <option aria-label="None" value="" />
-          {options.map((option) => (
-              <option value={option._id}>{option.name}</option>
-            ))}
-          
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-native-simple">Area</InputLabel>
-        <Select
-          native
-          value={statearea.idarea}
-          onChange={handleChangearea}
-          inputProps={{
-            name: 'idarea',
-            id: 'age-native-simple',
-          }}
-        >
-          <option aria-label="None" value="" />
-          {areas.map((option) => (
-              <option value={option.id}>{option.name}</option>
-            ))}
-          
-        </Select>
-      </FormControl>
-        <Button variant="contained" color="primary" onClick={saveDepartamento} style={{marginTop: '20px', marginLeft:'20px'}} >
-          Crear
-        </Button>
-        
+
+
+
+        <Grid item>
+
+          <Typography variant="h5" >
+            Crear Departamento
+          </Typography>
+
+          <TextField label="Nombre del departamento" color="secondary" value={state2.name} onChange={onChangeName} style={{ marginTop: '8px' }} />
+
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Empresa</InputLabel>
+            <Select
+              native
+              value={stateempresa.idempresa}
+              onChange={handleChangeempresa}
+              inputProps={{
+                name: 'idempresa',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              {options.map((option) => (
+                <option value={option._id}>{option.name}</option>
+              ))}
+
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="age-native-simple">Area</InputLabel>
+            <Select
+              native
+              value={statearea.idarea}
+              onChange={handleChangearea}
+              inputProps={{
+                name: 'idarea',
+                id: 'age-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              {areas.map((option) => (
+                <option value={option.id}>{option.name}</option>
+              ))}
+
+            </Select>
+          </FormControl>
+          <Button variant="contained" color="primary" onClick={saveDepartamento} style={{ marginTop: '20px', marginLeft: '20px' }} >
+            Crear
+          </Button>
+
+        </Grid>
+        <br></br>
+        <Divider></Divider>
+        <br></br>
+        <Grid item>
+          <Listardepartamentos ref={child} />
+        </Grid>
       </Grid>
-      <br></br>
-      <Divider></Divider>
-      <br></br>
-      <Grid item>
-        <Listardepartamentos ref={child}/>
-      </Grid>
-    </Grid>
 
     </Grid>
-    );
+  );
 
-  
+
 
 
 
 }
- 
+

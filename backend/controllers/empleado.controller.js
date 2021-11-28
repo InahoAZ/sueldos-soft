@@ -57,7 +57,24 @@ exports.findAll = (req, res) => {
     });
 };
 
+// devuelve un empleado por su CUIL
+exports.findOnebyCuil = (req, res) => {
+    const cuil = req.params.cuil;
 
+    Empleado.findOne({cuil: cuil})
+    .then(data => {
+        if (!data)
+            res.status(404).send({ message: "No se encontro un empleado con ese Cuil."});
+        else res.send(data);
+    })
+    .catch(err => {
+        res
+        .status(500)
+        .send({ message: err.message})
+    })
+};
+
+// devuelve un empleado por su Id
 exports.findOne = (req, res) => {
     const id = req.params.id;
 

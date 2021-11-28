@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useRef, useImperativeHandle } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -48,6 +48,7 @@ function getStepContent(stepIndex) {
 
 
 export default function Datos(props) {
+  const childRef = useRef();
   const mode = props.estado;
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -95,6 +96,7 @@ export default function Datos(props) {
             setCuil(response.data.cuil);
             setApellido(response.data.apellido);
             setNombre(response.data.nombre);
+            setLegajo(response.data.legajo);
 
             setNacimiento(response.data.fechaNacimiento);
             setNacionalidad(response.data.nacionalidad);
@@ -397,6 +399,7 @@ export default function Datos(props) {
   const [cuil, setCuil] = React.useState('');
   const [apellido, setApellido] = React.useState('');
   const [nombre, setNombre] = React.useState('');
+  const [legajo, setLegajo] = React.useState('');
 
   const [nacimiento, setNacimiento] = React.useState('');
   const [nacionalidad, setNacionalidad] = React.useState('');
@@ -416,6 +419,7 @@ function modificarPuesto () {
     var data = {
       cuil: cuil,
       nombre: nombre,
+      legajo: legajo,
       apellido: apellido,
 
       telefono: telefono,
@@ -426,7 +430,7 @@ function modificarPuesto () {
       nacionalidad: nacionalidad,
       fechaNacimiento: nacimiento,
     };
-    if (data.cuil != '' && data.nombre != '' && data.apellido != '' && data.telefono != '' && data.correo != '' && data.direccion != '' && data.estadocivil != '' && data.nacionalidad != '' && data.nacimiento != '') {
+    if (data.cuil != '' && data.nombre != '' && data.legajo != '' && data.apellido != '' && data.telefono != '' && data.correo != '' && data.direccion != '' && data.estadocivil != '' && data.nacionalidad != '' && data.nacimiento != '') {
       console.log('correcto');
     } else {
       swal("Error!", "Complete todos los campos!", "error");
@@ -468,6 +472,7 @@ function modificarPuesto () {
     var data = {
       cuil: cuil,
       nombre: nombre,
+      legajo: legajo,
       apellido: apellido,
 
       telefono: telefono,
@@ -478,7 +483,7 @@ function modificarPuesto () {
       nacionalidad: nacionalidad,
       fechaNacimiento: nacimiento,
     };
-    if (data.cuil != '' && data.nombre != '' && data.apellido != '' && data.telefono != '' && data.correo != '' && data.direccion != '' && data.estadocivil != '' && data.nacionalidad != '' && data.nacimiento != '') {
+    if (data.cuil != '' && data.nombre != '' && data.legajo != '' && data.apellido != '' && data.telefono != '' && data.correo != '' && data.direccion != '' && data.estadocivil != '' && data.nacionalidad != '' && data.nacimiento != '') {
       console.log('correcto');
     } else {
       swal("Error!", "Complete todos los campos!", "error");
@@ -497,6 +502,7 @@ function modificarPuesto () {
         setCuil('');
         setApellido('');
         setNombre('');
+        setLegajo('');
 
         setNacimiento('');
         setNacionalidad('');
@@ -582,6 +588,7 @@ function modificarPuesto () {
 
         // actualizar tabla -> pedir el empleado, ver sus puestos (por cada puesto ver a que pertenece)
         //actualizarEmpleado();
+        childRef.current.refreshListPuestos();
       
 
 
@@ -629,6 +636,9 @@ function modificarPuesto () {
   }
   function changeNombre(e) {
     setNombre(e.target.value)
+  }
+  function changeLegajo(e) {
+    setLegajo(e.target.value)
   }
   function changeNacimiento(e) {
     setNacimiento(e.target.value)
@@ -785,6 +795,7 @@ function modificarPuesto () {
                 </Grid>
                 <Grid item>
                   <PuestosAsignados
+                    ref={childRef}
                     puestos={puestosEmpleado}
                     verDatos = {false}
                     idEmpleado = {id}
@@ -813,6 +824,7 @@ function modificarPuesto () {
 
                 <Grid item><TextField id="outlined-search" label="Apellido" type="search" onChange={changeApellido} variant="outlined" value={apellido} /></Grid>
                 <Grid item><TextField id="outlined-search" label="Nombre" type="search" onChange={changeNombre} variant="outlined" value={nombre} /></Grid>
+                <Grid item><TextField id="outlined-search" label="Legajo" type="search" onChange={changeLegajo} variant="outlined" value={legajo} /></Grid>
                 <Grid item>
 
                   <TextField id="outlined-search" label="Fecha de nacimiento" type="search" onChange={changeNacimiento} variant="outlined" value={nacimiento} />
@@ -822,7 +834,7 @@ function modificarPuesto () {
                 <Grid item>   <TextField id="outlined-search" label="Estado civil" type="search" onChange={changeEstadocivil} variant="outlined" value={estadocivil} /></Grid>
                 <Grid item><TextField id="outlined-search" label="Telefono" type="search" onChange={changeTelefono} variant="outlined" value={telefono} /></Grid>
                 <Grid item> <TextField id="outlined-search" label="Correo electronico" onChange={changeCorreo} type="search" variant="outlined" value={correo} /></Grid>
-                <Grid item><TextField id="outlined-search" style={{ minWidth: '85vh' }} label="Direccion" onChange={changeDireccion} type="search" variant="outlined" value={direccion} /></Grid>
+                <Grid item><TextField id="outlined-search" style={{ minWidth: '75vh' }} label="Direccion" onChange={changeDireccion} type="search" variant="outlined" value={direccion} /></Grid>
 
 
 
