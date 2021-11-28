@@ -21,7 +21,7 @@ db.categorias_conv = require('./categorias_conv.model.js')(mongoose);
 db.subcategorias_conv = require('./subcategorias_conv.model.js')(mongoose);
 db.opciones_basicas = require('./opciones_basicas.model.js')(mongoose);
 db.liquidacion = require('./liquidacion.model.js')(mongoose);
-db.sumas_remunerativas = require('./sumas_remunerativas.model.js')(mongoose);
+db.sumas_descuentos = require('./sumas_descuentos.model.js')(mongoose);
 
 
 module.exports = db;

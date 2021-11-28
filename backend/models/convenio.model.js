@@ -8,9 +8,9 @@ module.exports = (mongoose) => {
             type: Schema.Types.ObjectId,
             ref: "categorias_conv",
         }],
-        sumas_remunerativas: [{
+        sumas_descuentos: [{
             type: Schema.Types.ObjectId,
-            ref: "sumas_remunerativas"
+            ref: "sumas_descuentos"
         }]
     }, { timestamps: true });
 
