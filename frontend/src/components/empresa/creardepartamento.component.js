@@ -116,7 +116,7 @@ export default function CrearDepartamento() {
   });
 
   const handleChangeempresa = (event) => {
-    if (event.target.value != '') {
+    if (event.target.value !== '') {
 
       const name = event.target.name;
 

@@ -143,31 +143,7 @@ function handleChangeSubCategoria(e){
 
   }
 
-  function obtenerAreas(empresas) {
-    console.log(empresas);
-    let areas = [];
-    for (let i = 0; i < this.empresas.length; i++) {
-
-      if (this.empresas[i].areas && this.empresas[i].id === stateempresa.idempresa) {
-
-        for (let j = 0; j < this.empresas[i].areas.length; j++) {
-
-
-          let area = {
-            id: this.empresas[i].areas[j].id,
-            name: this.empresas[i].areas[j].name,
-
-          }
-          areas.push(area)
-
-        }
-      }
-    }
-
-
-
-    return areas
-  }
+ 
 
   function obtenerAreas(empresas, id) {
     console.log(empresas);
@@ -272,7 +248,7 @@ function handleChangeSubCategoria(e){
   });
 
   const handleChangeempresa = (event) => {
-    if (event.target.value != '') {
+    if (event.target.value !== '') {
       cargarAreas(event.target.value)
     }
     const name = event.target.name;
@@ -297,7 +273,7 @@ function handleChangeSubCategoria(e){
   });
 
   const handleChangearea = (event) => {
-    if (event.target.value != '') {
+    if (event.target.value !== '') {
       cargarDepartamentos(event.target.value)
     }
     const name = event.target.name;

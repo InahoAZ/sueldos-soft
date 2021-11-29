@@ -27,11 +27,11 @@ class convenioService {
     return http.put(`/convenios/${id}/quitarSubCategoria`, data);
   }
 
-  addSubSumaR(id, data) {
-    return http.put(`/convenios/${id}/agregarSumaRemunerativa`, data);
+  addSubSumaDescuento(id, data) {
+    return http.put(`/convenios/${id}/agregarSumaDescuento`, data);
   }
-  deleteSubSumaR(id, data) {
-    return http.put(`/convenios/${id}/quitarSumaRemunerativa`, data);
+  deleteSubSumaDescuento(id, data) {
+    return http.put(`/convenios/${id}/quitarSumaDescuento`, data);
   }
 
 

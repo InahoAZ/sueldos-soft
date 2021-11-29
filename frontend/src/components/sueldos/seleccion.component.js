@@ -141,10 +141,14 @@ export default function Sueldos(props) {
 
         setValueEmpleado(input);
         console.log(input);
+        if(input){
         // llamar a cargar lista de empresas
         if (input.puestos.length > 0) {
             actualizarEmpresas(input.puestos);
         }
+        props.onChangeEmpleadoName(input.apellido);
+    }
+        
 
     }
 

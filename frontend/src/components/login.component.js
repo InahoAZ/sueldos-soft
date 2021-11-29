@@ -40,7 +40,7 @@ export default function Login(props) {
 
     function ingresar() {
 
-        if (user != '' && pass != '') {
+        if (user !== '' && pass !== '') {
 
             document.getElementById('carga').style.display = 'block';
             setStatusTime(true);
@@ -52,7 +52,7 @@ export default function Login(props) {
                 document.getElementById('carga').style.display = 'none';
                 setStatusTime(false);
 
-                if (user == 'admin' && pass == 'admin') {
+                if (user === 'admin' && pass === 'admin') {
                     props.login('admin')
 
                 } else {

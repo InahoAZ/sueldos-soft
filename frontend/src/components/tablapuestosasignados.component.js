@@ -58,7 +58,7 @@ const Child = forwardRef((props, ref) => {
   React.useEffect(() => {
     async function retrieveEmpleadoauto() {
       
-      if (props.idEmpleado != '') {
+      if (props.idEmpleado !== '') {
         
         EmpleadoService.getOne(props.idEmpleado)
           .then(response => {

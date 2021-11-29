@@ -16,7 +16,7 @@ export default function CargaEmpleado(props) {
 
     let frase = '';
     let situacion = 'nuevo';
-    if (cuil != 0) {
+    if (cuil !== 0) {
         frase = 'Formulario para editar un empleado';
         situacion = 'editar';
     } else {

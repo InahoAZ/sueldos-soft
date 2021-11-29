@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-const MyDocument = () => (
+const MyDocument = (props) => (
     <Document>
         <Page size="A4" >
             <View style={styles.pageSUP}>
@@ -133,7 +133,7 @@ const MyDocument = () => (
                     <Image src='https://picsum.photos/70/70' />
                 </View>
                 <View style={styles.infoEmpresa}>
-                    <Text>Empresa xxxxxxx</Text>
+                    <Text>Empresa kkkkkk</Text>
                     <Text>Av. Leandro N. Alem 1589</Text>
                     <Text>(1001)</Text>
                     <Text>Ciudad Autónoma de Buenos Aires</Text>
@@ -152,7 +152,7 @@ const MyDocument = () => (
             <View style={styles.sectionTabla}>
                 <View style={{ flexDirection: 'column', textAlign: 'center', width: '45vh' }}>
                     <View style={styles.infoSUPv2} ><Text>Apellido y Nombre</Text></View>
-                    <View style={styles.infoDOWN}><Text>Perez Luis</Text></View>
+                    <View style={styles.infoDOWN}><Text>kkjkj hhhgh</Text></View>
                 </View>
                 <View style={{ flexDirection: 'column', borderLeft: '1.5px', textAlign: 'center', width: '20vh' }}>
                     <View style={styles.infoSUP}><Text>Legajo</Text></View>
@@ -370,12 +370,23 @@ theme.typography.h3 = {
     },
 };
 
-export default function CustomResponsiveFontSizes() {
+export default function Reporte(props) {
+    
+    const [dataProps, setDataProps] = React.useState(props.datosCarga);
+    //console.log('ff');
+    //console.log(dataProps.id);
+    /**
+     * 
+     * {props.name}{console.log('dataProps')}
+        {console.log(dataProps)}
+        {console.log(dataProps.id)}
+     */
     return (
         <div>
            <br></br>
             <PDFViewer style={{ width: '100%', height: '200vh' }}>
-                <MyDocument />
+                <MyDocument
+                dataProps={[dataProps]}/>
             </PDFViewer>
                 
 

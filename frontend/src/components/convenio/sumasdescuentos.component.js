@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function SumasRemunerativas(props) {
+export default function SumasDescuentos(props) {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -41,12 +41,21 @@ export default function SumasRemunerativas(props) {
 
     const [listaConvenios, setListaConvenios] = React.useState([]);
 
+    const [valueTipo, setValueTipo] = React.useState('');
+    const [inputTipo, setInputTipo] = React.useState('');
+    const [listaTipos, setListaTipos] = React.useState(['Suma Remunerativa', 'Suma No Remunerativa', 'Descuento Remunerativo', 'Descuento No Remunerativo']);
+
     const [sumaRemunerativa, setSumaRemunerativa] = React.useState('');
     const [unidadMonto, setUnidadMonto] = React.useState('');
 
 
     const [valueConvenio, setConvenio] = React.useState('');
     const [inputConvenio, setInputConvenio] = React.useState('');
+
+    const [nombre, setNombre] = React.useState('');
+    const [orden, setOrden] = React.useState('');
+    const [unidad, setUnidad] = React.useState('');
+    const [cantidad, setCantidad] = React.useState('');
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -56,22 +65,44 @@ export default function SumasRemunerativas(props) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    function onChangeSumaR(e) {
+        setSumaRemunerativa(e.target.value);
+    }
+
+
+    function onChangeNombre(e) {
+        setNombre(e.target.value);
+    }
+    function onChangeOrden(e) {
+        setOrden(e.target.value);
+    }
+    function onChangeUnidad(e) {
+        setUnidad(e.target.value);
+    }
+    function onChangeCantidad(e) {
+        setCantidad(e.target.value);
+    }
+
     function addSumaRemunerativa() {
 
         //todo completo?
-        if (sumaRemunerativa === '' || unidadMonto === '' || inputConvenio === '') {
+        if (orden === '' || nombre === '' || unidad === '' || cantidad === '' || inputTipo === '') {
             swal("Error!", "No deje nada vacio!", "error");
             return 0
         }
 
         var data = {
-            name: sumaRemunerativa,
-            monto: unidadMonto
+            orden: orden,
+            name: nombre,
+            unidad: unidad,
+            cantidad: cantidad,
+            tipo: inputTipo,
 
         }
 
 
-        ConveniosService.addSubSumaR(valueConvenio.id, data)
+        ConveniosService.addSubSumaDescuento(valueConvenio.id, data)
             .then(response => {
 
                 console.log(response.data)
@@ -80,8 +111,13 @@ export default function SumasRemunerativas(props) {
                 listarConvenios();
                 //restear todos los campos
                 setConvenio('');
-                setSumaRemunerativa('');
-                setUnidadMonto('');
+
+                setConvenio('');
+                setInputConvenio('');
+                setNombre('');
+                setOrden('');
+                setUnidad('');
+                setCantidad('');
 
                 swal("Correcto!", "Se agrego con exito!", "success");
 
@@ -94,11 +130,11 @@ export default function SumasRemunerativas(props) {
 
     }
     function deleteSuma(suma, conv) {
-    
+
         var data = {
             idSum: suma,
         }
-console.log(data);
+        console.log(data);
         swal({
             title: "Esta seguro?",
             text: "Una vez borrado no se puede recuperar!",
@@ -110,7 +146,7 @@ console.log(data);
                 if (willDelete) {
 
 
-                    ConveniosService.deleteSubSumaR(conv, data)
+                    ConveniosService.deleteSubSumaDescuento(conv, data)
                         .then(response => {
                             console.log(response.data);
                             //eliminado correctamente msj
@@ -149,13 +185,7 @@ console.log(data);
         return listdic
     }
 
-    function onChangeSumaR(e) {
-        setSumaRemunerativa(e.target.value);
-    }
-    function onChangeUnidadM(e) {
-        setUnidadMonto(e.target.value);
-    }
-
+   
 
     function obtenerFilas(diclist) {
         console.log(diclist);
@@ -163,18 +193,21 @@ console.log(data);
         let rows = [];
         for (let i = 0; i < diclist.length; i++) {
 
-            if (diclist[i].sumas_remunerativas) {
+            if (diclist[i].sumas_descuentos) {
 
-                for (let j = 0; j < diclist[i].sumas_remunerativas.length; j++) {
+                for (let j = 0; j < diclist[i].sumas_descuentos.length; j++) {
 
 
                     let subC = {
-                        idSumaR: diclist[i].sumas_remunerativas[j]._id,
+                        idSumaR: diclist[i].sumas_descuentos[j]._id,
                         idConv: diclist[i]._id,
                         convenio: diclist[i].name,
-                        sumaRemunerativa: diclist[i].sumas_remunerativas[j].name,
-                        unidad: diclist[i].sumas_remunerativas[j].monto,
-                       
+                        tipo: diclist[i].sumas_descuentos[j].tipo,
+                        nombre: diclist[i].sumas_descuentos[j].name,
+                        unidad: diclist[i].sumas_descuentos[j].unidad,
+                        cantidad: diclist[i].sumas_descuentos[j].cantidad,
+                        orden: diclist[i].sumas_descuentos[j].orden,
+
                     }
                     rows.push(subC)
 
@@ -195,8 +228,8 @@ console.log(data);
             .then(response => {
                 setRows(obtenerFilas(response.data));
                 setListaConvenios(onlyConvenios(response.data))
-                //setTotalConveniosDic(response.data);
-                //console.log(response.data);
+                
+                console.log(response.data);
             })
             .catch(e => {
                 console.log(e);
@@ -232,7 +265,7 @@ console.log(data);
                     alignItems="center"
                 >
                     <Typography variant="h5" style={{ margin: 20 }}>
-                        Carga de sumas remunerativas
+                        Carga de Sumas/Descuentos
                     </Typography>
                     <br></br>
                     <Grid container
@@ -241,7 +274,10 @@ console.log(data);
                         alignItems="center"
                     >
 
-                        <Grid item >
+                        <Grid container
+                            direction="row"
+                            justifyContent="space-around"
+                            alignItems="center" >
                             <Autocomplete
                                 id="country-select-convenio"
 
@@ -284,30 +320,99 @@ console.log(data);
                                     />
                                 )}
                             />
+                            <Autocomplete
+                                id="country-select-tipo"
+
+                                value={valueTipo}
+                                onChange={(event, newValue) => {
+
+
+                                    setValueTipo(newValue);
+
+
+
+                                }}
+                                inputValue={inputTipo}
+                                onInputChange={(event, newInputValue) => {
+
+                                    setInputTipo(newInputValue);
+                                }}
+                                style={{ width: 250, margin: 10 }}
+                                options={listaTipos}
+                                classes={{
+                                    option: classes.option,
+                                }}
+                                autoHighlight
+                                getOptionLabel={(option) => option}
+                                renderOption={(option) => (
+                                    <React.Fragment>
+                                        <span>{option}</span>
+
+                                    </React.Fragment>
+                                )}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Tipo"
+                                        variant="outlined"
+                                        inputProps={{
+                                            ...params.inputProps,
+                                            autoComplete: 'new-password', // disable autocomplete and autofill
+                                        }}
+                                    />
+                                )}
+                            />
                         </Grid>
 
-                        <Grid item >
+                        <Grid container
+                            direction="row"
+                            justifyContent="space-around"
+                            alignItems="center" >
 
 
 
                             <TextField
-                                label="Suma remunerativa"
+                                label="Nombre"
                                 placeholder='nombre'
-                                style={{ width: 250, margin: 10 }}
-                                value={sumaRemunerativa} onChange={onChangeSumaR}
+                                style={{ width: 250, margin: 15 }}
+                                value={nombre} onChange={onChangeNombre}
 
 
                                 variant="outlined"
                             />
+
+                            <TextField
+                                label="Orden"
+                                placeholder='0'
+                                type="number"
+                                style={{ width: 250, margin: 15 }}
+                                value={orden} onChange={onChangeOrden}
+
+
+                                variant="outlined"
+                            />
+
                             <TextField
                                 label="Unidad"
-                                placeholder=''
-                                style={{ width: 200, margin: 10 }}
-                                value={unidadMonto} onChange={onChangeUnidadM}
+                                placeholder='0.00'
+                                type="number"
+                                style={{ width: 250, margin: 15 }}
+                                value={unidad} onChange={onChangeUnidad}
+
 
                                 variant="outlined"
                             />
 
+                            <TextField
+                                label="Cantidad"
+                                placeholder='0'
+                                type="number"
+                                style={{ width: 250, margin: 15 }}
+                                value={cantidad} onChange={onChangeCantidad}
+
+
+                                variant="outlined"
+                            />
 
 
                         </Grid>
@@ -325,7 +430,7 @@ console.log(data);
                         <br></br>
                         <center>
                             <Typography variant="h5" style={{ margin: 20 }}>
-                                Lista de todas las sumas remunerativas cargadas
+                                Lista de todos los items cargados
                             </Typography>
                         </center>
                         <br></br>
@@ -341,8 +446,11 @@ console.log(data);
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>Convenios</TableCell>
-                                                <TableCell>Suma remunerativa</TableCell>
-                                                <TableCell align="right">Unidad</TableCell>
+                                                <TableCell>Tipo concepto</TableCell>
+                                                <TableCell align="right">nombre</TableCell>
+                                                <TableCell align="right">unidad</TableCell>
+                                                <TableCell align="right">cantidad</TableCell>
+                                                <TableCell align="right">orden</TableCell>
 
                                                 <TableCell align="right">Opciones</TableCell>
                                             </TableRow>
@@ -355,9 +463,18 @@ console.log(data);
                                                             {row.convenio}
                                                         </TableCell>
                                                         <TableCell component="th" scope="row">
-                                                            {row.sumaRemunerativa}
+                                                            {row.tipo}
                                                         </TableCell>
-                                                        <TableCell align="right">{row.unidad}</TableCell>
+                                                        <TableCell component="th" scope="row">
+                                                            {row.nombre}
+                                                        </TableCell>
+                                                        <TableCell component="th" align="right" scope="row">
+                                                            {row.unidad}
+                                                        </TableCell>
+                                                        <TableCell component="th" align="right" scope="row">
+                                                            {row.cantidad}
+                                                        </TableCell>
+                                                        <TableCell align="right">{row.orden}</TableCell>
                                                         <TableCell align="right"><IconButton color="secondary" onClick={() => deleteSuma(row.idSumaR, row.idConv)}>
                                                             <DeleteForeverIcon />
                                                         </IconButton></TableCell>

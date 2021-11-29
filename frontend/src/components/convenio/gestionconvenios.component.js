@@ -13,7 +13,7 @@ import Box from '@material-ui/core/Box';
 
 import Convenio from './convenioabm.component'
 import Categoria from './categorias.component'
-import SumasRemunerativas from './sumasremunerativas.component'
+import SumasDescuentos from './sumasdescuentos.component'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -107,7 +107,7 @@ export default function GestionarConvenios(props) {
                             <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                                 <Tab label="Convenios" {...a11yProps(0)} />
                                 <Tab label="Categorias" {...a11yProps(1)} />
-                                <Tab label="Sumas remunerativas" {...a11yProps(2)} />
+                                <Tab label="Sumas/Descuentos" {...a11yProps(2)} />
                                 
                             </Tabs>
                         </AppBar>
@@ -118,7 +118,7 @@ export default function GestionarConvenios(props) {
                             <Categoria/>
                         </TabPanel>
                         <TabPanel value={value} index={2} className={classes.tabs}>
-                            <SumasRemunerativas/>
+                            <SumasDescuentos/>
                         </TabPanel>
                         
                     </div>

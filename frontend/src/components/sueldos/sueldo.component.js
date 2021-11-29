@@ -9,6 +9,9 @@ import background from "../../img/wood.png";
 import Button from '@material-ui/core/Button';
 import Reporte from '../reporte/pdf.component';
 import { height } from 'dom-helpers';
+import DatosBancarios from './datosbancarios.component';
+import Divider from '@material-ui/core/Divider';
+
 
 const theme = createTheme();
 
@@ -25,6 +28,25 @@ theme.typography.h3 = {
 
 
 export default function Sueldos(props) {
+
+    const [name, setName] = React.useState('oy');
+    const [datosCarga, setDatosCarga] = React.useState({
+        id: 'hh',
+        empresa: {
+            name: 'hola'
+        },
+        empleado:{
+            name: 'hhhh gggggg',
+        }
+    });
+
+    function onChangeEmpleadoName(n) {
+        var data = datosCarga;
+        data.id = n;
+        setName(n);        
+        setDatosCarga(data);
+        console.log(datosCarga);
+      }
 
 
     function generarReporte(){
@@ -67,11 +89,36 @@ export default function Sueldos(props) {
                     </Typography>
                     <br></br>
 
+                    <Divider />
+                    <Typography variant="h6" style={{margin:10}}>
+                        Datos basicos:
+                    </Typography>
                     <Grid>
+                   
 
-                        <SelectMain/>
+                        <SelectMain
+                        onChangeEmpleadoName={onChangeEmpleadoName}
+                        />
+                        
                     </Grid>
                     <br></br>
+                    <Grid>
+
+
+                    <DatosBancarios/>
+                    
+                    </Grid>
+                    <br></br>
+                    <Divider />
+
+                    
+
+                    
+                    <br></br>
+                    <Typography variant="h6" style={{margin:10}} >
+                        Parametros:
+                    </Typography>
+                
                     <TabsUtilities />
                     <br></br>
                     <Grid>
@@ -80,6 +127,7 @@ export default function Sueldos(props) {
                             <Table/>
                             
                             */}
+                           
                         
 
                     </Grid>
@@ -91,7 +139,10 @@ export default function Sueldos(props) {
 
                         <div id='reporte' style={{display: 'none'}}>
 
-                            <Reporte/>
+                            <Reporte
+                            datosCarga={datosCarga}
+                            name={name}
+                            />
                         </div>
                        
                     

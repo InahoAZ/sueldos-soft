@@ -34,6 +34,16 @@ export default function Liquidaciones(props) {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [rows, setRows] = React.useState([]);
 
+    const [datosCarga, setDatosCarga] = React.useState({
+        id: 'hh',
+        empresa: {
+            name: 'hola'
+        },
+        empleado:{
+            name: 'hh666hh gggggg',
+        }
+    });
+
 
 
     const handleChangePage = (event, newPage) => {
@@ -115,7 +125,9 @@ export default function Liquidaciones(props) {
 
 
 
-            <LiquidacionReporte/>
+            <LiquidacionReporte
+             datosCarga={[datosCarga]}
+            />
 
 
 

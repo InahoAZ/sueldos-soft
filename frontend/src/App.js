@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+//import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { styles } from "./css-common"
 
@@ -18,10 +18,10 @@ import Sueldos from "./components/sueldos/sueldo.component";
 import InicioEmpleado from "./components/vistaEmpleado/inicio.component"
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Button from '@material-ui/core/Button';
+
 import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import SettingsIcon from '@material-ui/icons/Settings';
+
 
 import Login from './components/login.component';
 
@@ -29,7 +29,7 @@ import Login from './components/login.component';
 
 var personaInfo = {nombre: ''};
 function login(nombre) {
-  if (nombre == 'admin') {
+  if (nombre === 'admin') {
     document.getElementById('paginaAdmin').style.display = 'block'
     document.getElementById('paginaEmpleado').style.display = 'none'
     document.getElementById('login').style.display = 'none'
