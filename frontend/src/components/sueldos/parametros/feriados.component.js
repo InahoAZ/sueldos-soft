@@ -138,6 +138,7 @@ export default function Adicionales({ onChangeCategoria }) {
                 <TextField
                     label="Dias Trabajados"
                     placeholder='0'
+                    type="number"
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
 
@@ -146,6 +147,7 @@ export default function Adicionales({ onChangeCategoria }) {
 
                 <TextField
                     label="Dias No trabajados"
+                    type="number"
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}

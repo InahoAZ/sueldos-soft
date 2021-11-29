@@ -107,7 +107,7 @@ class App extends Component {
           
 
         </div>
-        <div id='paginaAdmin' style={{ minHeight: '94vh', display: 'none' }}>
+        <div id='paginaAdmin' style={{ minHeight: '97vh', display: 'none' }}>
           <AppBar className={classes.appBar} position="static">
             <Toolbar>
               <Grid

@@ -107,7 +107,7 @@ export default function Adicionales({ onChangeCategoria }) {
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-
+                    type="number"
                     variant="outlined"
                 />
                   <TextField
@@ -115,7 +115,7 @@ export default function Adicionales({ onChangeCategoria }) {
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-
+                    type="number"
                     variant="outlined"
                 />
                   <TextField
@@ -123,7 +123,7 @@ export default function Adicionales({ onChangeCategoria }) {
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-
+                    type="number"
                     variant="outlined"
                 />
                   <TextField
@@ -131,7 +131,7 @@ export default function Adicionales({ onChangeCategoria }) {
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-
+                    type="number"
                     variant="outlined"
                 />
                   <TextField
@@ -139,7 +139,7 @@ export default function Adicionales({ onChangeCategoria }) {
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-
+                    type="number"
                     variant="outlined"
                 />
 
