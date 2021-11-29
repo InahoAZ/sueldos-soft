@@ -15,7 +15,8 @@ exports.create = (req, res) => {
     const liquidacion = {
         "empleado" : {},
         "empresa": {},
-        "empleado_puesto": {},
+        "puesto": {},
+        "sumas_descuentos": []
     };
     //recibe JSON con
     const idEmpleado = req.body.idEmpleado;
@@ -30,17 +31,22 @@ exports.create = (req, res) => {
     //o si la empresa no usa ese concepto) (boolean)
     const presentismo = req.body.presentismo;
 
+    //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
+    //Como tambien las sumas y descuentos a aplicar segun el convenio del puesto.
     Puesto.findById(idPuesto).populate('convenio').populate('convenio_subcat')
     .then(data=>{
         const sueldo_basico = data.convenio_subcat.basico;
-        const sumas_remunerativas = data.convenio.sumas_remunerativas;
+        const sumas_descuentos = data.convenio.sumas_descuentos;
         //console.log(sueldo_basico, "- - - > ", sumas_remunerativas);
-        return Promise.all([sueldo_basico, sumas_remunerativas]);
+        return Promise.all([sueldo_basico, sumas_descuentos]);
         
     })
-    .then(([sueldo_basico, sumas_remunerativas]) =>{
-        console.log(sueldo_basico, sumas_remunerativas);
-        
+    .then(([sueldo_basico, sumas_descuentos]) =>{
+        //Se toma las sumas y descuentos del convenio y se le aplica la formula correspondiente a cada caso.
+        console.log(sueldo_basico, sumas_descuentos);
+        sumas_descuentos.forEach( (valor, indice, array)=>{
+            
+        })
     })
     .catch(err => {
         console.log("err: ", err);
