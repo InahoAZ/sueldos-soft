@@ -3,7 +3,7 @@ const Convenio = db.convenios;
 const SubCategoriaConv = db.subcategorias_conv;
 const CategoriaConv = db.categorias_conv;
 const OpcionesBasicas = db.convenios;
-const SumasRemunerativas = db.sumas_remunerativas;
+const SumasDescuentos = db.sumas_descuentos;
 
 
 exports.create = (req, res) => {
@@ -260,7 +260,7 @@ exports.quitarSubCategoria = (req, res) => {
         })
 };
 
-exports.agregarSumaRemunerativa = (req, res) => {
+exports.agregarSumaDescuento = (req, res) => {
     const id = req.params.id;
 
     Convenio.findById(id)
@@ -276,22 +276,26 @@ exports.agregarSumaRemunerativa = (req, res) => {
                 }
 
                 //Se crea la suma remunerativa del convenio con lo recibido
-                const suma_remunerativa = new SumasRemunerativas({
+                const suma_descuento = new SumasDescuentos({
+                    orden: req.body.orden,
                     name: req.body.name,
-                    monto: req.body.monto
+                    unidad: req.body.unidad,
+                    cantidad: req.body.cantidad,
+                    tipo: req.body.tipo,
+
                 });
 
-                return suma_remunerativa.save(suma_remunerativa);
+                return suma_descuento.save(suma_descuento);
                 
             }
         })
         .then(data => {
-            suma_creada = data;
-            convenio.sumas_remunerativas.push(suma_creada);
+            sumadesc_creada = data;
+            convenio.sumas_descuentos.push(sumadesc_creada);
             return convenio.save();
         })        
         .then(data => {
-            res.send({ message: "Se agrego la suma remunerativa al convenio correctamente", data: suma_creada });
+            res.send({ message: "Se agrego la suma o descuento al convenio correctamente", data: sumadesc_creada });
         })
         .catch(err => {
             res
@@ -300,24 +304,24 @@ exports.agregarSumaRemunerativa = (req, res) => {
         })
 };
 
-exports.quitarSumaRemunerativa = (req, res) => {
+exports.quitarSumaDescuento = (req, res) => {
     const id = req.params.id;
     const idSum = req.body.idSum;
     Convenio.findByIdAndUpdate(id, {
             $pull: {
-                sumas_remunerativas: idSum
+                sumas_descuentos: idSum
             }
         }, { new: true, useFindAndModify: false })
         .then(data => {
-            SumasRemunerativas.findByIdAndRemove(idSum)
+            SumasDescuentos.findByIdAndRemove(idSum)
                 .then(data => {
                     if (!data) {
                         res.status(404).send({
-                            message: "No se encontro La Suma Remunerativa con ese id."
+                            message: "No se encontro La Suma o Descuento con ese id."
                         });
                     } else {
                         res.send({
-                            message: "La Suma Remunerativa se borró correctamente."
+                            message: "La Suma o Descuento se borró correctamente."
                         });
                     }
                 })
