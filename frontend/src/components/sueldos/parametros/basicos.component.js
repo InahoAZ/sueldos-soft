@@ -150,7 +150,7 @@ export default function Basicos({ onChangeCategoria }) {
 
            
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Trabajador jubilado
                     <Switch
                         checked={state.checkedA}
@@ -160,7 +160,7 @@ export default function Basicos({ onChangeCategoria }) {
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Calcular SAC
                     <Switch
                         checked={state.checkedB}
@@ -170,7 +170,7 @@ export default function Basicos({ onChangeCategoria }) {
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Adicional asistencia
                     <Switch
                         checked={state.checkedC}
@@ -186,7 +186,7 @@ export default function Basicos({ onChangeCategoria }) {
 
          
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Incremento solidario (Dto. 14/20)
                     <Switch
                         checked={state.checkedD}
@@ -196,7 +196,7 @@ export default function Basicos({ onChangeCategoria }) {
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Aporte solidario OSECAC
                     <Switch
                         checked={state.checkedE}
@@ -206,7 +206,7 @@ export default function Basicos({ onChangeCategoria }) {
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Aporte OSECAC
                     <Switch
                         checked={state.checkedF}

@@ -77,7 +77,7 @@ export default function Adicionales({ onChangeCategoria }) {
 
 
 
-                <Paper elevation={3} style={{ minWidth: 150, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 150, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Calcular
                     <Switch
                         checked={state.checkedA}
