@@ -112,6 +112,7 @@ export default function SumasDescuentos(props) {
                 //restear todos los campos
                 setConvenio('');
 
+                setConvenio('');
                 setInputConvenio('');
                 setNombre('');
                 setOrden('');
@@ -222,10 +223,10 @@ export default function SumasDescuentos(props) {
     function listarConvenios() {
         ConveniosService.getAll()
             .then(response => {
-                setRows(obtenerFilas(response.data));
-                setListaConvenios(onlyConvenios(response.data))
-                //setTotalConveniosDic(response.data);
-                //console.log(response.data);
+                //setRows(obtenerFilas(response.data));
+                //setListaConvenios(onlyConvenios(response.data))
+                
+                console.log(response.data);
             })
             .catch(e => {
                 console.log(e);
@@ -442,8 +443,11 @@ export default function SumasDescuentos(props) {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>Convenios</TableCell>
-                                                <TableCell>Suma remunerativa</TableCell>
-                                                <TableCell align="right">Unidad</TableCell>
+                                                <TableCell>Tipo concepto</TableCell>
+                                                <TableCell align="right">nombre</TableCell>
+                                                <TableCell align="right">unidad</TableCell>
+                                                <TableCell align="right">cantidad</TableCell>
+                                                <TableCell align="right">orden</TableCell>
 
                                                 <TableCell align="right">Opciones</TableCell>
                                             </TableRow>
@@ -452,6 +456,15 @@ export default function SumasDescuentos(props) {
                                             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                                 return (
                                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                                        <TableCell component="th" scope="row">
+                                                            {row.convenio}
+                                                        </TableCell>
+                                                        <TableCell component="th" scope="row">
+                                                            {row.convenio}
+                                                        </TableCell>
+                                                        <TableCell component="th" scope="row">
+                                                            {row.convenio}
+                                                        </TableCell>
                                                         <TableCell component="th" scope="row">
                                                             {row.convenio}
                                                         </TableCell>
