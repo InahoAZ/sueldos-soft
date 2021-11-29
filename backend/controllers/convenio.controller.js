@@ -40,7 +40,7 @@ exports.create = (req, res) => {
 
 
 exports.findAll = (req, res) => {
-    Convenio.find().populate('sumas_remunerativas').populate({
+    Convenio.find().populate('sumas_descuentos').populate({
         path: 'categorias',
         populate: {
             path: 'subcategorias'
@@ -60,7 +60,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Convenio.findById(id).populate('categorias_conv').populate('sumas_remunerativas')
+    Convenio.findById(id).populate('categorias_conv').populate('sumas_descuentos')
         .then(data => {
             if (!data)
                 res.status(404).send({ message: "No se encontro una convenio con ese Id." });
