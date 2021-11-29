@@ -29,13 +29,24 @@ theme.typography.h3 = {
 
 export default function Sueldos(props) {
 
-
+    const [name, setName] = React.useState('oy');
     const [datosCarga, setDatosCarga] = React.useState({
         id: 'hh',
         empresa: {
             name: 'hola'
+        },
+        empleado:{
+            name: 'hhhh gggggg',
         }
     });
+
+    function onChangeEmpleadoName(n) {
+        var data = datosCarga;
+        data.id = n;
+        setName(n);        
+        setDatosCarga(data);
+        console.log(datosCarga);
+      }
 
 
     function generarReporte(){
@@ -85,7 +96,9 @@ export default function Sueldos(props) {
                     <Grid>
                    
 
-                        <SelectMain/>
+                        <SelectMain
+                        onChangeEmpleadoName={onChangeEmpleadoName}
+                        />
                         
                     </Grid>
                     <br></br>
@@ -127,7 +140,8 @@ export default function Sueldos(props) {
                         <div id='reporte' style={{display: 'none'}}>
 
                             <Reporte
-                            datosCarga={[datosCarga]}
+                            datosCarga={datosCarga}
+                            name={name}
                             />
                         </div>
                        

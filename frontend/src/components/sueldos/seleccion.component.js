@@ -145,7 +145,10 @@ export default function Sueldos(props) {
         // llamar a cargar lista de empresas
         if (input.puestos.length > 0) {
             actualizarEmpresas(input.puestos);
-        }}
+        }
+        props.onChangeEmpleadoName(input.apellido);
+    }
+        
 
     }
 

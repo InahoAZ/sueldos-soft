@@ -133,7 +133,7 @@ const MyDocument = (props) => (
                     <Image src='https://picsum.photos/70/70' />
                 </View>
                 <View style={styles.infoEmpresa}>
-                    <Text>Empresa {props.dataProps[0].id}</Text>
+                    <Text>Empresa kkkkkk</Text>
                     <Text>Av. Leandro N. Alem 1589</Text>
                     <Text>(1001)</Text>
                     <Text>Ciudad Autónoma de Buenos Aires</Text>
@@ -152,7 +152,7 @@ const MyDocument = (props) => (
             <View style={styles.sectionTabla}>
                 <View style={{ flexDirection: 'column', textAlign: 'center', width: '45vh' }}>
                     <View style={styles.infoSUPv2} ><Text>Apellido y Nombre</Text></View>
-                    <View style={styles.infoDOWN}><Text>Perez Luis</Text></View>
+                    <View style={styles.infoDOWN}><Text>kkjkj hhhgh</Text></View>
                 </View>
                 <View style={{ flexDirection: 'column', borderLeft: '1.5px', textAlign: 'center', width: '20vh' }}>
                     <View style={styles.infoSUP}><Text>Legajo</Text></View>
@@ -372,11 +372,13 @@ theme.typography.h3 = {
 
 export default function Reporte(props) {
     
-    const [dataProps, setDataProps] = React.useState(props.datosCarga[0]);
-    console.log('ff');
-    console.log(dataProps.id);
+    const [dataProps, setDataProps] = React.useState(props.datosCarga);
+    //console.log('ff');
+    //console.log(dataProps.id);
     return (
-        <div>
+        <div>{props.name}{console.log('dataProps')}
+        {console.log(dataProps)}
+        {console.log(dataProps.id)}
            <br></br>
             <PDFViewer style={{ width: '100%', height: '200vh' }}>
                 <MyDocument

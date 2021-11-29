@@ -38,6 +38,9 @@ export default function Liquidaciones(props) {
         id: 'hh',
         empresa: {
             name: 'hola'
+        },
+        empleado:{
+            name: 'hh666hh gggggg',
         }
     });
 
