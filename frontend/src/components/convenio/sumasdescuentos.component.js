@@ -193,17 +193,20 @@ export default function SumasDescuentos(props) {
         let rows = [];
         for (let i = 0; i < diclist.length; i++) {
 
-            if (diclist[i].sumas_remunerativas) {
+            if (diclist[i].sumas_descuentos) {
 
-                for (let j = 0; j < diclist[i].sumas_remunerativas.length; j++) {
+                for (let j = 0; j < diclist[i].sumas_descuentos.length; j++) {
 
 
                     let subC = {
-                        idSumaR: diclist[i].sumas_remunerativas[j]._id,
+                        idSumaR: diclist[i].sumas_descuentos[j]._id,
                         idConv: diclist[i]._id,
                         convenio: diclist[i].name,
-                        sumaRemunerativa: diclist[i].sumas_remunerativas[j].name,
-                        unidad: diclist[i].sumas_remunerativas[j].monto,
+                        tipo: diclist[i].sumas_descuentos[j].tipo,
+                        nombre: diclist[i].sumas_descuentos[j].name,
+                        unidad: diclist[i].sumas_descuentos[j].unidad,
+                        cantidad: diclist[i].sumas_descuentos[j].cantidad,
+                        orden: diclist[i].sumas_descuentos[j].orden,
 
                     }
                     rows.push(subC)
@@ -223,8 +226,8 @@ export default function SumasDescuentos(props) {
     function listarConvenios() {
         ConveniosService.getAll()
             .then(response => {
-                //setRows(obtenerFilas(response.data));
-                //setListaConvenios(onlyConvenios(response.data))
+                setRows(obtenerFilas(response.data));
+                setListaConvenios(onlyConvenios(response.data))
                 
                 console.log(response.data);
             })
@@ -460,18 +463,18 @@ export default function SumasDescuentos(props) {
                                                             {row.convenio}
                                                         </TableCell>
                                                         <TableCell component="th" scope="row">
-                                                            {row.convenio}
+                                                            {row.tipo}
                                                         </TableCell>
                                                         <TableCell component="th" scope="row">
-                                                            {row.convenio}
+                                                            {row.nombre}
                                                         </TableCell>
-                                                        <TableCell component="th" scope="row">
-                                                            {row.convenio}
+                                                        <TableCell component="th" align="right" scope="row">
+                                                            {row.unidad}
                                                         </TableCell>
-                                                        <TableCell component="th" scope="row">
-                                                            {row.sumaRemunerativa}
+                                                        <TableCell component="th" align="right" scope="row">
+                                                            {row.cantidad}
                                                         </TableCell>
-                                                        <TableCell align="right">{row.unidad}</TableCell>
+                                                        <TableCell align="right">{row.orden}</TableCell>
                                                         <TableCell align="right"><IconButton color="secondary" onClick={() => deleteSuma(row.idSumaR, row.idConv)}>
                                                             <DeleteForeverIcon />
                                                         </IconButton></TableCell>

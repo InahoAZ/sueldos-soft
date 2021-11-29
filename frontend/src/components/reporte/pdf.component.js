@@ -375,10 +375,14 @@ export default function Reporte(props) {
     const [dataProps, setDataProps] = React.useState(props.datosCarga);
     //console.log('ff');
     //console.log(dataProps.id);
-    return (
-        <div>{props.name}{console.log('dataProps')}
+    /**
+     * 
+     * {props.name}{console.log('dataProps')}
         {console.log(dataProps)}
         {console.log(dataProps.id)}
+     */
+    return (
+        <div>
            <br></br>
             <PDFViewer style={{ width: '100%', height: '200vh' }}>
                 <MyDocument
