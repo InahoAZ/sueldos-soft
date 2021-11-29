@@ -144,7 +144,7 @@ export default function EditarEmpresa(props) {
     }
 
     function updateEmpresa() {
-        console.log(data)
+        
 
         var data = {
             name: state.name,

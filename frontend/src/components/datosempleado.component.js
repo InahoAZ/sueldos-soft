@@ -135,31 +135,7 @@ export default function Datos(props) {
 
   }
 
-  function obtenerAreas(empresas) {
-    console.log(empresas);
-    let areas = [];
-    for (let i = 0; i < this.empresas.length; i++) {
-
-      if (this.empresas[i].areas && this.empresas[i].id === stateempresa.idempresa) {
-
-        for (let j = 0; j < this.empresas[i].areas.length; j++) {
-
-
-          let area = {
-            id: this.empresas[i].areas[j].id,
-            name: this.empresas[i].areas[j].name,
-
-          }
-          areas.push(area)
-
-        }
-      }
-    }
-
-
-
-    return areas
-  }
+ 
 
   function obtenerAreas(empresas, id) {
     console.log(empresas);
@@ -316,7 +292,7 @@ export default function Datos(props) {
   });
 
   const handleChangeempresa = (event) => {
-    if (event.target.value != '') {
+    if (event.target.value !== '') {
       cargarAreas(event.target.value)
     }
     const name = event.target.name;
@@ -341,7 +317,7 @@ export default function Datos(props) {
   });
 
   const handleChangearea = (event) => {
-    if (event.target.value != '') {
+    if (event.target.value !== '') {
       cargarDepartamentos(event.target.value)
     }
     const name = event.target.name;
@@ -357,7 +333,7 @@ export default function Datos(props) {
   });
 
   const handleChangedepartamento = (event) => {
-    if (event.target.value != '') {
+    if (event.target.value !== '') {
       cargarPuestos(event.target.value)
     }
     const name = event.target.name;
@@ -430,7 +406,7 @@ function modificarPuesto () {
       nacionalidad: nacionalidad,
       fechaNacimiento: nacimiento,
     };
-    if (data.cuil != '' && data.nombre != '' && data.legajo != '' && data.apellido != '' && data.telefono != '' && data.correo != '' && data.direccion != '' && data.estadocivil != '' && data.nacionalidad != '' && data.nacimiento != '') {
+    if (data.cuil !== '' && data.nombre !== '' && data.legajo !== '' && data.apellido !== '' && data.telefono !== '' && data.correo !== '' && data.direccion !== '' && data.estadocivil !== '' && data.nacionalidad !== '' && data.nacimiento !== '') {
       console.log('correcto');
     } else {
       swal("Error!", "Complete todos los campos!", "error");
@@ -483,7 +459,7 @@ function modificarPuesto () {
       nacionalidad: nacionalidad,
       fechaNacimiento: nacimiento,
     };
-    if (data.cuil != '' && data.nombre != '' && data.legajo != '' && data.apellido != '' && data.telefono != '' && data.correo != '' && data.direccion != '' && data.estadocivil != '' && data.nacionalidad != '' && data.nacimiento != '') {
+    if (data.cuil !== '' && data.nombre !== '' && data.legajo !== '' && data.apellido !== '' && data.telefono !== '' && data.correo !== '' && data.direccion !== '' && data.estadocivil !== '' && data.nacionalidad !== '' && data.nacimiento !== '') {
       console.log('correcto');
     } else {
       swal("Error!", "Complete todos los campos!", "error");

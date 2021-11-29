@@ -107,7 +107,7 @@ export default function EditarEmpresa(props) {
                         <h5  >{props.empresa[0].web} </h5>
                         <br></br>
                         <h6 >Logo:  </h6>
-                        <img src='https://picsum.photos/70/70' />
+                        <img src='https://picsum.photos/70/70' alt='pa google' />
                         </Grid>
                         </Grid>
                         
