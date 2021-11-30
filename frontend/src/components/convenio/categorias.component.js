@@ -447,6 +447,7 @@ export default function Categorias(props) {
                                 style={{ width: 250, margin: 12 }}
                                 onChange={onChangeBasico}
                                 value={basico}
+                                type="number"
 
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">$</InputAdornment>,

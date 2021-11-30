@@ -77,7 +77,7 @@ export default function Adicionales({ onChangeCategoria }) {
 
 
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Adicional vidrierista
                     <Switch
                         checked={state.checkedA}
@@ -87,7 +87,7 @@ export default function Adicionales({ onChangeCategoria }) {
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Adicional por asistencia
                     <Switch
                         checked={state.checkedB}
@@ -97,7 +97,7 @@ export default function Adicionales({ onChangeCategoria }) {
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Antiguedad Acumulativa
                     <Switch
                         checked={state.checkedC}
@@ -161,6 +161,7 @@ export default function Adicionales({ onChangeCategoria }) {
                 <TextField
                     label="Antigüedad (años)"
                     placeholder='0'
+                    type="number"
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
 
@@ -170,6 +171,7 @@ export default function Adicionales({ onChangeCategoria }) {
                 <TextField
                     label="Zona"
                     placeholder='12'
+                    type="number"
                     id="outlined-end-adornment"
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
@@ -182,6 +184,7 @@ export default function Adicionales({ onChangeCategoria }) {
                 <TextField
                     label="% Antigüedad x año"
                     placeholder='12'
+                    type="number"
                     id="outlined-end-adornment"
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}

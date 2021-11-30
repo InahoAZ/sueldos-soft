@@ -49,7 +49,9 @@ function getStepContent(stepIndex) {
 
 export default function Datos(props) {
   const childRef = useRef();
-  const mode = props.estado;
+
+  const [mode, setMode] = React.useState(props.estado);
+
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
@@ -788,11 +790,11 @@ function modificarPuesto () {
 
                 {mode === 'nuevo' ? (
 
-                  <Grid item><TextField id="outlined-search" label="CUIL" type="search" onChange={changeCuil} variant="outlined" value={cuil} /></Grid>
+                  <Grid item><TextField id="outlined-search" label="CUIL" type="number" type="search" onChange={changeCuil} variant="outlined" value={cuil} /></Grid>
 
                 ) : (
 
-                  <Grid item><TextField id="outlined-search" label="CUIL" type="search" onChange={changeCuil} variant="outlined" value={cuil} disabled /></Grid>
+                  <Grid item><TextField id="outlined-search" label="CUIL" type="number" type="search" onChange={changeCuil} variant="outlined" value={cuil} disabled /></Grid>
 
                 )}
 
@@ -808,7 +810,7 @@ function modificarPuesto () {
                 </Grid>
                 <Grid item><TextField id="outlined-search" label="Nacionalidad" type="search" onChange={changeNacionalidad} variant="outlined" value={nacionalidad} /></Grid>
                 <Grid item>   <TextField id="outlined-search" label="Estado civil" type="search" onChange={changeEstadocivil} variant="outlined" value={estadocivil} /></Grid>
-                <Grid item><TextField id="outlined-search" label="Telefono" type="search" onChange={changeTelefono} variant="outlined" value={telefono} /></Grid>
+                <Grid item><TextField id="outlined-search" label="Telefono" type="number" type="search" onChange={changeTelefono} variant="outlined" value={telefono} /></Grid>
                 <Grid item> <TextField id="outlined-search" label="Correo electronico" onChange={changeCorreo} type="search" variant="outlined" value={correo} /></Grid>
                 <Grid item><TextField id="outlined-search" style={{ minWidth: '75vh' }} label="Direccion" onChange={changeDireccion} type="search" variant="outlined" value={direccion} /></Grid>
 

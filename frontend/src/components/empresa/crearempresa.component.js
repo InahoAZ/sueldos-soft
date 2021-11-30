@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
 export default function CrearEmpresa() {
   const childRef = useRef();
 
+
+  const [logo, setLogo] = React.useState('');
+  const [imgSrc, setImgSrc] = React.useState('');
   const [state, setState] = React.useState({
     id: null,
     name: "",
@@ -74,6 +77,19 @@ export default function CrearEmpresa() {
       tipo: e.target.value
     });
   }
+  function onChangeLogo(e) {
+    if (e.target.files) {
+      setLogo(e.target.files[0]);
+      console.log(e.target.files[0]);
+
+
+      var reader = new FileReader();
+      reader.onloadend = function (e) {
+        setImgSrc([reader.result]);
+      }
+      console.log(imgSrc);
+    }
+  }
   function onChangeProvincia(e) {
     setState({
       ...state,
@@ -110,7 +126,7 @@ export default function CrearEmpresa() {
 
   function saveEmpresa() {
 
-    if (state.name === '' || state.tipo === '' || state.cuit === '' || state.pais === '' || state.provincia === '' || state.localidad === '' || state.codigoPostal === '' || state.calleNumero === '' || state.telefono === '' || state.web === '' ){
+    if (state.name === '' || state.tipo === '' || state.cuit === '' || state.pais === '' || state.provincia === '' || state.localidad === '' || state.codigoPostal === '' || state.calleNumero === '' || state.telefono === '' || state.web === '') {
       swal("Error!", "No deje campos vacios!", "error");
       return 0;
     }
@@ -193,8 +209,8 @@ export default function CrearEmpresa() {
             alignItems="center"
             justifyContent="center">
             <TextField style={{ margin: 15 }} id="empresanombre" value={state.name} label="Nombre de empresa" color="secondary" onChange={onChangeName} />
-            <TextField style={{ margin: 15 }} id="cuit" label="CUIT" value={state.cuit} color="secondary" onChange={onChangeCuit} />
-            <TextField style={{ margin: 15 }} id="telefono" label="Telefono" value={state.telefono} color="secondary" onChange={onChangeTelefono} />
+            <TextField style={{ margin: 15 }} id="cuit" type="number" label="CUIT" value={state.cuit} color="secondary" onChange={onChangeCuit} />
+            <TextField style={{ margin: 15 }} id="telefono" type="number" label="Telefono" value={state.telefono} color="secondary" onChange={onChangeTelefono} />
             <TextField style={{ margin: 15 }} id="web" label="Web" value={state.web} color="secondary" onChange={onChangeWeb} />
             <TextField style={{ margin: 15 }} id="tipo" label="tipo" value={state.tipo} color="secondary" onChange={onChangeTipo} />
 
@@ -203,6 +219,7 @@ export default function CrearEmpresa() {
               accept="image/*"
               className={classes.input}
               id="contained-button-file"
+              onChange={onChangeLogo}
               multiple
               type="file"
             />
@@ -211,10 +228,17 @@ export default function CrearEmpresa() {
                 Logo / imagen
               </Button>
             </label>
+           
+
+          
 
 
           </Grid>
+          <center>
+            {logo!== '' ? ( <img src={URL.createObjectURL(logo)} style={{maxHeight: '200px', maxWidth: '200px'}} /> ):( <img src='' style={{maxHeight: '200px', maxWidth: '200px'}} /> )}
 
+          
+          </center>
         </Grid>
 
         <br></br>
@@ -232,7 +256,7 @@ export default function CrearEmpresa() {
 
           <TextField style={{ margin: 5 }} id="provincia" value={state.provincia} label="Provincia" color="secondary" onChange={onChangeProvincia} />
           <TextField style={{ margin: 5 }} id="localidad" value={state.localidad} label="Localidad" color="secondary" onChange={onChangeLocalidad} />
-          <TextField style={{ margin: 5 }} id="codigoPostal" value={state.codigoPostal} label="Codigo postal" color="secondary" onChange={onChangeCodigoPostal} />
+          <TextField style={{ margin: 5 }} id="codigoPostal" type="number" value={state.codigoPostal} label="Codigo postal" color="secondary" onChange={onChangeCodigoPostal} />
           <TextField style={{ margin: 5 }} id="calle" value={state.calle} label="Calle y numero" color="secondary" onChange={onChangeCalle} />
 
 

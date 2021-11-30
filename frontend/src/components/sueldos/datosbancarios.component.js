@@ -67,6 +67,7 @@ export default function DatosBancarios(props) {
                                     <TextField
                                         label="Numero de cuenta"
                                         placeholder=''
+                                        type="number"
                                         style={{ width: 250, margin: 15 }}
 
 

@@ -87,7 +87,7 @@ export default function Adicionales({ onChangeCategoria }) {
 
 
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Aporte solidario OSECAC
                     <Switch
                         checked={state.checkedE}
@@ -107,17 +107,18 @@ export default function Adicionales({ onChangeCategoria }) {
                         endAdornment: <InputAdornment position="end">%</InputAdornment>,
                     }}
                     variant="outlined"
+                    type="number"
                 />
                 <TextField
                     label="Seguro sepelio"
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-
+                    type="number"
                     variant="outlined"
                 />
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Calcular sindicado
                     <Switch
                         checked={state.checkedA}
@@ -128,7 +129,7 @@ export default function Adicionales({ onChangeCategoria }) {
                     />
                 </Paper>
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, height: '55px', backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                 Calcular FAECyS
                     <Switch
                         checked={state.checkedB}
@@ -148,7 +149,7 @@ export default function Adicionales({ onChangeCategoria }) {
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-
+                    type="number"
                     variant="outlined"
                 />
                 
