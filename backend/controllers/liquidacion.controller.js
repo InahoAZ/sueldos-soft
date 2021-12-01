@@ -55,6 +55,12 @@ exports.create = (req, res) => {
     //o si la empresa no usa ese concepto) (boolean)
     const presentismo = req.body.adicionalAsistencia;
 
+    //Si se calculan hs extras o no.
+    const hs_50 = req.body.horas50porciento;
+    const hs_100 = req.body.horas100porciento;
+    //24 dias laborales * 8 hs = 200hs mes o se puede tomar 30 dias por el mes, o incluso menos horas, por eso se parametriza
+    const hs_mes = req.body.horasMes;
+
     //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
     //Como tambien las sumas y descuentos a aplicar segun el convenio del puesto.
     
@@ -81,6 +87,12 @@ exports.create = (req, res) => {
         //Si no hay presentismo, ignoramos esa suma remun.
         if (!presentismo)
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "001"]});
+        
+        if (!hs_50 || hs_50 === 0)
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "050"]});
+        
+        if (!hs_100 || hs_100 === 0)
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "100"]});
         
         console.log(condicion_sumas_rem);
 
@@ -117,10 +129,12 @@ exports.create = (req, res) => {
         var total_descuentos_rem = 0;
         var total_sumas_no_rem = 0;
         var total_descuentos_no_rem = 0;
+        var hs_subtotal = 0;
+        var bruto_sin_hs_extra = 0;
 
         //Sumas remunerativas
         detalle_liquidacion.sumas_rem.forEach((item)=>{
-            console.log("--");
+            //console.log("--");
 
             //console.log(item);
             //ajustes previo al calculo
@@ -131,8 +145,34 @@ exports.create = (req, res) => {
                 item.cantidad = antiguedad;
             }
             
-            console.log(item.unidad * item.cantidad * sueldo_basico);
-            item.subtotal = item.unidad * item.cantidad * sueldo_basico;
+            //console.log(item.unidad * item.cantidad * sueldo_basico);
+            console.log(item.sobre);
+            switch (item.sobre) {
+                case 'sueldo_basico':
+                    item.subtotal = item.unidad * item.cantidad * sueldo_basico;
+                    break;
+                
+                case 'sueldo_bruto_hora':
+                    if(!hs_mes)
+                        throw Error('falta el parametro horasMes');
+                    
+                    
+                    //vemos si son horas 50 o 100
+                    if (item.orden == '050')
+                        item.cantidad = hs_50;
+                    else
+                        item.cantidad = hs_100;
+                    
+                    bruto_sin_hs_extra = total_sumas_rem - hs_subtotal;
+                    item.subtotal = ((bruto_sin_hs_extra/hs_mes) + (bruto_sin_hs_extra/hs_mes) * item.unidad) * item.cantidad ;
+                    hs_subtotal = item.subtotal;
+                    console.log("====>",sueldo_basico)
+                    break;
+                default:
+                    item.subtotal = item.unidad * item.cantidad;
+                    break;
+            }            
+            
             total_sumas_rem += item.subtotal;
             
         });
@@ -143,8 +183,13 @@ exports.create = (req, res) => {
         
         //Descuentos Remunerativos
         detalle_liquidacion.descuentos_rem.forEach((item)=>{
-            console.log(item.unidad * item.cantidad * total_sumas_rem);
-            item.subtotal = item.unidad * item.cantidad * total_sumas_rem;
+            //console.log(item.unidad * item.cantidad * total_sumas_rem);
+            
+            if (item.sobre.sueldo_basico === 'total_sumas_rem')
+                item.subtotal = item.unidad * item.cantidad * total_sumas_rem;
+            else
+                item.subtotal = item.unidad * item.cantidad;
+
             total_descuentos_rem += item.subtotal;
         });
         
@@ -180,7 +225,7 @@ exports.create = (req, res) => {
     })
     .then(data =>{
         liquidacion.empresa = data;
-        console.log(liquidacion);
+        //console.log(liquidacion);
         res.send({"data":liquidacion});
     })
     .catch(err => {

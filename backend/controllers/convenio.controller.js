@@ -287,6 +287,7 @@ exports.agregarSumaDescuento = (req, res) => {
                     unidad: req.body.unidad,
                     cantidad: req.body.cantidad,
                     tipo: req.body.tipo,
+                    sobre: req.body.sobre,
 
                 });
 
