@@ -2,17 +2,14 @@ const { Schema } = require("mongoose");
 
 module.exports = (mongoose) => {
     const schema = mongoose.Schema({
-        fecha_liquidacion: Date,
-        empresa: {
-            type: Schema.Types.ObjectId,
-            ref: 'empresa',
-        },
-        empleado_puesto: {
-            type: Schema.Types.ObjectId,
-            ref: 'empleados_puestos',
-        }
+        "empleado" : Object,
+        "empresa": Object,
+        "puesto": Object,
+        "detalle": Object,
+        "datos_bancarios": Object,
+        "jubilacion":Object,
 
-
+        
     }, { timestamps: true });
 
 

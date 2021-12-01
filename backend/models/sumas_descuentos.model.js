@@ -2,10 +2,10 @@ const { Schema } = require("mongoose");
 
 module.exports = (mongoose) => {
     const schema = mongoose.Schema({
-        orden: Number,
+        orden: {type : String, unique : true},
         name: String,
         unidad: Number,
-        cantidad: Number,
+        cantidad: {type: Number, required: true},
         
         tipo: { 
             type: String, 
