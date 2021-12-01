@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 
 
-export default function Adicionales({ onChangeCategoria }) {
+export default function Adicionales(props) {
     const classes = useStyles();
 
 
@@ -57,9 +57,6 @@ export default function Adicionales({ onChangeCategoria }) {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
-    function onChangeCat(e) {
-        onChangeCategoria(e.target.value);
-    }
 
 
     return (
@@ -77,11 +74,11 @@ export default function Adicionales({ onChangeCategoria }) {
 
 
 
-                <Paper elevation={3} style={{ minWidth: 150, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 150, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Calcular
                     <Switch
-                        checked={state.checkedA}
-                        onChange={handleChange}
+                        checked={props.props.calcularVacaciones}
+                        onChange={props.props.onChangeCalcularVacaciones}
                         name="checkedA"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -95,10 +92,12 @@ export default function Adicionales({ onChangeCategoria }) {
 
                 <Autocomplete
                     id="country-select-empresa"
-                    value={valueEmpresa}
+                    defaultValue={props.props.año}
+                    key={props.props.año}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
-                        setComputoAntiguedad(newValue);
+
+                        props.props.onChangeAño(newValue);
 
                     }}
 
@@ -146,6 +145,8 @@ export default function Adicionales({ onChangeCategoria }) {
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeAntiguedadAños}
+                    value={props.props.antiguedadAños}
                 />
 
                 <TextField
@@ -155,6 +156,8 @@ export default function Adicionales({ onChangeCategoria }) {
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeDiasHabiles}
+                    value={props.props.diasHabiles}
                 />
                 <TextField
                     label="Días trabajados"
@@ -163,6 +166,8 @@ export default function Adicionales({ onChangeCategoria }) {
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeDiasTrabajados}
+                    value={props.props.diasTrabajados}
                 />
 
 

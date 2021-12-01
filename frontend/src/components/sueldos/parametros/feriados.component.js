@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 
 
 
-export default function Adicionales({ onChangeCategoria }) {
+export default function Adicionales(props) {
     const classes = useStyles();
 
 
@@ -63,9 +63,7 @@ export default function Adicionales({ onChangeCategoria }) {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
-    function onChangeCat(e) {
-        onChangeCategoria(e.target.value);
-    }
+
 
 
     return (
@@ -91,10 +89,12 @@ export default function Adicionales({ onChangeCategoria }) {
 
                 <Autocomplete
                     id="country-select-empresa"
-                    value={valueEmpresa}
+                    defaultValue={props.props.exposicionFeriado}
+                    key={props.props.exposicionFeriado}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
-                        setExposicion(newValue);
+
+                        props.props.onChangeExposicionFeriado(newValue);
 
                     }}
 
@@ -141,7 +141,8 @@ export default function Adicionales({ onChangeCategoria }) {
                     type="number"
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-
+                    onChange={props.props.onChangeDiasTrabajados}
+                    value={props.props.diasTrabajados}
                     variant="outlined"
                 />
 
@@ -151,7 +152,8 @@ export default function Adicionales({ onChangeCategoria }) {
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-
+                    onChange={props.props.onChangeDiasNoTrabajados}
+                    value={props.props.diasNoTrabajados}
                     variant="outlined"
                 />
 
@@ -160,10 +162,12 @@ export default function Adicionales({ onChangeCategoria }) {
 
                 <Autocomplete
                     id="country-select-empresa"
-                    value={valueEmpresa}
+                    defaultValue={props.props.criterioTrabajados}
+                    key={props.props.criterioTrabajados}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
-                        setCriteriot(newValue);
+
+                        props.props.onChangeCriterioTrabajados(newValue);
 
                     }}
 
@@ -194,10 +198,12 @@ export default function Adicionales({ onChangeCategoria }) {
                 />
                 <Autocomplete
                     id="country-select-empresa"
-                    value={valueEmpresa}
+                    defaultValue={props.props.criterioNoTrabajados}
+                    key={props.props.criterioNoTrabajados}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
-                        setCriterioNOt(newValue);
+
+                        props.props.onChangeCriterioNoTrabajados(newValue);
 
                     }}
 

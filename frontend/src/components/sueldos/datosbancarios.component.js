@@ -36,30 +36,32 @@ export default function DatosBancarios(props) {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                
+
                     <Typography>
-                 
+
                         <Grid
                             container
-                            
+
                             direction="column"
-                        justifyContent="center"
-                        alignItems="center"
+                            justifyContent="center"
+                            alignItems="center"
                         >
 
                             <Grid >
                                 <Typography variant="h6" style={{ margin: 10 }}>
                                     Deposito bancario:
                                 </Typography>
-                                <Grid  container
-                            xs={12}
-                            direction="row"
-                        justifyContent="center"
-                        alignItems="center">
+                                <Grid container
+                                    xs={12}
+                                    direction="row"
+                                    justifyContent="center"
+                                    alignItems="center">
                                     <TextField
                                         label="Banco"
                                         placeholder=''
                                         style={{ width: 250, margin: 15 }}
+                                        onChange={props.onChangeBancoNombre}
+                                        value={props.bancoNombre}
 
 
                                         variant="outlined"
@@ -69,6 +71,8 @@ export default function DatosBancarios(props) {
                                         placeholder=''
                                         type="number"
                                         style={{ width: 250, margin: 15 }}
+                                        onChange={props.onChangeCuentaNumero}
+                                        value={props.cuentaNumero}
 
 
                                         variant="outlined"
@@ -77,6 +81,8 @@ export default function DatosBancarios(props) {
                                         label="Fecha de pago"
                                         placeholder=''
                                         style={{ width: 250, margin: 15 }}
+                                        onChange={props.onChangePagoFecha}
+                                        value={props.pagoFecha}
 
 
                                         variant="outlined"
@@ -85,6 +91,8 @@ export default function DatosBancarios(props) {
                                         label="Lugar de pago"
                                         placeholder=''
                                         style={{ width: 250, margin: 15 }}
+                                        onChange={props.onChangePagoLugar}
+                                        value={props.pagoLugar}
 
 
                                         variant="outlined"
@@ -94,7 +102,7 @@ export default function DatosBancarios(props) {
                                 </Grid>
                             </Grid>
                             <br></br>
-                            <Divider style={{ width: '100%' }}/>
+                            <Divider style={{ width: '100%' }} />
                             <br></br>
                             <Grid>
                                 <Typography variant="h6" style={{ margin: 10 }}>
@@ -105,6 +113,8 @@ export default function DatosBancarios(props) {
                                         label="Periodo"
                                         placeholder=''
                                         style={{ width: 200, margin: 10 }}
+                                        onChange={props.onChangePeriodoJubilacion}
+                                        value={props.periodoJubilacion}
 
 
                                         variant="outlined"
@@ -113,6 +123,8 @@ export default function DatosBancarios(props) {
                                         label="Fecha"
                                         placeholder=''
                                         style={{ width: 200, margin: 10 }}
+                                        onChange={props.onChangeFechaJubilacion}
+                                        value={props.fechaJubilacion}
 
 
                                         variant="outlined"
@@ -121,6 +133,8 @@ export default function DatosBancarios(props) {
                                         label="Banco"
                                         placeholder=''
                                         style={{ width: 200, margin: 10 }}
+                                        onChange={props.onChangeBancoAporteJubilacion}
+                                        value={props.bancoAporteJubilacion}
 
 
                                         variant="outlined"

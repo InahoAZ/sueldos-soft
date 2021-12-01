@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ScrollableTabsButtonForce() {
+export default function Utilidades(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -112,6 +112,7 @@ export default function ScrollableTabsButtonForce() {
       <TabPanel value={value} index={0}   className={classes.tabs}>
         <Basicos
           onChangeCategoria={onChangeCategoria}
+          props={props}
         />
       </TabPanel>
 
@@ -120,31 +121,37 @@ export default function ScrollableTabsButtonForce() {
       <TabPanel value={value} index={1}  className={classes.tabs}>
       <Adicionales
           onChangeCategoria={onChangeCategoria}
+          props={props}
         />
       </TabPanel>
       <TabPanel value={value} index={2}  className={classes.tabs}>
       <Feriados
           onChangeCategoria={onChangeCategoria}
+          props={props}
         />
       </TabPanel>
       <TabPanel value={value} index={3}  className={classes.tabs}>
       <Extras
           onChangeCategoria={onChangeCategoria}
+          props={props}
         />
       </TabPanel>
       <TabPanel value={value} index={4}  className={classes.tabs}>
       <Vacaciones
           onChangeCategoria={onChangeCategoria}
+          props={props}
         />
       </TabPanel>
       <TabPanel value={value} index={5}  className={classes.tabs}>
       <Licencias
           onChangeCategoria={onChangeCategoria}
+          props={props}
         />
       </TabPanel>
       <TabPanel value={value} index={6}  className={classes.tabs}>
       <Descuentos
           onChangeCategoria={onChangeCategoria}
+          props={props}
         />
       </TabPanel>
     </div>

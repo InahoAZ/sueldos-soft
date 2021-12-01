@@ -138,9 +138,10 @@ export default function Sueldos(props) {
 
 
     function cambioEmpleado(input) {
+        
 
         setValueEmpleado(input);
-        console.log(input);
+        props.onChangeEmpleadoId(input._id);
         if(input){
         // llamar a cargar lista de empresas
         if (input.puestos.length > 0) {
@@ -153,6 +154,8 @@ export default function Sueldos(props) {
     }
 
     function cambioEmpresa(input) {
+        
+        props.onChangeEmpresaId(input._id);
 
 
         setValueEmpresa(input);
@@ -269,6 +272,7 @@ export default function Sueldos(props) {
                 value={valuePuesto}
                 onChange={(event, newValue) => {
                     setValuePuesto(newValue);
+                    props.onChangeEmpresaId(newValue._id);
 
                 }}
                 inputValue={inputValuePuesto}

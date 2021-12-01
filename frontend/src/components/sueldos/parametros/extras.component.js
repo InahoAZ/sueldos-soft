@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 
 
 
-export default function Adicionales({ onChangeCategoria }) {
+export default function Adicionales(props) {
     const classes = useStyles();
 
 
@@ -63,9 +63,7 @@ export default function Adicionales({ onChangeCategoria }) {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
-    function onChangeCat(e) {
-        onChangeCategoria(e.target.value);
-    }
+
 
 
     return (
@@ -89,7 +87,7 @@ export default function Adicionales({ onChangeCategoria }) {
 
 
 
-              
+
 
 
 
@@ -109,41 +107,51 @@ export default function Adicionales({ onChangeCategoria }) {
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeHorasDiurnas50porciento}
+                    value={props.props.horasDiurnas50porciento}
                 />
-                  <TextField
+                <TextField
                     label="Horas 100%"
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeHorasDiurnas100porciento}
+                    value={props.props.horasDiurnas100porciento}
                 />
-                  <TextField
+                <TextField
                     label="Nocturnas 50%"
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeHorasNocturnas50porciento}
+                    value={props.props.horasNocturnas50porciento}
                 />
-                  <TextField
+                <TextField
                     label="Nocturnas 100%"
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeHorasNocturnas100porciento}
+                    value={props.props.horasNocturnas100porciento}
                 />
-                  <TextField
+                <TextField
                     label="Horas nocturnas"
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeHorasNocturnas}
+                    value={props.props.horasNocturnas}
                 />
 
-              
+
 
 
 
