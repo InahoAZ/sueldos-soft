@@ -82,7 +82,22 @@ exports.findOne = (req, res) => {
     .then(data => {
         if (!data)
             res.status(404).send({ message: "No se encontro un empleado con ese Id."});
-        else res.send(data);
+        else {
+            return Empleado.aggregate([
+                {$match: {_id:data._id}},
+                {$lookup: {
+                    from: 'empleados_puestos',
+                    localField: '_id',
+                    foreignField: 'empleado',
+                    as: 'puesto'
+                }} 
+                
+            ]); 
+            
+        }
+    })
+    .then((data) => {
+        res.send(data);
     })
     .catch(err => {
         res

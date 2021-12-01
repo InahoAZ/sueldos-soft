@@ -41,6 +41,7 @@ exports.create = (req, res) => {
             "bancoAporteJubilacion": req.body.bancoAporteJubilacion,
         }
     };
+    
     //recibe JSON con
     const idEmpleado = req.body.empleadoId;
     const idPuesto = req.body.puestoId;
@@ -61,6 +62,15 @@ exports.create = (req, res) => {
     //24 dias laborales * 8 hs = 200hs mes o se puede tomar 30 dias por el mes, o incluso menos horas, por eso se parametriza
     const hs_mes = req.body.horasMes;
 
+    //Si se calculan vacaciones
+    const calcularVacaciones = req.body.calcularVacaciones;
+    
+    const año = req.body.año;
+    const diasHabiles = req.body.diasHabiles;
+    const diasTrabajados = req.body.diasTrabajados;
+        
+    
+    
     //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
     //Como tambien las sumas y descuentos a aplicar segun el convenio del puesto.
     
@@ -84,7 +94,7 @@ exports.create = (req, res) => {
                     {$eq:["$$item.tipo", 'Suma Remunerativa']}
                 ]
             };
-        //Si no hay presentismo, ignoramos esa suma remun.
+        //Si no hay presentismo, ignoramos esa suma remun. y asi con los demas
         if (!presentismo)
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "001"]});
         
@@ -93,7 +103,11 @@ exports.create = (req, res) => {
         
         if (!hs_100 || hs_100 === 0)
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "100"]});
-        
+
+        if (!calcularVacaciones)
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "008"]});
+
+            
         console.log(condicion_sumas_rem);
 
         return  Promise.all([Convenio.aggregate([
@@ -131,7 +145,8 @@ exports.create = (req, res) => {
         var total_descuentos_no_rem = 0;
         var hs_subtotal = 0;
         var bruto_sin_hs_extra = 0;
-
+        var total_hs_extras_precio = 0;
+        var remun_vacaciones = 0;
         //Sumas remunerativas
         detalle_liquidacion.sumas_rem.forEach((item)=>{
             //console.log("--");
@@ -164,9 +179,24 @@ exports.create = (req, res) => {
                         item.cantidad = hs_100;
                     
                     bruto_sin_hs_extra = total_sumas_rem - hs_subtotal;
+                    total_hs_extras_precio += (((bruto_sin_hs_extra/hs_mes) + (bruto_sin_hs_extra/hs_mes) * item.unidad));
                     item.subtotal = ((bruto_sin_hs_extra/hs_mes) + (bruto_sin_hs_extra/hs_mes) * item.unidad) * item.cantidad ;
                     hs_subtotal = item.subtotal;
                     console.log("====>",sueldo_basico)
+                    break;
+                case 'sueldo_bruto_dia':
+                    if(!diasHabiles)
+                        throw Error('falta el parametro diasHabiles');
+                    if(!diasTrabajados)
+                        throw Error('falta el parametro diasTrabajados');
+                    
+                    if(item.orden == '101'){
+                        item.cantidad = diasHabiles - diasTrabajados;
+                        remun_vacaciones = (total_sumas_rem / diasHabiles) * item.cantidad;
+                        item.subtotal = remun_vacaciones;
+                        //console.log(ite);
+                    }
+                    
                     break;
                 default:
                     item.subtotal = item.unidad * item.cantidad;
@@ -176,7 +206,9 @@ exports.create = (req, res) => {
             total_sumas_rem += item.subtotal;
             
         });
-        
+        if (calcularVacaciones){
+            liquidacion.detalle.sueldo_basico -= remun_vacaciones;
+        }
         liquidacion.detalle.sumas_rem = detalle_liquidacion.sumas_rem;
         liquidacion.detalle.total_sumas_rem = total_sumas_rem;
         
@@ -225,7 +257,7 @@ exports.create = (req, res) => {
     })
     .then(data =>{
         liquidacion.empresa = data;
-        //console.log(liquidacion);
+        console.log(liquidacion);
         res.send({"data":liquidacion});
     })
     .catch(err => {
