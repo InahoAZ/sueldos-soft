@@ -82,6 +82,7 @@ export default function Sueldos(props) {
 
     }
     function obtenerEmpresasDePuestos(puestos) {
+        console.log(puestos);
         let rows = [];
         for (let i = 0; i < puestos.length; i++) {
             let empresa = {
@@ -97,6 +98,8 @@ export default function Sueldos(props) {
 
 
     function obtenerPuestos(empresas, puestos) {
+        console.log(empresas);
+        console.log(puestos);
         let rows = [];
         //console.log(puestos);
         for (let i = 0; i < empresas.length; i++) {
@@ -141,6 +144,9 @@ export default function Sueldos(props) {
         
 
         setValueEmpleado(input);
+
+        
+        console.log(input);
         props.onChangeEmpleadoId(input._id);
         if(input){
         // llamar a cargar lista de empresas

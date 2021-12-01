@@ -30,9 +30,9 @@ theme.typography.h3 = {
 
 export default function Sueldos(props) {
 
-    const [empleadoId, setEmpleadoId] = React.useState('');
-    const [empresaId, setEmpresaId] = React.useState('');
-    const [puestoId, setPuestoId] = React.useState('');
+    const [empleadoId, setEmpleadoId] = React.useState('61a7d8080eb68f35484caa99');
+    const [empresaId, setEmpresaId] = React.useState('61a7d3c53b41f44a2b2c7a87');
+    const [puestoId, setPuestoId] = React.useState('61a7dab40eb68f35484cab4c');
 
     const [bancoNombre, setBancoNombre] = React.useState('');
     const [cuentaNumero, setCuentaNumero] = React.useState('');
@@ -90,10 +90,10 @@ export default function Sueldos(props) {
     const [diasACargoEmpresaILT, setDiasACargoEmpresaILT] = React.useState('');
     const [mesInicioILT, setMesInicioILT] = React.useState('');
     const [exposicionLicenciaILT, setExposicionLicenciaILT] = React.useState('');
-    
-    
-    
-    
+
+
+
+
     //hasta aca
     const [name, setName] = React.useState('oy');
     const [datosCarga, setDatosCarga] = React.useState(
@@ -185,22 +185,22 @@ export default function Sueldos(props) {
     function onChangeJornadaHoras(v) {
         setJornadaHoras(v);
     }
-    function onChangeEsJubilado(e) {   
+    function onChangeEsJubilado(e) {
         setEsJubilado(e.target.checked);
     }
-    function onChangeCalcularSac(e) {   
+    function onChangeCalcularSac(e) {
         setCalcularSac(e.target.checked);
     }
-    function onChangeAdicionalAsistencia(e) {   
+    function onChangeAdicionalAsistencia(e) {
         setAdicionalAsistencia(e.target.checked);
     }
-    function onChangeIncrementoSolidario(e) {   
+    function onChangeIncrementoSolidario(e) {
         setIncrementoSolidario(e.target.checked);
     }
-    function onChangeAporteSolidarioOsecac(e) {   
+    function onChangeAporteSolidarioOsecac(e) {
         setAporteSolidarioOsecac(e.target.checked);
     }
-    function onChangeAporteOsecac(e) {   
+    function onChangeAporteOsecac(e) {
         setAporteOsecac(e.target.checked);
     }
 
@@ -216,10 +216,10 @@ export default function Sueldos(props) {
         setAntiguedadAños(e.target.value);
     }
 
-    function onChangeCalcularSindicato(e) {   
+    function onChangeCalcularSindicato(e) {
         setCalcularSindicato(e.target.checked);
     }
-    function onChangeCalcularFAECyS(e) {   
+    function onChangeCalcularFAECyS(e) {
         setCalcularFAECyS(e.target.checked);
     }
     function onChangeAdelantoSueldo(e) {
@@ -232,10 +232,10 @@ export default function Sueldos(props) {
     function onChangeporcentajeXzona(e) {
         setPorcentajeXzona(e.target.value);
     }
-    function onChangeAdicionalVidrierista(e) {   
+    function onChangeAdicionalVidrierista(e) {
         setAdicionalVidrierista(e.target.checked);
     }
-    function onChangeAntiguedadAcumulativa(e) {   
+    function onChangeAntiguedadAcumulativa(e) {
         setAntiguedadAcumulativa(e.target.checked);
     }
     function onChangeAntiguedadComputo(v) {
@@ -266,7 +266,7 @@ export default function Sueldos(props) {
     }
 
 
-    function onChangeCalcularVacaciones(e) {   
+    function onChangeCalcularVacaciones(e) {
         setCalcularVacaciones(e.target.checked);
     }
     function onChangeAño(v) {
@@ -426,6 +426,59 @@ export default function Sueldos(props) {
 
     }
 
+    function cargaDetalle(detalles) {
+        var listDic = [];
+        var auxDic = {};
+
+        for (let i = 0; i < detalles.sumas_rem.length; i++) {
+            auxDic = {
+                codigo: detalles.sumas_rem[i].orden,
+                detalle: detalles.sumas_rem[i].name,
+                cantidad: detalles.sumas_rem[i].cantidad,
+                haber: detalles.sumas_rem[i].subtotal,
+                deduccion: ''
+            }
+            listDic.push(auxDic);
+        }
+
+        for (let i = 0; i < detalles.descuentos_rem.length; i++) {
+            auxDic = {
+                codigo: detalles.descuentos_rem[i].orden,
+                detalle: detalles.descuentos_rem[i].name,
+                cantidad: detalles.descuentos_rem[i].cantidad,
+                haber: '',
+                deduccion: detalles.descuentos_rem[i].subtotal,
+            }
+            listDic.push(auxDic);
+        }
+
+        for (let i = 0; i < detalles.sumas_no_rem.length; i++) {
+            auxDic = {
+                codigo: detalles.sumas_no_rem[i].orden,
+                detalle: detalles.sumas_no_rem[i].name,
+                cantidad: detalles.sumas_no_rem[i].cantidad,
+                haber: detalles.sumas_no_rem[i].subtotal,
+                deduccion: ''
+            }
+            listDic.push(auxDic);
+        }
+
+        for (let i = 0; i < detalles.descuentos_no_rem.length; i++) {
+            auxDic = {
+                codigo: detalles.descuentos_no_rem[i].orden,
+                detalle: detalles.descuentos_no_rem[i].name,
+                cantidad: detalles.descuentos_no_rem[i].cantidad,
+                haber: '',
+                deduccion: detalles.descuentos_no_rem[i].subtotal,
+            }
+            listDic.push(auxDic);
+        }
+
+
+        return listDic
+
+    }
+
     function generarReporte() {
 
         document.getElementById('reporte').style.display = 'block';
@@ -513,75 +566,63 @@ export default function Sueldos(props) {
 
         }
         console.log(data);
-        clean()
-        /** 
-                LiquidacionService.create(data)
-                    .then(response => {
-                        console.log(response.data)
-                        //actualizar pdf reporte
-                        // ponerlo visible           
-        
-                        //swal("Correcto!", "Se agrego con exito!", "success");
-    */
+        //clean()
 
-        var result = {
+        LiquidacionService.create(data)
+            .then(response => {
+                console.log('obt')
+                console.log(response.data)
+                //actualizar pdf reporte
+                // ponerlo visible           
 
-            nombreEmpresa: 'La ventanita',
-            calleNumero: 'Av. Leandro N. Alem 1589',
-            codigoPostal: '5869',
-            provincia: 'Ciudad Autónoma de Buenos Aires',
-            cuit: '23-58659965-9',
+                //swal("Correcto!", "Se agrego con exito!", "success");
 
-            apellidoNombre: 'Gonzales Esteban',
-            legajo: '35696',
-            cuil: '20-54676667-3',
 
-            departamento: 'PRODUCTO Y CONTENIDO',
-            division: 'ESMG -ADVERTISING',
-            categoria: 'Subeditor Canal Tecnología',
+                var result = {
 
-            fechaIngreso: '11/05/2021',
-            sueldo: '2400,57',
-            liquidacionTipoMesAño: 'MES 06 2020',
+                    nombreEmpresa: response.data.data.empresa.name,
+                    calleNumero: response.data.data.empresa.calleNumero,
+                    codigoPostal: response.data.data.empresa.codigoPostal,
+                    provincia: response.data.data.empresa.provincia,
+                    cuit: response.data.data.empresa.cuit,
 
-            jubilacionPeriodo: 'MAYO 2021',
-            jubilacionFecha: '07/10/2021',
-            jubilacionBanco: 'GALICIA',
+                    apellidoNombre: response.data.data.empleado.apellido + " " + response.data.data.empleado.nombre,
+                    legajo: response.data.data.empleado.legajo,
+                    cuil: response.data.data.empleado.cuil,
 
-            conceptos: [
-                {
-                    codigo: '998',
-                    detalle: 'SUELDAZO',
-                    cantidad: '78',
-                    haber: '2,400.85',
-                    deduccion: '-256.00'
-                },
-                {
-                    codigo: '998',
-                    detalle: 'SUELDAZO',
-                    cantidad: '78',
-                    haber: '2,400.85',
-                    deduccion: '-256.00'
-                },
-            ],
-            lugarFechaPago: 'BS.AS. 29/06/2001',
-            totalRemunerado: '5.587,50',
-            totalNoRemunerado: '-0,09',
-            totalDeduccion: '-554,75',
+                    departamento: 'PRODUCTO Y CONTENIDO',
+                    division: 'ESMG -ADVERTISING',
+                    categoria: 'Subeditor Canal Tecnología',
 
-            bancoAcreditacion: 'BANCO RIO',
-            bancoCuenta: '600512559955',
-            totalNeto: '1900,75',
-            totalNetoEscrito: relleno('ciento setenta y tres mil novecientos setenta y dos con cincuenta cinco'),  //llama para obtener el resultado final
-        }
-        setDatosCarga(result);
-        /** 
-                    })
-                    .catch(e => {
-                        console.log(e);
-                        swal("Error!", "No se logro cargar categoria!", "error");
-                    }); 
-                    */
+                    fechaIngreso: '11/05/2021',
+                    sueldo: response.data.data.puesto.convenio_subcat.basico,
+                    liquidacionTipoMesAño: 'MES 06 2020',
+
+                    jubilacionPeriodo: response.data.data.jubilacion.periodoJubilacion,
+                    jubilacionFecha: response.data.data.jubilacion.fechaJubilacion,
+                    jubilacionBanco: response.data.data.jubilacion.bancoAporteJubilacion,
+                    
+                    conceptos : cargaDetalle(response.data.data.detalle),
+                    
+                    lugarFechaPago: response.data.data.datos_bancarios.pagoLugar + ' ' + response.data.data.datos_bancarios.pagoFecha,
+                    totalRemunerado: parseFloat(response.data.data.detalle.total_sumas_rem).toFixed(2),
+                    totalNoRemunerado: parseFloat(response.data.data.detalle.total_sumas_no_rem).toFixed(2),
+                    totalDeduccion: parseFloat(response.data.data.detalle.total_descuentos_rem) + parseFloat(response.data.data.detalle.total_descuentos_no_rem),
+
+                    bancoAcreditacion: response.data.data.datos_bancarios.bancoNombre,
+                    bancoCuenta: response.data.data.datos_bancarios.cuentaNumero,
+
+                    totalNeto: '-----',
+                    totalNetoEscrito: relleno('ciento setenta y tres mil novecientos setenta y dos con cincuenta cinco'),  //llama para obtener el resultado final
+                }
+                setDatosCarga(result);
+
+            })
+            .catch(e => {
+                console.log(e);
+                swal("Error!", "No se logro cargar categoria!", "error");
+            });
+
     }
 
     return (
@@ -636,26 +677,26 @@ export default function Sueldos(props) {
 
 
                         <DatosBancarios
-                        onChangeBancoNombre={onChangeBancoNombre}
-                        bancoNombre={bancoNombre}
+                            onChangeBancoNombre={onChangeBancoNombre}
+                            bancoNombre={bancoNombre}
 
-                        onChangeCuentaNumero={onChangeCuentaNumero}
-                        cuentaNumero={cuentaNumero}
+                            onChangeCuentaNumero={onChangeCuentaNumero}
+                            cuentaNumero={cuentaNumero}
 
-                        onChangePagoFecha={onChangePagoFecha}
-                        pagoFecha={pagoFecha}
+                            onChangePagoFecha={onChangePagoFecha}
+                            pagoFecha={pagoFecha}
 
-                        onChangePagoLugar={onChangePagoLugar}
-                        pagoLugar={pagoLugar}
+                            onChangePagoLugar={onChangePagoLugar}
+                            pagoLugar={pagoLugar}
 
-                        onChangePeriodoJubilacion={onChangePeriodoJubilacion}
-                        periodoJubilacion={periodoJubilacion}
+                            onChangePeriodoJubilacion={onChangePeriodoJubilacion}
+                            periodoJubilacion={periodoJubilacion}
 
-                        onChangeFechaJubilacion={onChangeFechaJubilacion}
-                        fechaJubilacion={fechaJubilacion}
+                            onChangeFechaJubilacion={onChangeFechaJubilacion}
+                            fechaJubilacion={fechaJubilacion}
 
-                        onChangeBancoAporteJubilacion={onChangeBancoAporteJubilacion}
-                        bancoAporteJubilacion={bancoAporteJubilacion}
+                            onChangeBancoAporteJubilacion={onChangeBancoAporteJubilacion}
+                            bancoAporteJubilacion={bancoAporteJubilacion}
                         />
 
                     </Grid>
@@ -671,95 +712,95 @@ export default function Sueldos(props) {
                     </Typography>
 
                     <TabsUtilities
-                    onChangeEdad={onChangeEdad}
-                    edad={edad}
-                    onChangeEsJubilado={onChangeEsJubilado}
-                    esJubilado={esJubilado}
-                    onChangeAntiguedadAños={onChangeAntiguedadAños}
-                    antiguedadAños={antiguedadAños}
+                        onChangeEdad={onChangeEdad}
+                        edad={edad}
+                        onChangeEsJubilado={onChangeEsJubilado}
+                        esJubilado={esJubilado}
+                        onChangeAntiguedadAños={onChangeAntiguedadAños}
+                        antiguedadAños={antiguedadAños}
 
-                    onChangeJornadaHoras={onChangeJornadaHoras}
-                    jornadaHoras={jornadaHoras}                   
-                    onChangeCalcularSac={onChangeCalcularSac}
-                    calcularSac={calcularSac}
-                    onChangeAdicionalAsistencia={onChangeAdicionalAsistencia}
-                    adicionalAsistencia={adicionalAsistencia}                   
-                    onChangeIncrementoSolidario={onChangeIncrementoSolidario}
-                    incrementoSolidario={incrementoSolidario}
-                    onChangeAporteSolidarioOsecac={onChangeAporteSolidarioOsecac}
-                    aporteSolidarioOsecac={aporteSolidarioOsecac} 
-                    onChangeAporteOsecac={onChangeAporteOsecac}
-                    aporteOsecac={aporteOsecac} 
-                    onChangeRedondear={onChangeRedondear}
-                    redondear={redondear} 
-                    onChangeCuotaSindical={onChangeCuotaSindical}
-                    cuotaSindical={cuotaSindical} 
+                        onChangeJornadaHoras={onChangeJornadaHoras}
+                        jornadaHoras={jornadaHoras}
+                        onChangeCalcularSac={onChangeCalcularSac}
+                        calcularSac={calcularSac}
+                        onChangeAdicionalAsistencia={onChangeAdicionalAsistencia}
+                        adicionalAsistencia={adicionalAsistencia}
+                        onChangeIncrementoSolidario={onChangeIncrementoSolidario}
+                        incrementoSolidario={incrementoSolidario}
+                        onChangeAporteSolidarioOsecac={onChangeAporteSolidarioOsecac}
+                        aporteSolidarioOsecac={aporteSolidarioOsecac}
+                        onChangeAporteOsecac={onChangeAporteOsecac}
+                        aporteOsecac={aporteOsecac}
+                        onChangeRedondear={onChangeRedondear}
+                        redondear={redondear}
+                        onChangeCuotaSindical={onChangeCuotaSindical}
+                        cuotaSindical={cuotaSindical}
 
-                    onChangeCalcularSindicato={onChangeCalcularSindicato}
-                    calcularSindicato={calcularSindicato}
-                    onChangeCalcularFAECyS={onChangeCalcularFAECyS}
-                    calcularFAECyS={calcularFAECyS}
-                    onChangeAdelantoSueldo={onChangeAdelantoSueldo}
-                    adelantoSueldo={adelantoSueldo}
-                    onChangeSeguroSepelio={onChangeSeguroSepelio}
-                    seguroSepelio={seguroSepelio}
+                        onChangeCalcularSindicato={onChangeCalcularSindicato}
+                        calcularSindicato={calcularSindicato}
+                        onChangeCalcularFAECyS={onChangeCalcularFAECyS}
+                        calcularFAECyS={calcularFAECyS}
+                        onChangeAdelantoSueldo={onChangeAdelantoSueldo}
+                        adelantoSueldo={adelantoSueldo}
+                        onChangeSeguroSepelio={onChangeSeguroSepelio}
+                        seguroSepelio={seguroSepelio}
 
-                    onChangeporcentajeXzona={onChangeporcentajeXzona}
-                    porcentajeXzona={porcentajeXzona} 
-                    onChangeAdicionalVidrierista={onChangeAdicionalVidrierista}
-                    adicionalVidrierista={adicionalVidrierista} 
-                    onChangeAntiguedadAcumulativa={onChangeAntiguedadAcumulativa}
-                    antiguedadAcumulativa={antiguedadAcumulativa} 
-                    onChangeAntiguedadComputo={onChangeAntiguedadComputo}
-                    antiguedadComputo={antiguedadComputo} 
-                    onChangePorcentajeAntiguedadxAño={onChangePorcentajeAntiguedadxAño}
-                    porcentajeAntiguedadxAño={porcentajeAntiguedadxAño} 
-                    
-                    onChangeExposicionFeriado={onChangeExposicionFeriado}
-                    exposicionFeriado={exposicionFeriado}
-                    onChangeDiasNoTrabajados={onChangeDiasNoTrabajados}
-                    diasNoTrabajados={diasNoTrabajados}
-                    onChangeCriterioTrabajados={onChangeCriterioTrabajados}
-                    criterioTrabajados={criterioTrabajados}
-                    onChangeCriterioNoTrabajados={onChangeCriterioNoTrabajados}
-                    criterioNoTrabajados={criterioNoTrabajados}
-                    
-                    onChangeDiasTrabajados={onChangeDiasTrabajados}
-                    diasTrabajados={diasTrabajados}
+                        onChangeporcentajeXzona={onChangeporcentajeXzona}
+                        porcentajeXzona={porcentajeXzona}
+                        onChangeAdicionalVidrierista={onChangeAdicionalVidrierista}
+                        adicionalVidrierista={adicionalVidrierista}
+                        onChangeAntiguedadAcumulativa={onChangeAntiguedadAcumulativa}
+                        antiguedadAcumulativa={antiguedadAcumulativa}
+                        onChangeAntiguedadComputo={onChangeAntiguedadComputo}
+                        antiguedadComputo={antiguedadComputo}
+                        onChangePorcentajeAntiguedadxAño={onChangePorcentajeAntiguedadxAño}
+                        porcentajeAntiguedadxAño={porcentajeAntiguedadxAño}
 
-                    onChangeCalcularVacaciones={onChangeCalcularVacaciones}
-                    calcularVacaciones={calcularVacaciones} 
-                    onChangeAño={onChangeAño}
-                    año={año} 
-                    onChangeDiasHabiles={onChangeDiasHabiles}
-                    diasHabiles={diasHabiles} 
+                        onChangeExposicionFeriado={onChangeExposicionFeriado}
+                        exposicionFeriado={exposicionFeriado}
+                        onChangeDiasNoTrabajados={onChangeDiasNoTrabajados}
+                        diasNoTrabajados={diasNoTrabajados}
+                        onChangeCriterioTrabajados={onChangeCriterioTrabajados}
+                        criterioTrabajados={criterioTrabajados}
+                        onChangeCriterioNoTrabajados={onChangeCriterioNoTrabajados}
+                        criterioNoTrabajados={criterioNoTrabajados}
+
+                        onChangeDiasTrabajados={onChangeDiasTrabajados}
+                        diasTrabajados={diasTrabajados}
+
+                        onChangeCalcularVacaciones={onChangeCalcularVacaciones}
+                        calcularVacaciones={calcularVacaciones}
+                        onChangeAño={onChangeAño}
+                        año={año}
+                        onChangeDiasHabiles={onChangeDiasHabiles}
+                        diasHabiles={diasHabiles}
 
 
-                    onChangeHorasDiurnas50porciento={onChangeHorasDiurnas50porciento}
-                    horasDiurnas50porciento={horasDiurnas50porciento} 
-                    onChangeHorasNocturnas50porciento={onChangeHorasNocturnas50porciento}
-                    horasNocturnas50porciento={horasNocturnas50porciento} 
-                    onChangeHorasDiurnas100porciento={onChangeHorasDiurnas100porciento}
-                    horasDiurnas100porciento={horasDiurnas100porciento} 
-                    onChangeHorasNocturnas100porciento={onChangeHorasNocturnas100porciento}
-                    horasNocturnas100porciento={horasNocturnas100porciento} 
-                    onChangeHorasNocturnas={onChangeHorasNocturnas}
-                    horasNocturnas={horasNocturnas} 
+                        onChangeHorasDiurnas50porciento={onChangeHorasDiurnas50porciento}
+                        horasDiurnas50porciento={horasDiurnas50porciento}
+                        onChangeHorasNocturnas50porciento={onChangeHorasNocturnas50porciento}
+                        horasNocturnas50porciento={horasNocturnas50porciento}
+                        onChangeHorasDiurnas100porciento={onChangeHorasDiurnas100porciento}
+                        horasDiurnas100porciento={horasDiurnas100porciento}
+                        onChangeHorasNocturnas100porciento={onChangeHorasNocturnas100porciento}
+                        horasNocturnas100porciento={horasNocturnas100porciento}
+                        onChangeHorasNocturnas={onChangeHorasNocturnas}
+                        horasNocturnas={horasNocturnas}
 
-                    onChangeDiasInculpable={onChangeDiasInculpable}
-                    diasInculpable={diasInculpable} 
-                    onChangeMesInicioInculpable={onChangeMesInicioInculpable}
-                    mesInicioInculpable={mesInicioInculpable} 
-                    
-                    
-                    onChangeDiasILT={onChangeDiasILT}
-                    diasILT={diasILT}
-                    onChangeDiasACargoEmpresaILT={onChangeDiasACargoEmpresaILT}
-                    diasACargoEmpresaILT={diasACargoEmpresaILT}
-                    onChangeMesInicioILT={onChangeMesInicioILT}
-                    mesInicioILT={mesInicioILT}
-                    onChangeExposicionLicenciaILT={onChangeExposicionLicenciaILT}
-                    exposicionLicenciaILT={exposicionLicenciaILT} 
+                        onChangeDiasInculpable={onChangeDiasInculpable}
+                        diasInculpable={diasInculpable}
+                        onChangeMesInicioInculpable={onChangeMesInicioInculpable}
+                        mesInicioInculpable={mesInicioInculpable}
+
+
+                        onChangeDiasILT={onChangeDiasILT}
+                        diasILT={diasILT}
+                        onChangeDiasACargoEmpresaILT={onChangeDiasACargoEmpresaILT}
+                        diasACargoEmpresaILT={diasACargoEmpresaILT}
+                        onChangeMesInicioILT={onChangeMesInicioILT}
+                        mesInicioILT={mesInicioILT}
+                        onChangeExposicionLicenciaILT={onChangeExposicionLicenciaILT}
+                        exposicionLicenciaILT={exposicionLicenciaILT}
 
                     />
                     <br></br>
