@@ -45,7 +45,7 @@ exports.findAll = (req, res) => {
         populate: {
             path: 'subcategorias'
         }
-    })
+        })
         .then(data => {
             res.send(data);
         })
@@ -60,7 +60,12 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Convenio.findById(id).populate('categorias_conv').populate('sumas_descuentos')
+    Convenio.findById(id).populate('sumas_descuentos').populate({
+        path: 'categorias',
+        populate: {
+            path: 'subcategorias'
+        }
+        })
         .then(data => {
             if (!data)
                 res.status(404).send({ message: "No se encontro una convenio con ese Id." });
@@ -282,6 +287,7 @@ exports.agregarSumaDescuento = (req, res) => {
                     unidad: req.body.unidad,
                     cantidad: req.body.cantidad,
                     tipo: req.body.tipo,
+                    sobre: req.body.sobre,
 
                 });
 
