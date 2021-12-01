@@ -19,6 +19,7 @@ exports.create = (req, res) => {
         "empresa": {},
         "puesto": {},
         "detalle": {
+            "sueldo_basico": 0,
             "sumas_rem": [],
             "total_sumas_rem": 0,
             "descuentos_rem":[],
@@ -62,6 +63,7 @@ exports.create = (req, res) => {
         const sueldo_basico = data.convenio_subcat.basico;
         const idConvenio = data.convenio._id;
         liquidacion.puesto = data;
+        liquidacion.detalle.sueldo_basico = sueldo_basico;
         //console.log(sueldo_basico, "- - - > ", sumas_remunerativas);
         return Promise.all([sueldo_basico, idConvenio]);
         
@@ -179,12 +181,13 @@ exports.create = (req, res) => {
     .then(data =>{
         liquidacion.empresa = data;
         console.log(liquidacion);
+        res.send({"data":liquidacion});
     })
     .catch(err => {
         console.log("err: ", err);
     })
 
-    return;
+    
     /* //Se crea la liquidacion con lo recibido
     const liquidacion = new Empresa({
         name: req.body.name,
