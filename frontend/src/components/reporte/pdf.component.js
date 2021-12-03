@@ -108,7 +108,14 @@ const styles = StyleSheet.create({
     },
     numerosFacturado: {
         padding: 3.5,
+        minHeight: '21px',
         textAlign: 'right'
+    },
+    numerosFacturadoSpace: {
+        padding: 3.5,
+        minHeight: '21px',
+        textAlign: 'right',
+        marginBottom: '16px'
     },
     infoEscritoTotal: {
         marginLeft: 5,
@@ -222,46 +229,72 @@ const MyDocument = (props) => (
                 <View style={{ flexDirection: 'column', textAlign: 'center', width: '8vh' }}>
                     <View style={styles.infoSUPv2}><Text>Codigo</Text></View>
                     <View style={styles.infoDOWN}>
-                        
+
                         {props.datosCarga.conceptos.map(function (d, idx) {
-                            return (<Text style={styles.numerosFacturado}>{d.codigo}</Text>)
+                            if (d.detalle.length < 35) {
+                                return(<Text style={styles.numerosFacturado}>{d.codigo}</Text>);
+                            }else{
+                                return (<Text style={styles.numerosFacturadoSpace}>{d.codigo}</Text>);
+                            }
+                            
                         })}
                     </View>
                 </View>
                 <View style={{ flexDirection: 'column', borderLeft: '1.5px', textAlign: 'center', width: '42vh' }}>
                     <View style={styles.infoSUP}><Text>Detalle</Text></View>
                     <View style={styles.infoDOWN}>
-                        
+
+                      
+                     
+                       
                         {props.datosCarga.conceptos.map(function (d, idx) {
                             return (<Text style={styles.textoFacturado}>{d.detalle}</Text>)
                         })}
+                       
+                       
+
+
+
                     </View>
                 </View>
                 <View style={{ flexDirection: 'column', borderLeft: '1.5px', textAlign: 'center', width: '14vh' }}>
                     <View style={styles.infoSUP}><Text>Cantidad</Text></View>
                     <View style={styles.infoDOWN}>
-                        
-                        {props.datosCarga.conceptos.map(function (d, idx) {
-                            return (<Text style={styles.numerosFacturado}>{d.cantidad}</Text>)
+
+                    {props.datosCarga.conceptos.map(function (d, idx) {
+                            if (d.detalle.length < 35) {
+                                return(<Text style={styles.numerosFacturado}>{d.cantidad}</Text>);
+                            }else{
+                                return (<Text style={styles.numerosFacturadoSpace}>{d.cantidad}</Text>);
+                            }
+                            
                         })}
                     </View>
                 </View>
                 <View style={{ flexDirection: 'column', borderLeft: '1.5px', textAlign: 'center', width: '15vh' }}>
                     <View style={styles.infoSUP}><Text>Haberes</Text></View>
                     <View style={styles.infoDOWN}>
-                        
-                        {props.datosCarga.conceptos.map(function (d, idx) {
-                            return (<Text style={styles.numerosFacturado}>{d.haber}</Text>)
+
+                    {props.datosCarga.conceptos.map(function (d, idx) {
+                            if (d.detalle.length < 35) {
+                                return(<Text style={styles.numerosFacturado}>{d.haber}</Text>);
+                            }else{
+                                return (<Text style={styles.numerosFacturadoSpace}>{d.haber}</Text>);
+                            }
+                            
                         })}
                     </View>
                 </View>
                 <View style={{ flexDirection: 'column', borderLeft: '1.5px', textAlign: 'center', width: '15vh' }}>
                     <View style={styles.infoSUPv4}><Text>Deducciones</Text></View>
                     <View style={styles.infoDOWN}>
-
-                        
                         {props.datosCarga.conceptos.map(function (d, idx) {
-                            return (<Text style={styles.numerosFacturado}>{d.deduccion}</Text>)
+                            if (d.detalle.length < 35) {
+                                return(<Text style={styles.numerosFacturado}>{d.deduccion}</Text>);
+                            }else{
+                                return (<Text style={styles.numerosFacturadoSpace}>{d.deduccion}</Text>);
+                            }
+                            
                         })}
                     </View>
                 </View>
@@ -320,20 +353,20 @@ const MyDocument = (props) => (
 
             <View style={styles.infoEscritoTotal}>
                 <Text style={{ fontFamily: 'Times-Bold', fontSize: 14 }}>Son Pesos:</Text>
-               
 
-{
-props.datosCarga.totalNetoEscrito ? (
-    <Text style={{ fontFamily: 'Courier', fontSize: 13, marginLeft: 25 }}>
-    {props.datosCarga.totalNetoEscrito}
-    </Text>
-) : (
-    <Text style={{ fontFamily: 'Courier', fontSize: 13, marginLeft: 25 }}>
-    '--------------------------------------------------------------------'
-    </Text>
-)
-}
-                
+
+                {
+                    props.datosCarga.totalNetoEscrito ? (
+                        <Text style={{ fontFamily: 'Courier', fontSize: 13, marginLeft: 25 }}>
+                            {props.datosCarga.totalNetoEscrito}
+                        </Text>
+                    ) : (
+                        <Text style={{ fontFamily: 'Courier', fontSize: 13, marginLeft: 25 }}>
+                            '--------------------------------------------------------------------'
+                        </Text>
+                    )
+                }
+
 
 
             </View>

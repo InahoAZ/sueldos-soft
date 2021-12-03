@@ -12,6 +12,7 @@ import { height } from 'dom-helpers';
 import DatosBancarios from './datosbancarios.component';
 import Divider from '@material-ui/core/Divider';
 import swal from 'sweetalert';
+import n_t_l from 'numeros_a_letras';
 import LiquidacionService from '../../services/liquidacione.service';
 
 const theme = createTheme();
@@ -435,7 +436,7 @@ export default function Sueldos(props) {
                 codigo: detalles.sumas_rem[i].orden,
                 detalle: detalles.sumas_rem[i].name,
                 cantidad: detalles.sumas_rem[i].cantidad,
-                haber: detalles.sumas_rem[i].subtotal,
+                haber: parseFloat(detalles.sumas_rem[i].subtotal).toFixed(2),
                 deduccion: ''
             }
             listDic.push(auxDic);
@@ -447,7 +448,7 @@ export default function Sueldos(props) {
                 detalle: detalles.descuentos_rem[i].name,
                 cantidad: detalles.descuentos_rem[i].cantidad,
                 haber: '',
-                deduccion: detalles.descuentos_rem[i].subtotal,
+                deduccion: parseFloat(detalles.descuentos_rem[i].subtotal).toFixed(2),
             }
             listDic.push(auxDic);
         }
@@ -457,7 +458,7 @@ export default function Sueldos(props) {
                 codigo: detalles.sumas_no_rem[i].orden,
                 detalle: detalles.sumas_no_rem[i].name,
                 cantidad: detalles.sumas_no_rem[i].cantidad,
-                haber: detalles.sumas_no_rem[i].subtotal,
+                haber: parseFloat(detalles.sumas_no_rem[i].subtotal).toFixed(2),
                 deduccion: ''
             }
             listDic.push(auxDic);
@@ -469,15 +470,18 @@ export default function Sueldos(props) {
                 detalle: detalles.descuentos_no_rem[i].name,
                 cantidad: detalles.descuentos_no_rem[i].cantidad,
                 haber: '',
-                deduccion: detalles.descuentos_no_rem[i].subtotal,
+                deduccion: parseFloat(detalles.descuentos_no_rem[i].subtotal).toFixed(2),
             }
             listDic.push(auxDic);
         }
 
-
+        listDic.sort(function(a,b){
+            return a.codigo - b.codigo;
+        });
         return listDic
 
     }
+    
 
     function generarReporte() {
 
@@ -565,9 +569,10 @@ export default function Sueldos(props) {
 
 
         }
+        console.log(n_t_l(255));
         console.log(data);
         //clean()
-
+    
         LiquidacionService.create(data)
             .then(response => {
                 console.log('obt')
@@ -583,7 +588,7 @@ export default function Sueldos(props) {
                     nombreEmpresa: response.data.data.empresa.name,
                     calleNumero: response.data.data.empresa.calleNumero,
                     codigoPostal: response.data.data.empresa.codigoPostal,
-                    provincia: response.data.data.empresa.provincia,
+                    provincia: response.data.data.empresa.provincia +', '+response.data.data.empresa.localidad,
                     cuit: response.data.data.empresa.cuit,
 
                     apellidoNombre: response.data.data.empleado.apellido + " " + response.data.data.empleado.nombre,
@@ -613,14 +618,14 @@ export default function Sueldos(props) {
                     bancoCuenta: response.data.data.datos_bancarios.cuentaNumero,
 
                     totalNeto: '-----',
-                    totalNetoEscrito: relleno('ciento setenta y tres mil novecientos setenta y dos con cincuenta cinco'),  //llama para obtener el resultado final
+                    totalNetoEscrito: relleno(n_t_l(145552)),  //llama para obtener el resultado final
                 }
                 setDatosCarga(result);
 
             })
             .catch(e => {
                 console.log(e);
-                swal("Error!", "No se logro cargar categoria!", "error");
+                swal("Error!", "No se logro generar liquidacion!", "error");
             });
 
     }

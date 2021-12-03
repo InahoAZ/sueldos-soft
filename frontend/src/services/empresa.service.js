@@ -10,7 +10,7 @@ class EmpresaService {
   }
 
   update(id, data) {
-    return http.put(`/empresas/${id}`, data);
+    return http.put(`/empresas/${id}`,data);
   }
 
   delete(id) {

@@ -137,6 +137,10 @@ export default function Convenios(props) {
 
 
     function saveConvenio() {
+        if(name === '' || vigenteDesde === ''){
+            swal("Error!", "Complete todos los campos!", "error");
+            return 0
+        }
         var data = {
             name: name,
             vigente_desde: vigenteDesde,
@@ -252,7 +256,7 @@ export default function Convenios(props) {
                                         <TableRow>
                                             <TableCell>Convenios</TableCell>
 
-                                            <TableCell align="right">Vigencia desde</TableCell>
+                                            <TableCell align="center">Vigencia desde</TableCell>
 
                                             <TableCell align="right">Opciones</TableCell>
                                         </TableRow>

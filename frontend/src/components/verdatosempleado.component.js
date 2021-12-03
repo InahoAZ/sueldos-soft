@@ -2,10 +2,14 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import TablaPuestosAsignados from './tablapuestosasignados.component';
+import EmpleadosService from '../services/empleados.service';
 
 export default function CustomResponsiveFontSizes(props) {
 
+ 
 
+ 
+//console.log(props);
   
 
   return (
@@ -32,7 +36,7 @@ export default function CustomResponsiveFontSizes(props) {
     <Grid item>
 
         <TablaPuestosAsignados
-          puestos = {props.persona.puestos}
+          puestos = {props.puestosempleado}
           verDatos = {true}
           idEmpleado = {''}
         />

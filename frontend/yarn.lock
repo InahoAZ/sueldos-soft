@@ -8395,6 +8395,11 @@
   "resolved" "https://registry.npmjs.org/num2fraction/-/num2fraction-1.2.2.tgz"
   "version" "1.2.2"
 
+"numeros_a_letras@^1.0.7":
+  "integrity" "sha512-1fJUTETNmiDRQTBQBwWsdfLpk9AKLutRp9H5Pmu63TAMKTH+rPsaC95qxejw0gnt8ONEJSDlO4rehxFh6Hq7mA=="
+  "resolved" "https://registry.npmjs.org/numeros_a_letras/-/numeros_a_letras-1.0.7.tgz"
+  "version" "1.0.7"
+
 "nwsapi@^2.2.0":
   "integrity" "sha512-h2AatdwYH+JHiZpv7pt/gSX1XoRGb7L/qSIeuqA6GwYoF9w1vP1cw42TO0aI2pNyshRK5893hNSl+1//vHK7hQ=="
   "resolved" "https://registry.npmjs.org/nwsapi/-/nwsapi-2.2.0.tgz"

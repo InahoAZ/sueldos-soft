@@ -447,7 +447,7 @@ export default function SumasDescuentos(props) {
                                             <TableRow>
                                                 <TableCell>Convenios</TableCell>
                                                 <TableCell>Tipo concepto</TableCell>
-                                                <TableCell align="right">nombre</TableCell>
+                                                <TableCell align="center">nombre</TableCell>
                                                 <TableCell align="right">unidad</TableCell>
                                                 <TableCell align="right">cantidad</TableCell>
                                                 <TableCell align="right">orden</TableCell>

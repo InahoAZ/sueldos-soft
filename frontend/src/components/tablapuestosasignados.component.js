@@ -39,6 +39,7 @@ const Child = forwardRef((props, ref) => {
   const [puestosAsociados, setPuestosAsociados] = React.useState([]);
 
   const classes = useStyles();
+  
 
   if (props.idEmpleado === ''){
     let puestos = [];
@@ -46,9 +47,9 @@ const Child = forwardRef((props, ref) => {
       puestos = props.puestos;
       console.log('hola')
       // si no vacio sobrecargar
-      if (puestos.length > 0) {
+      
         cargarPuestos(puestos);
-      }
+      
     }
 
   }
@@ -58,14 +59,16 @@ const Child = forwardRef((props, ref) => {
   React.useEffect(() => {
     async function retrieveEmpleadoauto() {
       
+     
+      
       if (props.idEmpleado !== '') {
         
         EmpleadoService.getOne(props.idEmpleado)
           .then(response => {
 
-            console.log('actualiza empleado: ' + response.data)
+            console.log(response.data)
 
-            cargarPuestos(response.data.puestos)
+            cargarPuestos(response.data[0].puesto)
 
 
           })
@@ -99,7 +102,7 @@ const Child = forwardRef((props, ref) => {
       .then(response => {
 
         console.log('actualiza empleado: '+ response.data)
-        cargarPuestos(response.data.puestos);
+        cargarPuestos(response.data[0].puesto);
         
 
       })
@@ -114,6 +117,8 @@ const Child = forwardRef((props, ref) => {
 
 
   function cargarPuestos(puestos) {
+
+    
     EmpresaService.getAll()
       .then(response => {
         setPuestosAsociados(obtenerPuestos(response.data, puestos))
@@ -174,18 +179,21 @@ const Child = forwardRef((props, ref) => {
   // tener todas las empresas con sus datos
   function obtenerPuestos(empresas, puestos) {
     let rows = [];
-    //console.log(puestos);
+    console.log(puestos);
     for (let i = 0; i < empresas.length; i++) {
       if (empresas[i].areas) {
         for (let j = 0; j < empresas[i].areas.length; j++) {
           if (empresas[i].areas[j].departamentos) {
             for (let d = 0; d < empresas[i].areas[j].departamentos.length; d++) {
               if (empresas[i].areas[j].departamentos[d].puestos) {
+               
                 for (let p = 0; p < empresas[i].areas[j].departamentos[d].puestos.length; p++) {
-
+                  
                   for (let c = 0; c < puestos.length; c++) {
-                    if (puestos[c]._id === empresas[i].areas[j].departamentos[d].puestos[p]._id) {
-
+                    console.log(puestos[c].puesto);
+                    console.log(empresas[i].areas[j].departamentos[d].puestos[p]._id );
+                    if (puestos[c].puesto === empresas[i].areas[j].departamentos[d].puestos[p]._id && puestos[c].activo) {
+                     
                       let puesto = {
                         id: empresas[i].areas[j].departamentos[d].puestos[p]._id,
                         name: empresas[i].areas[j].departamentos[d].puestos[p].name,
@@ -208,6 +216,7 @@ const Child = forwardRef((props, ref) => {
         }
       }
     }
+    console.log(rows);
     return rows
   }
 

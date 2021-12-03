@@ -74,7 +74,8 @@ export default function Categorias(props) {
         setBasico(e.target.value);
     }
     function onChangeSubCat(e) {
-        setSubCat(e.target.value);
+        
+        setSubCat(e.target.value.toUpperCase());
     }
 
     function listarCat(conv) {
@@ -134,6 +135,7 @@ export default function Categorias(props) {
                 //restear todos los campos
                 setConvenio('');
                 setCategoria('');
+                setInputCategoria('');
                 setSubCat('');
                 setBasico('');
                 swal("Correcto!", "Se agrego con exito!", "success");
@@ -166,6 +168,7 @@ export default function Categorias(props) {
                 return 0
             }
         }
+
 
         
 
@@ -218,7 +221,16 @@ export default function Categorias(props) {
                                 icon: "success",
                             });
                             //actualizar tabla
+                            setConvenio('');
+                setCategoria('');
+                setInputCategoria('');
+                setSubCat('');
+                setBasico('');
                             listarConvenios()
+
+
+
+
                         })
                         .catch(e => {
                             console.log(e);
@@ -347,6 +359,7 @@ export default function Categorias(props) {
                                     value={valueConvenio}
                                     onChange={(event, newValue) => {
                                         setCategoria('');
+                                        setInputCategoria('');
                                         setSubCat('');
                                         setBasico('');
                         

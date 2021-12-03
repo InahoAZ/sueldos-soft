@@ -93,7 +93,8 @@ export default function Datos(props) {
         //obtener datos de ese empleado - rellenarlo
         EmpleadosService.getOne(props.cuil)
           .then(response => {
-            console.log(response.data)
+            response.data = response.data[0];
+            
             // set todos con valores
             setCuil(response.data.cuil);
             setApellido(response.data.apellido);
