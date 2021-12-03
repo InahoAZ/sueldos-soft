@@ -105,7 +105,7 @@ exports.create = (req, res) => {
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "100"]});
 
         if (!calcularVacaciones)
-            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "008"]});
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "101"]});
 
             
         console.log(condicion_sumas_rem);
@@ -217,7 +217,7 @@ exports.create = (req, res) => {
         detalle_liquidacion.descuentos_rem.forEach((item)=>{
             //console.log(item.unidad * item.cantidad * total_sumas_rem);
             
-            if (item.sobre.sueldo_basico === 'total_sumas_rem')
+            if (item.sobre === 'total_sumas_rem')
                 item.subtotal = item.unidad * item.cantidad * total_sumas_rem;
             else
                 item.subtotal = item.unidad * item.cantidad;
