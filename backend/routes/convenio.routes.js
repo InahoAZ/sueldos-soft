@@ -28,6 +28,9 @@ module.exports = app => {
     // Sub CATEGORIAS
     //endpoint para crear y añadir una nueva categoria a un convenio
     router.put("/:id/agregarSubCategoria", convenios.agregarSubCategoria);
+
+    //endpoint para actualizar los valores de una sub-categoria
+    router.put("/:id/updateSubCategoria", convenios.updateSubCategoria);
     
     //endpoint para eliminar y quitar una nueva categoria a un convenio
     router.put("/:id/quitarSubCategoria", convenios.quitarSubCategoria);

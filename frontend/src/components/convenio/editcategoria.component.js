@@ -65,12 +65,13 @@ export default function EditarBasico(props) {
 
     function updateBasico() {
         let data = {
-            id: props.idSub,
-            name: basico,
+            
+            basico: basico
             
         }
-        ConveniosService.update(
-            props.convenioid,
+        console.log(data);
+        ConveniosService.updateSubCategoria(
+            props.subCatid,
             data
         )
             .then(response => {

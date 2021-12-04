@@ -236,6 +236,29 @@ exports.agregarSubCategoria = (req, res) => {
         })
 };
 
+//actualiza monto basico de una sub categoria
+exports.updateSubCategoria = (req, res) => {
+    if (!req.body) {
+        return res.status(400).send({
+            message: "Los campos para actualizar no pueden estar vacios"
+        });
+    }
+//
+    const idCat = req.params.id;
+
+    SubCategoriaConv.findByIdAndUpdate(idCat, req.body, { useFindAndModify: false })
+        .then(data => {
+            if (!data)
+                res.status(404).send({ message: "No se encontro una sub categoria con ese Id." });
+            else res.send({ message: "Sub categoria Actualizada", id: data.id });
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .send({ message: err.message })
+        })
+};
+
 exports.quitarSubCategoria = (req, res) => {
     const idCat = req.body.idCat;
     const idSubCat = req.body.idSubCat;

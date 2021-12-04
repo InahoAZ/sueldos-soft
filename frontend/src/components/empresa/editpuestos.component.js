@@ -64,6 +64,9 @@ export default function EditarPuesto(props) {
     const [categorias, setCategorias] = React.useState([]);
     const [convenios, setConvenios] = React.useState([]);
 
+    
+    const [puestoname, setPuestoname] = React.useState(props.puestoname);
+
     const [subCategoriasSelect, setSubCategoriasSelect] = React.useState('');
     const [categoriasSelect, setCategoriasSelect] = React.useState('');
     const [conveniosSelect, setConveniosSelect] = React.useState('');
@@ -143,19 +146,27 @@ export default function EditarPuesto(props) {
         setOpen(false);
     };
 
-    let data = {
-        id: props.puestoid,
-        name: ''
-    }
+    
     function onChangeName(e) {
-        data.name = e.target.value
+        setPuestoname(e.target.value);
     }
 
     function updatePuesto() {
-        console.log(data)
+        let datas = {
+            id: props.puestoid,
+            name: puestoname,
+            convenio: conveniosSelect,
+            convenio_subcat: subCategoriasSelect
+
+        }
+        if(subCategoriasSelect === '' || conveniosSelect === ''){
+            datas.convenio = props.idConvenio;
+            datas.convenio = props.idSubCat;
+        }
+        console.log(datas);
         PuestoService.update(
             props.puestoid,
-            data
+            datas
         )
             .then(response => {
                 console.log(response.data);
@@ -174,19 +185,19 @@ export default function EditarPuesto(props) {
 
     React.useEffect(() => {
         if (convenios.length > 0) {
-          console.log(convenios);
+            console.log(convenios);
 
-          getCatbyConvId(props.idConvenio);
-          setCategoriasSelect(props.idCat);
+            getCatbyConvId(props.idConvenio);
+            setCategoriasSelect(props.idCat);
         }
-      }, [convenios]);
+    }, [convenios]);
 
-      React.useEffect(() => {
+    React.useEffect(() => {
         if (categorias.length > 0) {
-          getSubCatbyConvId(props.idCat)
-          setSubCategoriasSelect(props.idSub);
+            getSubCatbyConvId(props.idCat)
+            setSubCategoriasSelect(props.idSub);
         }
-      }, [categorias]);
+    }, [categorias]);
 
 
     function obtenerData() {
@@ -197,10 +208,10 @@ export default function EditarPuesto(props) {
                 setConveniosSelect(props.idConvenio);
 
 
-                
 
 
-                
+
+
             })
             .catch(e => {
                 console.log(e);
