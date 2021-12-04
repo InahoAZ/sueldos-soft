@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
-      },
-      selectEmpty: {
+    },
+    selectEmpty: {
         marginTop: theme.spacing(2),
-      },
+    },
 }));
 
 
@@ -59,76 +59,81 @@ export default function EditarPuesto(props) {
     const [open, setOpen] = React.useState(false);
 
 
-    
-  const [subCategorias, setSubCategorias] = React.useState([]);
-  const [categorias, setCategorias] = React.useState([]);
-  const [convenios, setConvenios] = React.useState([]);
 
-  const [subCategoriasSelect, setSubCategoriasSelect] = React.useState('');
-  const [categoriasSelect, setCategoriasSelect] = React.useState('');
-  const [conveniosSelect, setConveniosSelect] = React.useState('');
+    const [subCategorias, setSubCategorias] = React.useState([]);
+    const [categorias, setCategorias] = React.useState([]);
+    const [convenios, setConvenios] = React.useState([]);
 
-  function handleChangeConvenio(e) {
-    setConveniosSelect(e.target.value);
-    getCatbyConvId(e.target.value)
-    setSubCategoriasSelect('');
-    setCategoriasSelect('');
-}
+    const [subCategoriasSelect, setSubCategoriasSelect] = React.useState('');
+    const [categoriasSelect, setCategoriasSelect] = React.useState('');
+    const [conveniosSelect, setConveniosSelect] = React.useState('');
 
+    function handleChangeConvenio(e) {
+        setConveniosSelect(e.target.value);
+        getCatbyConvId(e.target.value)
+        setSubCategoriasSelect('');
 
-React.useEffect(() => {
-    async function start() {
-      obtenerData();
-      
-    }
-    start();
-  }, []);
-function getCatbyConvId(id){
-  if(id !== ''){
-    for(let i = 0 ;i<convenios.length;i++){
-
-      if(id === convenios[i]._id){
-
-        setCategorias(convenios[i].categorias);
-      }
+        setCategoriasSelect('');
     }
 
-  }else{
-    setCategorias([]);
-    setSubCategorias([]);
-    setSubCategoriasSelect('');
-    setCategoriasSelect('');
 
-  }
-}
+    React.useEffect(() => {
+        async function start() {
+            obtenerData();
 
-function handleChangeCategoria(e) {
-  setCategoriasSelect(e.target.value);
-  getSubCatbyConvId(e.target.value);
-  setSubCategoriasSelect('');
-}
+        }
+        start();
+    }, []);
+    function getCatbyConvId(id) {
+        console.log(id)
+        console.log(convenios)
+        if (id !== '') {
+            for (let i = 0; i < convenios.length; i++) {
 
-function getSubCatbyConvId(id){
-  if(id !== ''){
-    for(let i = 0 ;i<categorias.length;i++){
+                if (id === convenios[i]._id) {
 
-      if(id === categorias[i]._id){
+                    setCategorias(convenios[i].categorias);
+                }
+            }
 
-        setSubCategorias(categorias[i].subcategorias);
-      }
+        } else {
+            setCategorias([]);
+            setSubCategorias([]);
+            setSubCategoriasSelect('');
+
+            setCategoriasSelect('');
+
+        }
     }
 
-  }else{
-    
-    setSubCategorias([]);
-    setSubCategoriasSelect('');
+    function handleChangeCategoria(e) {
 
-  }
-}
+        setCategoriasSelect(e.target.value);
+        getSubCatbyConvId(e.target.value);
+        setSubCategoriasSelect('');
+    }
 
-function handleChangeSubCategoria(e){
-  setSubCategoriasSelect(e.target.value);
-}
+    function getSubCatbyConvId(id) {
+        if (id !== '') {
+            for (let i = 0; i < categorias.length; i++) {
+
+                if (id === categorias[i]._id) {
+
+                    setSubCategorias(categorias[i].subcategorias);
+                }
+            }
+
+        } else {
+
+            setSubCategorias([]);
+            setSubCategoriasSelect('');
+
+        }
+    }
+
+    function handleChangeSubCategoria(e) {
+        setSubCategoriasSelect(e.target.value);
+    }
 
     const handleOpen = () => {
         setOpen(true);
@@ -142,7 +147,7 @@ function handleChangeSubCategoria(e){
         id: props.puestoid,
         name: ''
     }
-    function onChangeName(e){
+    function onChangeName(e) {
         data.name = e.target.value
     }
 
@@ -167,20 +172,41 @@ function handleChangeSubCategoria(e){
             });
     };
 
+    React.useEffect(() => {
+        if (convenios.length > 0) {
+          console.log(convenios);
+
+          getCatbyConvId(props.idConvenio);
+          setCategoriasSelect(props.idCat);
+        }
+      }, [convenios]);
+
+      React.useEffect(() => {
+        if (categorias.length > 0) {
+          getSubCatbyConvId(props.idCat)
+          setSubCategoriasSelect(props.idSub);
+        }
+      }, [categorias]);
 
 
-
-    function obtenerData (){
+    function obtenerData() {
         ConveniosService.getAll()
-        .then(response => {
-            setConvenios(response.data);
-            console.log(response.data);
-        })
-        .catch(e => {
-            console.log(e);
-        });
-    
-      }
+            .then(response => {
+
+                setConvenios(response.data);
+                setConveniosSelect(props.idConvenio);
+
+
+                
+
+
+                
+            })
+            .catch(e => {
+                console.log(e);
+            });
+
+    }
 
 
 
@@ -207,69 +233,69 @@ function handleChangeSubCategoria(e){
                     <div className={classes.paper}>
                         <h3 id="transition-modal-title">Editar </h3>
                         <TextField id="name2" label="Nombre del puesto" color="secondary" onChange={onChangeName} defaultValue={props.puestoname} />
-<br></br>
+                        <br></br>
 
 
                         <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="age-native-simple">Convenio</InputLabel>
-            <Select
-              native
-              value={conveniosSelect}
-              onChange={handleChangeConvenio}
-              inputProps={{
-                name: 'name',
-                id: 'id',
-              }}
-            >
-              <option aria-label="None" value="" />
-              {convenios.map((option) => (
-                <option value={option._id}>{option.name}</option>
-              ))}
+                            <InputLabel htmlFor="age-native-simple">Convenio</InputLabel>
+                            <Select
+                                native
+                                value={conveniosSelect}
+                                onChange={handleChangeConvenio}
+                                inputProps={{
+                                    name: 'name',
+                                    id: 'id',
+                                }}
+                            >
+                                <option aria-label="None" value="" />
+                                {convenios.map((option) => (
+                                    <option value={option._id}>{option.name}</option>
+                                ))}
 
-            </Select>
-          </FormControl>
-          <br></br>
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="age-native-simple">Categoria</InputLabel>
-            <Select
-              native
-              value={categoriasSelect}
-              onChange={handleChangeCategoria}
-              inputProps={{
-                name: 'name',
-                id: 'id',
-              }}
-            >
-              <option aria-label="None" value="" />
-              {categorias.map((option) => (
-                <option value={option._id}>{option.name}</option>
-              ))}
+                            </Select>
+                        </FormControl>
+                        <br></br>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="age-native-simple">Categoria</InputLabel>
+                            <Select
+                                native
+                                value={categoriasSelect}
+                                onChange={handleChangeCategoria}
+                                inputProps={{
+                                    name: 'name',
+                                    id: 'id',
+                                }}
+                            >
+                                <option aria-label="None" value="" />
+                                {categorias.map((option) => (
+                                    <option value={option._id}>{option.name}</option>
+                                ))}
 
-            </Select>
-          </FormControl>
-        <br></br>
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="age-native-simple">Sub-Categoria</InputLabel>
-            <Select
-              native
-              value={subCategoriasSelect}
-              onChange={handleChangeSubCategoria}
-              inputProps={{
-                name: 'name',
-                id: 'id',
-              }}
-            >
-              <option aria-label="None" value="" />
-              {subCategorias.map((option) => (
-                <option value={option._id}>{option.name}</option>
-              ))}
+                            </Select>
+                        </FormControl>
+                        <br></br>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="age-native-simple">Sub-Categoria</InputLabel>
+                            <Select
+                                native
+                                value={subCategoriasSelect}
+                                onChange={handleChangeSubCategoria}
+                                inputProps={{
+                                    name: 'name',
+                                    id: 'id',
+                                }}
+                            >
+                                <option aria-label="None" value="" />
+                                {subCategorias.map((option) => (
+                                    <option value={option._id}>{option.name}</option>
+                                ))}
 
-            </Select>
-          </FormControl>
+                            </Select>
+                        </FormControl>
 
- 
-<br></br>
-<br></br>
+
+                        <br></br>
+                        <br></br>
                         <Button variant="contained" color="primary" onClick={updatePuesto}>
                             Guardar
                         </Button>
