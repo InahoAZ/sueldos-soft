@@ -502,7 +502,7 @@ function handleChangeSubCategoria(e){
             </Select>
           </FormControl>
 
-
+ 
 
           <Button variant="contained" color="primary" onClick={savePuesto} style={{ marginTop: '20px', marginLeft: '20px' }} >
             Crear

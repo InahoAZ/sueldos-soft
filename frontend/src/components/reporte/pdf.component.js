@@ -44,6 +44,11 @@ const styles = StyleSheet.create({
     esquinaSUPderecha: {
         alignItems: 'flex-end'
     },
+    infoEmpresaWithoutLogo:{
+        fontSize: 15,
+        marginLeft: 20,
+        width: '56vh'
+    },
     infoEmpresa: {
         fontSize: 15,
         width: '46vh'
@@ -141,8 +146,9 @@ const MyDocument = (props) => (
                 <Text>RECIBO DE HABERES Ley no 20.744</Text>
             </View>
             <View style={styles.page}>
-
-                <View style={styles.logo}>
+{/*
+para tener logo, descomentar esto y comentar el "view" siguiente de abajo
+<View style={styles.logo}>
                     <Image src='https://picsum.photos/70/70' />
                 </View>
                 <View style={styles.infoEmpresa}>
@@ -152,6 +158,17 @@ const MyDocument = (props) => (
                     <Text>{props.datosCarga.provincia}</Text>
                     <Text>CUIT No {props.datosCarga.cuit}</Text>
                 </View>
+
+*/}
+                
+                <View style={styles.infoEmpresaWithoutLogo}>
+                    <Text>Empresa {props.datosCarga.nombreEmpresa}</Text>
+                    <Text>{props.datosCarga.calleNumero}</Text>
+                    <Text>({props.datosCarga.codigoPostal})</Text>
+                    <Text>{props.datosCarga.provincia}</Text>
+                    <Text>CUIT No {props.datosCarga.cuit}</Text>
+                </View>
+
                 <View style={styles.esquinaSUPderecha}>
 
                     <Text style={{ margin: 5, marginTop: 10, fontSize: 12 }}>DUPLICADO</Text>
@@ -231,7 +248,7 @@ const MyDocument = (props) => (
                     <View style={styles.infoDOWN}>
 
                         {props.datosCarga.conceptos.map(function (d, idx) {
-                            if (d.detalle.length < 35) {
+                            if (d.detalle.length < 33) {
                                 return(<Text style={styles.numerosFacturado}>{d.codigo}</Text>);
                             }else{
                                 return (<Text style={styles.numerosFacturadoSpace}>{d.codigo}</Text>);
@@ -262,7 +279,7 @@ const MyDocument = (props) => (
                     <View style={styles.infoDOWN}>
 
                     {props.datosCarga.conceptos.map(function (d, idx) {
-                            if (d.detalle.length < 35) {
+                            if (d.detalle.length < 33) {
                                 return(<Text style={styles.numerosFacturado}>{d.cantidad}</Text>);
                             }else{
                                 return (<Text style={styles.numerosFacturadoSpace}>{d.cantidad}</Text>);
@@ -276,7 +293,7 @@ const MyDocument = (props) => (
                     <View style={styles.infoDOWN}>
 
                     {props.datosCarga.conceptos.map(function (d, idx) {
-                            if (d.detalle.length < 35) {
+                            if (d.detalle.length < 33) {
                                 return(<Text style={styles.numerosFacturado}>{d.haber}</Text>);
                             }else{
                                 return (<Text style={styles.numerosFacturadoSpace}>{d.haber}</Text>);
@@ -289,7 +306,7 @@ const MyDocument = (props) => (
                     <View style={styles.infoSUPv4}><Text>Deducciones</Text></View>
                     <View style={styles.infoDOWN}>
                         {props.datosCarga.conceptos.map(function (d, idx) {
-                            if (d.detalle.length < 35) {
+                            if (d.detalle.length < 33) {
                                 return(<Text style={styles.numerosFacturado}>{d.deduccion}</Text>);
                             }else{
                                 return (<Text style={styles.numerosFacturadoSpace}>{d.deduccion}</Text>);

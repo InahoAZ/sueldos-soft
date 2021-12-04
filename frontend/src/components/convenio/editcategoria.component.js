@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function EditarConvenio(props) {
+export default function EditarBasico(props) {
 
 
     const classes = useStyles();
@@ -54,33 +54,28 @@ export default function EditarConvenio(props) {
     const handleClose = () => {
         setOpen(false);
     };
-    const [name, setStateName] = React.useState(props.name);
-    const [vigenteDesde, setStateVigenteDesde] = React.useState(props.vigenteDesde);
+    const [basico, setStateBasico] = React.useState(props.basico);
+   
 
     
-    function onChangeName(e) {
-        setStateName(e.target.value);
+    function onChangeBasico(e) {
+        setStateBasico(e.target.value);
     }
-    function onChangeVigenteDesde(e) {
-        setStateVigenteDesde(e.target.value);
-    }
+   
 
-    function updateConvenio() {
+    function updateBasico() {
         let data = {
-            id: props.convenioid,
-            name: name,
-            vigente_desde: vigenteDesde
+            id: props.idSub,
+            name: basico,
+            
         }
-        console.log(data)
         ConveniosService.update(
             props.convenioid,
             data
         )
             .then(response => {
                 console.log(response.data);
-                // actualizado
-                //cerrar modal
-                // actualizar tabla
+ 
                 props.listarConvenios()
                 swal("Correcto!", "Se actualizo con exito!", "success");
                 handleClose()
@@ -115,16 +110,16 @@ export default function EditarConvenio(props) {
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <h3 id="transition-modal-title">Editar </h3>
-                        <br></br>
+                       
                         <center>
                         <Grid container 
                          justifyContent="center"
                          alignItems="center"
                         >
                         <Grid item >
-                        <TextField style={{ margin: 5 }} id="name2" label="Convenio" color="secondary" onChange={onChangeName} defaultValue={props.name} />
+                        <TextField style={{ margin: 5 }} id="basico" label="Basico" type="number"color="secondary" onChange={onChangeBasico} defaultValue={props.basico} />
                         
-                        <TextField style={{ margin: 5 }} id="calle" label="Fecha" color="secondary" onChange={onChangeVigenteDesde} defaultValue={props.vigenteDesde} />
+                        
                         </Grid>
                         </Grid>
                         </center>
@@ -133,7 +128,7 @@ export default function EditarConvenio(props) {
                         
                         <br></br>
                         <center>
-                        <Button variant="contained" color="primary" onClick={updateConvenio}>
+                        <Button variant="contained" color="primary" onClick={updateBasico}>
                             Guardar
                         </Button>
                         </center>

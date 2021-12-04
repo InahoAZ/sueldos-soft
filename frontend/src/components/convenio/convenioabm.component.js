@@ -1,7 +1,7 @@
 import React from 'react';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
-
+import moment from 'moment';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
@@ -105,6 +105,14 @@ export default function Convenios(props) {
     function listarConvenios() {
         ConveniosService.getAll()
             .then(response => {
+
+
+                for (let i = 0; i < response.data.length; i++) {
+                    let now = new Date(response.data[i].vigente_desde);
+                    var dateString = moment(now).format('DD/MM/YYYY');
+                    response.data[i].vigente_desde = dateString;
+
+                }
                 setRows(response.data);
                 console.log(response.data);
             })
@@ -116,6 +124,12 @@ export default function Convenios(props) {
         async function autoListaStart() {
             ConveniosService.getAll()
                 .then(response => {
+                    for (let i = 0; i < response.data.length; i++) {
+                        let now = new Date(response.data[i].vigente_desde);
+                        var dateString = moment(now).format('DD/MM/YYYY');
+                        response.data[i].vigente_desde = dateString;
+    
+                    }
                     setRows(response.data);
                     console.log(response.data);
                 })
@@ -132,12 +146,13 @@ export default function Convenios(props) {
         setStateName(e.target.value);
     }
     function onChangeVigenteDesde(e) {
+
         setStateVigenteDesde(e.target.value);
     }
 
 
     function saveConvenio() {
-        if(name === '' || vigenteDesde === ''){
+        if (name === '' || vigenteDesde === '') {
             swal("Error!", "Complete todos los campos!", "error");
             return 0
         }
@@ -280,7 +295,7 @@ export default function Convenios(props) {
 
 
                                                             <Grid>
-                                                                
+
                                                                 <EditarConvenio
                                                                     convenioid={row._id}
                                                                     name={row.name}

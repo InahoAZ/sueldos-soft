@@ -19,7 +19,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import swal from 'sweetalert';
-
+import EditarCategoriaBasico from './editcategoria.component'
 import ConveniosService from '../../services/convenio.service'
 
 
@@ -47,7 +47,7 @@ export default function Categorias(props) {
     const [listaConvenios, setListaConvenios] = React.useState([]);
     const [totalConveniosDic, setTotalConveniosDic] = React.useState([]);
     const [listaSubCategorias, setListaSubCategorias] = React.useState([]);
-    
+
     const [listaCategorias, setListaCategorias] = React.useState([]);
 
     const [subCat, setSubCat] = React.useState('');
@@ -74,7 +74,7 @@ export default function Categorias(props) {
         setBasico(e.target.value);
     }
     function onChangeSubCat(e) {
-        
+
         setSubCat(e.target.value.toUpperCase());
     }
 
@@ -103,9 +103,9 @@ export default function Categorias(props) {
         }
     }
 
-    function existeSubCat(name){
-        for (let i = 0;i<listaSubCategorias.length;i++){
-            if(listaSubCategorias[i].name === name){
+    function existeSubCat(name) {
+        for (let i = 0; i < listaSubCategorias.length; i++) {
+            if (listaSubCategorias[i].name === name) {
                 return true
             }
         }
@@ -115,7 +115,7 @@ export default function Categorias(props) {
 
     function saveSubCategoria(idCat) {
 
-        if(existeSubCat(subCat)){
+        if (existeSubCat(subCat)) {
             swal("Error!", "Ya exisye la sub categoria, si quiere editarla valla a la tabla!", "error");
             return 0
         }
@@ -152,25 +152,25 @@ export default function Categorias(props) {
 
 
     function addCategoria() {
-        
+
         if (basico === '' || subCat === '' || inputCategoria === '' || inputConvenio === '') {
             swal("Error!", "No deje nada vacio!", "error");
             return 0
         }
 
-       
+
         if (valueCategoria) {
             if (valueCategoria.name === inputCategoria) {
                 //llamar a cargar sub categoria nomas, con id de cat 
                 saveSubCategoria(valueCategoria._id)
-                
+
 
                 return 0
             }
         }
 
 
-        
+
 
 
         var idConv = valueConvenio.id;
@@ -222,10 +222,10 @@ export default function Categorias(props) {
                             });
                             //actualizar tabla
                             setConvenio('');
-                setCategoria('');
-                setInputCategoria('');
-                setSubCat('');
-                setBasico('');
+                            setCategoria('');
+                            setInputCategoria('');
+                            setSubCat('');
+                            setBasico('');
                             listarConvenios()
 
 
@@ -362,10 +362,10 @@ export default function Categorias(props) {
                                         setInputCategoria('');
                                         setSubCat('');
                                         setBasico('');
-                        
+
                                         setConvenio(newValue);
                                         listarCat(newValue);
-                                        
+
 
                                     }}
                                     inputValue={inputConvenio}
@@ -530,11 +530,19 @@ export default function Categorias(props) {
                                                                 justifyContent="flex-end"
                                                                 alignItems="center"
                                                             >
-
-
-                                                                
                                                                 <Grid>
-                                                                    <IconButton color="secondary" onClick={() => deleteSubCategoria(row.idSub,row.idCat,row.idConv)}>
+
+                                                                    <EditarCategoriaBasico
+                                                                        subCatid={row.idSub}
+                                                                        basico={row.basico}
+                                                                        listarConvenios={listarConvenios}
+                                                                    />
+                                                                </Grid>
+
+
+
+                                                                <Grid>
+                                                                    <IconButton color="secondary" onClick={() => deleteSubCategoria(row.idSub, row.idCat, row.idConv)}>
                                                                         <DeleteForeverIcon />
                                                                     </IconButton>
                                                                 </Grid>

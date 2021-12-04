@@ -214,8 +214,9 @@ export default function CrearEmpresa() {
             <TextField style={{ margin: 15 }} id="web" label="Web" value={state.web} color="secondary" onChange={onChangeWeb} />
             <TextField style={{ margin: 15 }} id="tipo" label="tipo" value={state.tipo} color="secondary" onChange={onChangeTipo} />
 
+{/*  input logo
 
-            <input
+ <input
               accept="image/*"
               className={classes.input}
               id="contained-button-file"
@@ -230,15 +231,22 @@ export default function CrearEmpresa() {
             </label>
            
 
+*/}
+
+           
+
           
 
 
           </Grid>
-          <center>
+          {/* preview de logo
+           <center>
             {logo!== '' ? ( <img src={URL.createObjectURL(logo)} style={{maxHeight: '200px', maxWidth: '200px'}} /> ):( <img src='' style={{maxHeight: '200px', maxWidth: '200px'}} /> )}
 
           
           </center>
+          */}
+         
         </Grid>
 
         <br></br>

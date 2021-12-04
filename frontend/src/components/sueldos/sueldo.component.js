@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -32,17 +33,17 @@ theme.typography.h3 = {
 export default function Sueldos(props) {
 
     const [empleadoId, setEmpleadoId] = React.useState('61a7d8080eb68f35484caa99');
-    const [empresaId, setEmpresaId] = React.useState('61a7d3c53b41f44a2b2c7a87');
+    const [empresaId, setEmpresaId] = React.useState('');
     const [puestoId, setPuestoId] = React.useState('61a7dab40eb68f35484cab4c');
 
-    const [bancoNombre, setBancoNombre] = React.useState('');
-    const [cuentaNumero, setCuentaNumero] = React.useState('');
-    const [pagoFecha, setPagoFecha] = React.useState('');
-    const [pagoLugar, setPagoLugar] = React.useState('');
+    const [bancoNombre, setBancoNombre] = React.useState('SANTANDER RIO');
+    const [cuentaNumero, setCuentaNumero] = React.useState('60051219834');
+    const [pagoFecha, setPagoFecha] = React.useState('29/12/2021');
+    const [pagoLugar, setPagoLugar] = React.useState('MISIONES');
 
-    const [periodoJubilacion, setPeriodoJubilacion] = React.useState('');
-    const [fechaJubilacion, setFechaJubilacion] = React.useState('');
-    const [bancoAporteJubilacion, setBancoAporteJubilacion] = React.useState('');
+    const [periodoJubilacion, setPeriodoJubilacion] = React.useState('NOV 2021');
+    const [fechaJubilacion, setFechaJubilacion] = React.useState('07/11/2021');
+    const [bancoAporteJubilacion, setBancoAporteJubilacion] = React.useState('GALICIA');
 
     const [edad, setEdad] = React.useState('');
     const [jornadaHoras, setJornadaHoras] = React.useState('');
@@ -115,7 +116,7 @@ export default function Sueldos(props) {
 
             fechaIngreso: '11/05/2021',
             sueldo: '2400,57',
-            liquidacionTipoMesAño: 'MES 06 2020',
+            liquidacionTipoMesAño: 'MES 11 2021',
 
             jubilacionPeriodo: 'MAYO 2021',
             jubilacionFecha: '07/10/2021',
@@ -334,7 +335,9 @@ export default function Sueldos(props) {
         setEmpleadoId(e);
     }
     function onChangeEmpresaId(e) {
+        
         setEmpresaId(e);
+        console.log(empresaId);
     }
     function onChangePuestoId(e) {
         setPuestoId(e);
@@ -475,15 +478,38 @@ export default function Sueldos(props) {
             listDic.push(auxDic);
         }
 
-        listDic.sort(function(a,b){
+        listDic.sort(function (a, b) {
             return a.codigo - b.codigo;
         });
         return listDic
 
     }
-    
+
+    function fechar(fecha) {
+
+        let now = new Date(fecha);
+
+        console.log(now);
+
+        var dateString = moment(now).format('DD/MM/YYYY');
+        return dateString 
+
+
+    }
+
 
     function generarReporte() {
+        
+                if (bancoAporteJubilacion === '' || fechaJubilacion === '' || periodoJubilacion === '' || pagoLugar === '' || pagoFecha === '' || cuentaNumero === '' || bancoNombre === '') {
+                    swal("Error!", "Debe completar el apartado de datos bancarios y aporte jubilatorio!", "error");
+                    return 0;
+                }
+                if (empleadoId === '' ||  empresaId === '' || !empresaId || puestoId === '') {
+                    swal("Error!", "Debe seleccionar la empresa, el empleado ye l puesto para el cual se generara la liquidacion!", "error");
+                    return 0;
+                }
+                
+
 
         document.getElementById('reporte').style.display = 'block';
         //document.getElementById('reporte').style.display= 'none';
@@ -572,7 +598,7 @@ export default function Sueldos(props) {
         console.log(n_t_l(255));
         console.log(data);
         //clean()
-    
+
         LiquidacionService.create(data)
             .then(response => {
                 console.log('obt')
@@ -588,7 +614,7 @@ export default function Sueldos(props) {
                     nombreEmpresa: response.data.data.empresa.name,
                     calleNumero: response.data.data.empresa.calleNumero,
                     codigoPostal: response.data.data.empresa.codigoPostal,
-                    provincia: response.data.data.empresa.provincia +', '+response.data.data.empresa.localidad,
+                    provincia: response.data.data.empresa.provincia + ', ' + response.data.data.empresa.localidad,
                     cuit: response.data.data.empresa.cuit,
 
                     apellidoNombre: response.data.data.empleado.apellido + " " + response.data.data.empleado.nombre,
@@ -599,20 +625,20 @@ export default function Sueldos(props) {
                     division: 'ESMG -ADVERTISING',
                     categoria: 'Subeditor Canal Tecnología',
 
-                    fechaIngreso: '11/05/2021',
+                    fechaIngreso: fechar(response.data.data.empleado.createdAt),
                     sueldo: response.data.data.puesto.convenio_subcat.basico,
-                    liquidacionTipoMesAño: 'MES 06 2020',
+                    liquidacionTipoMesAño: 'MES 11 2021',
 
                     jubilacionPeriodo: response.data.data.jubilacion.periodoJubilacion,
                     jubilacionFecha: response.data.data.jubilacion.fechaJubilacion,
                     jubilacionBanco: response.data.data.jubilacion.bancoAporteJubilacion,
-                    
-                    conceptos : cargaDetalle(response.data.data.detalle),
-                    
+
+                    conceptos: cargaDetalle(response.data.data.detalle),
+
                     lugarFechaPago: response.data.data.datos_bancarios.pagoLugar + ' ' + response.data.data.datos_bancarios.pagoFecha,
                     totalRemunerado: parseFloat(response.data.data.detalle.total_sumas_rem).toFixed(2),
                     totalNoRemunerado: parseFloat(response.data.data.detalle.total_sumas_no_rem).toFixed(2),
-                    totalDeduccion: parseFloat(response.data.data.detalle.total_descuentos_rem) + parseFloat(response.data.data.detalle.total_descuentos_no_rem),
+                    totalDeduccion: parseFloat(response.data.data.detalle.total_descuentos_rem + response.data.data.detalle.total_descuentos_no_rem).toFixed(2),
 
                     bancoAcreditacion: response.data.data.datos_bancarios.bancoNombre,
                     bancoCuenta: response.data.data.datos_bancarios.cuentaNumero,

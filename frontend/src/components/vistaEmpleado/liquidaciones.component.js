@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TablePagination from '@material-ui/core/TablePagination';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import IconButton from '@material-ui/core/IconButton';
-
+import LiquidacionService from '../../services/liquidacione.service';
 import LiquidacionReporte from '../reporte/pdf.component'
 
 const useStyles = makeStyles({
@@ -35,7 +35,7 @@ export default function Liquidaciones(props) {
     const [rows, setRows] = React.useState([]);
 
     const [datosCarga, setDatosCarga] = React.useState({
-        
+
         nombreEmpresa: 'La ventanita',
         calleNumero: 'Av. Leandro N. Alem 1589',
         codigoPostal: '5869',
@@ -100,6 +100,22 @@ export default function Liquidaciones(props) {
 
     }
 
+
+    React.useEffect(() => {
+        async function obtenerLiquidaciones() {
+            LiquidacionService.getAll()
+                .then(response => {
+                    console.log(response.data);
+                    //setRows(response.data)
+
+
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+        }
+        obtenerLiquidaciones();
+    }, []);
 
 
     return (
@@ -167,7 +183,7 @@ export default function Liquidaciones(props) {
 
 
             <LiquidacionReporte
-             datosCarga={[datosCarga]}
+                datosCarga={[datosCarga]}
             />
 
 
