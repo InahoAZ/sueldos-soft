@@ -486,7 +486,6 @@ export default function Sueldos(props) {
     }
 
     function fechar(fecha) {
-
         let now = new Date(fecha);
 
         console.log(now);
@@ -495,6 +494,11 @@ export default function Sueldos(props) {
         return dateString 
 
 
+    }
+    function mesNumero(fecha){
+        console.log(fecha);
+        var fecha = fecha[3] + fecha[4] + ' ' + fecha[6] + fecha[7] +fecha[8] + fecha[9];
+        return fecha 
     }
 
 
@@ -621,13 +625,13 @@ export default function Sueldos(props) {
                     legajo: response.data.data.empleado.legajo,
                     cuil: response.data.data.empleado.cuil,
 
-                    departamento: 'PRODUCTO Y CONTENIDO',
-                    division: 'ESMG -ADVERTISING',
-                    categoria: 'Subeditor Canal Tecnología',
+                    departamento: '-------------------',
+                    division: '-----------------',
+                    categoria: response.data.data.puesto.name,
 
                     fechaIngreso: fechar(response.data.data.empleado.createdAt),
                     sueldo: response.data.data.puesto.convenio_subcat.basico,
-                    liquidacionTipoMesAño: 'MES 11 2021',
+                    liquidacionTipoMesAño: 'MES '+mesNumero(response.data.data.jubilacion.fechaJubilacion),
 
                     jubilacionPeriodo: response.data.data.jubilacion.periodoJubilacion,
                     jubilacionFecha: response.data.data.jubilacion.fechaJubilacion,
@@ -642,9 +646,9 @@ export default function Sueldos(props) {
 
                     bancoAcreditacion: response.data.data.datos_bancarios.bancoNombre,
                     bancoCuenta: response.data.data.datos_bancarios.cuentaNumero,
-
-                    totalNeto: '-----',
-                    totalNetoEscrito: relleno(n_t_l(145552)),  //llama para obtener el resultado final
+                    // (remun - (descuetnos remun + descuento no remu)) + no remu
+                    totalNeto: parseFloat((response.data.data.detalle.total_sumas_rem-(response.data.data.detalle.total_descuentos_rem + response.data.data.detalle.total_descuentos_no_rem))+response.data.data.detalle.total_sumas_no_rem).toFixed(2),
+                    totalNetoEscrito: relleno(n_t_l(parseInt((response.data.data.detalle.total_sumas_rem-(response.data.data.detalle.total_descuentos_rem + response.data.data.detalle.total_descuentos_no_rem))+response.data.data.detalle.total_sumas_no_rem))),  //llama para obtener el resultado final
                 }
                 setDatosCarga(result);
 
