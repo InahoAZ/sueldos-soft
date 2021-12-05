@@ -41,10 +41,16 @@ export default function Sueldos(props) {
     const [pagoFecha, setPagoFecha] = React.useState('29/12/2021');
     const [pagoLugar, setPagoLugar] = React.useState('MISIONES');
 
+
+    const [areaName, setAreaName] = React.useState('');
+    const [departamentoName, setDepartamentoName] = React.useState('');
+
+
     const [periodoJubilacion, setPeriodoJubilacion] = React.useState('NOV 2021');
     const [fechaJubilacion, setFechaJubilacion] = React.useState('07/11/2021');
     const [bancoAporteJubilacion, setBancoAporteJubilacion] = React.useState('GALICIA');
 
+    const [mejorSueldo, setMejorSueldo] = React.useState('');
     const [edad, setEdad] = React.useState('');
     const [jornadaHoras, setJornadaHoras] = React.useState('48');
     const [esJubilado, setEsJubilado] = React.useState(false);
@@ -234,11 +240,21 @@ export default function Sueldos(props) {
     }
 
 
+    function onChangeDepartamentoName(v) {
+        setDepartamentoName(v);
+    }
+    function onChangeAreaName(v) {
+        setAreaName(v);
+    }
 
 
 
 
 
+
+    function onChangeMejorSueldo(e){
+        setMejorSueldo(e.target.value);
+    }
 
 
 
@@ -426,6 +442,8 @@ export default function Sueldos(props) {
         setPagoFecha('');
         setPagoLugar('');
 
+        setMejorSueldo('');
+
         setPeriodoJubilacion('');
         setFechaJubilacion('');
         setBancoAporteJubilacion('');
@@ -586,6 +604,11 @@ export default function Sueldos(props) {
             return 0
         }
 
+        if (calcularSac === true && mejorSueldo === '') {
+            swal("Error!", "No debe dejar en blanco el campo mejor monto mensual si quiere calcular SAC!", "error");
+            return 0
+        }
+
 
 
         document.getElementById('reporte').style.display = 'block';
@@ -613,6 +636,7 @@ export default function Sueldos(props) {
             jornadaHoras: jornadaHoras, //hs semanales
             esJubilado: esJubilado,
             calcularSac: calcularSac,
+            mejorSueldo: mejorSueldo,
             adicionalAsistencia: adicionalAsistencia,
             incrementoSolidario: incrementoSolidario,
             aporteSolidarioOsecac: aporteSolidarioOsecac,
@@ -698,8 +722,8 @@ export default function Sueldos(props) {
                     legajo: response.data.data.empleado.legajo,
                     cuil: response.data.data.empleado.cuil,
 
-                    departamento: '-------------------',
-                    division: '-----------------',
+                    departamento: departamentoName,
+                    division: areaName,
                     categoria: response.data.data.puesto.name,
 
                     fechaIngreso: fechar(response.data.data.empleado.createdAt),
@@ -778,6 +802,9 @@ export default function Sueldos(props) {
                             onChangeEmpresaId={onChangeEmpresaId}
                             onChangePuestoId={onChangePuestoId}
 
+                            onChangeAreaName={onChangeAreaName}
+                            onChangeDepartamentoName={onChangeDepartamentoName}
+
                             onChangePuestoIdEmpleadoEdad={onChangePuestoIdEmpleadoEdad}
                             onChangePuestoIdFechaInicio={onChangePuestoIdFechaInicio}
                         />
@@ -829,6 +856,9 @@ export default function Sueldos(props) {
                         esJubilado={esJubilado}
                         onChangeAntiguedadAños={onChangeAntiguedadAños}
                         antiguedadAños={antiguedadAños}
+
+                        onChangeMejorSueldo={onChangeMejorSueldo}
+                        mejorSueldo={mejorSueldo}
 
                         onChangeJornadaHoras={onChangeJornadaHoras}
                         jornadaHoras={jornadaHoras}

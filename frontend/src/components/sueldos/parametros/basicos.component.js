@@ -118,7 +118,7 @@ export default function Basicos(props) {
                 <Autocomplete
                     id="country-select-puestohh" // puesto
                     defaultValue={props.props.jornadaHoras}
-                    key={props.props.jornadaHoras +1}
+                    key={props.props.jornadaHoras + 1}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
 
@@ -174,6 +174,22 @@ export default function Basicos(props) {
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
+                {props.props.calcularSac &&
+
+                    <TextField
+                        label="Mejor sueldo del año"
+
+                        placeholder='0'
+                        style={{ width: 250, margin: 12, marginLeft: 12 }}
+                        className={clsx(classes.margin, classes.textField)}
+                        type="number"
+                        variant="outlined"
+                        onChange={props.props.onChangeMejorSueldo}
+                        value={props.props.mejorSueldo}
+                    />
+
+                }
+
                 <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Adicional asistencia
                     <Switch
