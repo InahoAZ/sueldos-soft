@@ -46,7 +46,7 @@ export default function Sueldos(props) {
     const [bancoAporteJubilacion, setBancoAporteJubilacion] = React.useState('GALICIA');
 
     const [edad, setEdad] = React.useState('');
-    const [jornadaHoras, setJornadaHoras] = React.useState('');
+    const [jornadaHoras, setJornadaHoras] = React.useState('48');
     const [esJubilado, setEsJubilado] = React.useState(false);
     const [calcularSac, setCalcularSac] = React.useState(false);
     const [adicionalAsistencia, setAdicionalAsistencia] = React.useState(false);
@@ -149,6 +149,67 @@ export default function Sueldos(props) {
             totalNetoEscrito: 'un mil novecientos',
 
         });
+
+
+    /*
+    
+            React.useEffect(() => {
+                if (convenios.length > 0) {
+                    console.log(convenios);
+        
+                    getCatbyConvId(props.idConvenio);
+                    setCategoriasSelect(props.idCat);
+                }
+            }, [convenios]);
+    
+    */
+
+    function onChangePuestoIdFechaInicio(e) {
+
+        let now = new Date(e);
+        var dateString = moment(now).format('DD/MM/YYYY');
+        var entro = parseInt(dateString[6]+dateString[7]+dateString[8]+dateString[9]);
+        //console.log(entro);
+        now = new Date();
+        dateString = moment(now).format('DD/MM/YYYY');
+        var actual = parseInt(dateString[6]+dateString[7]+dateString[8]+dateString[9]);
+        //console.log(actual);
+        //console.log(parseInt(actual - entro));
+
+        setAntiguedadAños(parseInt(actual - entro));
+
+    }
+    function onChangePuestoIdEmpleadoEdad(e) {
+        let now = new Date(e);
+        var dateString = moment(now).format('DD/MM/YYYY');
+        var nacimiento = parseInt(dateString[6]+dateString[7]+dateString[8]+dateString[9]);
+
+        now = new Date();
+        dateString = moment(now).format('DD/MM/YYYY');
+        var actual = parseInt(dateString[6]+dateString[7]+dateString[8]+dateString[9]);
+
+        var edad = parseInt(actual - nacimiento);
+        //console.log(edad);
+        if(edad >= 18){
+            setEdad('Mayor');
+        }else{
+            if(edad === 17){
+                setEdad('17 años');
+            }else{
+                if(edad === 16){
+                    setEdad('16 años');
+                }else{
+                    setEdad('Trabajo infantil');
+                }
+            }
+
+        }
+        
+    }
+
+
+
+
 
     function onChangeBancoNombre(e) {
         setBancoNombre(e.target.value);
@@ -302,11 +363,11 @@ export default function Sueldos(props) {
 
 
 
-    function onChangeDiasInculpable(v) {
-        setDiasInculpable(v);
+    function onChangeDiasInculpable(e) {
+        setDiasInculpable(e.target.value);
     }
-    function onChangeMesInicioInculpable(e) {
-        setMesInicioInculpable(e.target.value);
+    function onChangeMesInicioInculpable(v) {
+        setMesInicioInculpable(v);
     }
 
 
@@ -315,8 +376,8 @@ export default function Sueldos(props) {
 
 
 
-    function onChangeDiasILT(v) {
-        setDiasILT(v);
+    function onChangeDiasILT(e) {
+        setDiasILT(e.target.value);
     }
     function onChangeDiasACargoEmpresaILT(e) {
         setDiasACargoEmpresaILT(e.target.value);
@@ -324,8 +385,8 @@ export default function Sueldos(props) {
     function onChangeMesInicioILT(v) {
         setMesInicioILT(v);
     }
-    function onChangeExposicionLicenciaILT(e) {
-        setExposicionLicenciaILT(e.target.value);
+    function onChangeExposicionLicenciaILT(v) {
+        setExposicionLicenciaILT(v);
     }
 
 
@@ -335,13 +396,16 @@ export default function Sueldos(props) {
         setEmpleadoId(e);
     }
     function onChangeEmpresaId(e) {
-        
+
         setEmpresaId(e);
         console.log(empresaId);
     }
     function onChangePuestoId(e) {
         setPuestoId(e);
     }
+
+
+
 
 
 
@@ -367,7 +431,7 @@ export default function Sueldos(props) {
         setBancoAporteJubilacion('');
 
         setEdad('');
-        setJornadaHoras('');
+        setJornadaHoras('48');
         setEsJubilado(false);
         setCalcularSac(false);
         setAdicionalAsistencia(false);
@@ -491,28 +555,37 @@ export default function Sueldos(props) {
         console.log(now);
 
         var dateString = moment(now).format('DD/MM/YYYY');
-        return dateString 
+        return dateString
 
 
     }
-    function mesNumero(fecha){
+    function mesNumero(fecha) {
         console.log(fecha);
-        var fecha = fecha[3] + fecha[4] + ' ' + fecha[6] + fecha[7] +fecha[8] + fecha[9];
-        return fecha 
+        var fecha = fecha[3] + fecha[4] + ' ' + fecha[6] + fecha[7] + fecha[8] + fecha[9];
+        return fecha
     }
 
 
     function generarReporte() {
-        
-                if (bancoAporteJubilacion === '' || fechaJubilacion === '' || periodoJubilacion === '' || pagoLugar === '' || pagoFecha === '' || cuentaNumero === '' || bancoNombre === '') {
-                    swal("Error!", "Debe completar el apartado de datos bancarios y aporte jubilatorio!", "error");
-                    return 0;
-                }
-                if (empleadoId === '' ||  empresaId === '' || !empresaId || puestoId === '') {
-                    swal("Error!", "Debe seleccionar la empresa, el empleado ye l puesto para el cual se generara la liquidacion!", "error");
-                    return 0;
-                }
-                
+
+        if (bancoAporteJubilacion === '' || fechaJubilacion === '' || periodoJubilacion === '' || pagoLugar === '' || pagoFecha === '' || cuentaNumero === '' || bancoNombre === '') {
+            swal("Error!", "Debe completar el apartado de datos bancarios y aporte jubilatorio!", "error");
+            return 0;
+        }
+        if (empleadoId === '' || empresaId === '' || !empresaId || puestoId === '') {
+            swal("Error!", "Debe seleccionar la empresa, el empleado ye l puesto para el cual se generara la liquidacion!", "error");
+            return 0;
+        }
+
+        if (jornadaHoras === '') {
+            swal("Error!", "Debe indicar el tiempo de jornada!", "error");
+            return 0
+        }
+        if (edad === '') {
+            swal("Error!", "No debe dejar en blanco el campo edad!", "error");
+            return 0
+        }
+
 
 
         document.getElementById('reporte').style.display = 'block';
@@ -631,7 +704,7 @@ export default function Sueldos(props) {
 
                     fechaIngreso: fechar(response.data.data.empleado.createdAt),
                     sueldo: response.data.data.puesto.convenio_subcat.basico,
-                    liquidacionTipoMesAño: 'MES '+mesNumero(response.data.data.jubilacion.fechaJubilacion),
+                    liquidacionTipoMesAño: 'MES ' + mesNumero(response.data.data.jubilacion.fechaJubilacion),
 
                     jubilacionPeriodo: response.data.data.jubilacion.periodoJubilacion,
                     jubilacionFecha: response.data.data.jubilacion.fechaJubilacion,
@@ -647,8 +720,8 @@ export default function Sueldos(props) {
                     bancoAcreditacion: response.data.data.datos_bancarios.bancoNombre,
                     bancoCuenta: response.data.data.datos_bancarios.cuentaNumero,
                     // (remun - (descuetnos remun + descuento no remu)) + no remu
-                    totalNeto: parseFloat((response.data.data.detalle.total_sumas_rem-(response.data.data.detalle.total_descuentos_rem + response.data.data.detalle.total_descuentos_no_rem))+response.data.data.detalle.total_sumas_no_rem).toFixed(2),
-                    totalNetoEscrito: relleno(n_t_l(parseInt((response.data.data.detalle.total_sumas_rem-(response.data.data.detalle.total_descuentos_rem + response.data.data.detalle.total_descuentos_no_rem))+response.data.data.detalle.total_sumas_no_rem))),  //llama para obtener el resultado final
+                    totalNeto: parseFloat((response.data.data.detalle.total_sumas_rem - (response.data.data.detalle.total_descuentos_rem + response.data.data.detalle.total_descuentos_no_rem)) + response.data.data.detalle.total_sumas_no_rem).toFixed(2),
+                    totalNetoEscrito: relleno(n_t_l(parseInt((response.data.data.detalle.total_sumas_rem - (response.data.data.detalle.total_descuentos_rem + response.data.data.detalle.total_descuentos_no_rem)) + response.data.data.detalle.total_sumas_no_rem))),  //llama para obtener el resultado final
                 }
                 setDatosCarga(result);
 
@@ -704,6 +777,9 @@ export default function Sueldos(props) {
                             onChangeEmpleadoId={onChangeEmpleadoId}
                             onChangeEmpresaId={onChangeEmpresaId}
                             onChangePuestoId={onChangePuestoId}
+
+                            onChangePuestoIdEmpleadoEdad={onChangePuestoIdEmpleadoEdad}
+                            onChangePuestoIdFechaInicio={onChangePuestoIdFechaInicio}
                         />
 
                     </Grid>

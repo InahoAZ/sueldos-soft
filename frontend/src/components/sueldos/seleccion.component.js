@@ -134,6 +134,7 @@ export default function Sueldos(props) {
                                                 areaname: empresas[i].areas[j].name,
                                                 empresaname: empresas[i].name,
                                                 idempresa: empresas[i]._id,
+                                                createdAt: puestos[c].createdAt,
                                             }
                                             rows.push(puesto)
 
@@ -224,9 +225,11 @@ export default function Sueldos(props) {
 
     }
     function cambioDePuesto(v) {
-        console.log(v);
+        //console.log(valueEmpleado);
         if (v) {
             props.onChangePuestoId(v.id);
+            props.onChangePuestoIdFechaInicio(v.createdAt);
+            props.onChangePuestoIdEmpleadoEdad(valueEmpleado.fechaNacimiento);
         }
     }
     function actualizarPuestos(idempresa) {
@@ -237,11 +240,12 @@ export default function Sueldos(props) {
                 let p = {
                     id: puestosPersonaTotales[i].id,
                     name: puestosPersonaTotales[i].name,
+                    createdAt: puestosPersonaTotales[i].createdAt
                 };
                 puestosFinales.push(p);
             }
         }
-        //console.log(puestosFinales);
+        //console.log(puestosPersonaTotales);
         setPuestos(puestosFinales);
     }
 

@@ -95,7 +95,7 @@ export default function Licencias(props) {
                     <Autocomplete
                         id="country-select-mes" // puesto
                         defaultValue={props.props.mesInicioInculpable}
-                        key={props.props.mesInicioInculpable}
+                        key={props.props.mesInicioInculpable +1}
                         onChange={(event, newValue) => {
                             //setValueEmpresa(newValue);
 
@@ -155,7 +155,7 @@ export default function Licencias(props) {
                     <Autocomplete
                         id="country-select-expo" // puesto
                         defaultValue={props.props.exposicionLicenciaILT}
-                        key={props.props.exposicionLicenciaILT}
+                        key={props.props.exposicionLicenciaILT+2}
                         onChange={(event, newValue) => {
                             //setValueEmpresa(newValue);
 

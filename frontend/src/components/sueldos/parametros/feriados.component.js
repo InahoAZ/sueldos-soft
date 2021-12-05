@@ -163,7 +163,7 @@ export default function Adicionales(props) {
                 <Autocomplete
                     id="country-select-empresa"
                     defaultValue={props.props.criterioTrabajados}
-                    key={props.props.criterioTrabajados}
+                    key={props.props.criterioTrabajados+2}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
 
@@ -199,7 +199,7 @@ export default function Adicionales(props) {
                 <Autocomplete
                     id="country-select-empresa"
                     defaultValue={props.props.criterioNoTrabajados}
-                    key={props.props.criterioNoTrabajados}
+                    key={props.props.criterioNoTrabajados+1}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
 

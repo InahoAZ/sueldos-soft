@@ -79,7 +79,7 @@ export default function Basicos(props) {
 
 
                 <Autocomplete
-                    id="country-select-empresa"
+                    id="country-select-empresa6"
                     defaultValue={props.props.edad}
                     key={props.props.edad}
                     onChange={(event, newValue) => {
@@ -116,9 +116,9 @@ export default function Basicos(props) {
                     )}
                 />
                 <Autocomplete
-                    id="country-select-puesto" // puesto
+                    id="country-select-puestohh" // puesto
                     defaultValue={props.props.jornadaHoras}
-                    key={props.props.jornadaHoras}
+                    key={props.props.jornadaHoras +1}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
 
