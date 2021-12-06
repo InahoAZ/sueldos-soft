@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septimbre', 'Octubre', 'Noviembre', 'Diciembre'];
 const exposiciones = ['Restar dias', 'Descontar aparte']
-export default function Licencias() {
+export default function Licencias(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const [mes, setMes] = React.useState('');
@@ -88,13 +88,18 @@ export default function Licencias() {
                         className={clsx(classes.margin, classes.textField)}
                         type="number"
                         variant="outlined"
+                        onChange={props.props.onChangeDiasInculpable}
+                        value={props.props.diasInculpable}
                     />
 
                     <Autocomplete
                         id="country-select-mes" // puesto
-                        value=''
+                        defaultValue={props.props.mesInicioInculpable}
+                        key={props.props.mesInicioInculpable +1}
                         onChange={(event, newValue) => {
-                            setMes(newValue);
+                            //setValueEmpresa(newValue);
+
+                            props.props.onChangeMesInicioInculpable(newValue);
 
                         }}
 
@@ -143,13 +148,18 @@ export default function Licencias() {
                         className={clsx(classes.margin, classes.textField)}
                         type="number"
                         variant="outlined"
+                        onChange={props.props.onChangeDiasILT}
+                        value={props.props.diasILT}
                     />
 
                     <Autocomplete
                         id="country-select-expo" // puesto
-                        value=''
+                        defaultValue={props.props.exposicionLicenciaILT}
+                        key={props.props.exposicionLicenciaILT+2}
                         onChange={(event, newValue) => {
-                            setExposicion(newValue);
+                            //setValueEmpresa(newValue);
+
+                            props.props.onChangeExposicionLicenciaILT(newValue);
 
                         }}
 
@@ -187,13 +197,18 @@ export default function Licencias() {
                         className={clsx(classes.margin, classes.textField)}
                         type="number"
                         variant="outlined"
+                        onChange={props.props.onChangeDiasACargoEmpresaILT}
+                        value={props.props.diasACargoEmpresaILT}
                     />
 
-<Autocomplete
+                    <Autocomplete
                         id="country-select-mes" // puesto
-                        value=''
+                        defaultValue={props.props.mesInicioILT}
+                        key={props.props.mesInicioILT}
                         onChange={(event, newValue) => {
-                            setMes(newValue);
+                            //setValueEmpresa(newValue);
+
+                            props.props.onChangeMesInicioILT(newValue);
 
                         }}
 

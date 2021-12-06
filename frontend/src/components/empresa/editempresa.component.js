@@ -203,22 +203,28 @@ export default function EditarEmpresa(props) {
                         <h3 id="transition-modal-title">Editar </h3>
                         <br></br>
                         <center>
-                            <Grid container xs={10}
+                            <Grid container 
                                 justifyContent="center"
                                 alignItems="center"
                             >
                                 <Grid item xs={6}>
-                                    <TextField style={{ margin: 15 }} id="name2" label="Nombre de empresa" color="secondary" onChange={onChangeName} defaultValue={props.empresa[0].name} />
-                                    <TextField style={{ margin: 15 }} id="telefono" label="Telefono" color="secondary" onChange={onChangeTelefono} defaultValue={props.empresa[0].telefono} />
-                                    <TextField style={{ margin: 15 }} id="provincia" label="Provincia" color="secondary" onChange={onChangeProvincia} defaultValue={props.empresa[0].provincia} />
-                                    <TextField style={{ margin: 15 }} id="codigoPostal" label="Codigo postal" color="secondary" onChange={onChangeCodigoPostal} defaultValue={props.empresa[0].codigoPostal} />
+                                    <TextField style={{ margin: 5 }} id="name2" label="Nombre de empresa" color="secondary" onChange={onChangeName} defaultValue={props.empresa[0].name} />
+                                    <br></br>
+                                    <TextField style={{ margin: 5 }} id="telefono" label="Telefono" color="secondary" onChange={onChangeTelefono} defaultValue={props.empresa[0].telefono} />
+                                    <br></br>
+                                    <TextField style={{ margin: 5 }} id="provincia" label="Provincia" color="secondary" onChange={onChangeProvincia} defaultValue={props.empresa[0].provincia} />
+                                    <br></br>
+                                    <TextField style={{ margin: 5 }} id="codigoPostal" label="Codigo postal" color="secondary" onChange={onChangeCodigoPostal} defaultValue={props.empresa[0].codigoPostal} />
 
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <TextField style={{ margin: 15 }} id="tipo" label="Tipo de empresa" color="secondary" onChange={onChangeTipo} defaultValue={props.empresa[0].tipo} />
-                                    <TextField style={{ margin: 15 }} id="web" label="Web" color="secondary" onChange={onChangeWeb} defaultValue={props.empresa[0].web} />
-                                    <TextField style={{ margin: 15 }} id="localidad" label="Localidad" color="secondary" onChange={onChangeLocalidad} defaultValue={props.empresa[0].localidad} />
-                                    <TextField style={{ margin: 15 }} id="calle" label="Calle" color="secondary" onChange={onChangeCalleNumero} defaultValue={props.empresa[0].calleNumero} />
+                                    <TextField style={{ margin: 5 }} id="tipo" label="Tipo de empresa" color="secondary" onChange={onChangeTipo} defaultValue={props.empresa[0].tipo} />
+                                    <br></br>
+                                    <TextField style={{ margin: 5 }} id="web" label="Web" color="secondary" onChange={onChangeWeb} defaultValue={props.empresa[0].web} />
+                                    <br></br>
+                                    <TextField style={{ margin: 5 }} id="localidad" label="Localidad" color="secondary" onChange={onChangeLocalidad} defaultValue={props.empresa[0].localidad} />
+                                    <br></br>
+                                    <TextField style={{ margin: 5 }} id="calle" label="Calle" color="secondary" onChange={onChangeCalleNumero} defaultValue={props.empresa[0].calleNumero} />
                                 </Grid>
                             </Grid>
                         </center>

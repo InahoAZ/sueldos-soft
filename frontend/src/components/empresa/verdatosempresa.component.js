@@ -56,7 +56,7 @@ export default function EditarEmpresa(props) {
     };
 
 
- 
+
 
 
 
@@ -64,7 +64,7 @@ export default function EditarEmpresa(props) {
     return (
 
         <div>
-            <IconButton  onClick={handleOpen}>
+            <IconButton onClick={handleOpen}>
                 <VisibilityIcon />
             </IconButton>
             <Modal
@@ -81,8 +81,8 @@ export default function EditarEmpresa(props) {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <h3 id="transition-modal-title">Datos de la empresa: #cuit </h3>
-                        <br></br>
+                        <h3 id="transition-modal-title">Datos de la empresa, CUIT: {props.empresa[0].cuit}  </h3>
+                        {/*
                         <Grid container>
                         <Grid item xs={6}>
                         <h6 >Nombre:  </h6>
@@ -92,11 +92,7 @@ export default function EditarEmpresa(props) {
                         <h6 >Telefono:  </h6>
                         <h5  >{props.empresa[0].telefono} </h5>
                         <br></br>
-                        <h6 >Direccion:  </h6>
-                        <h5  >{props.empresa[0].pais}</h5>
-                        <h5  >{props.empresa[0].provincia}</h5>
-                        <h5  >{props.empresa[0].localidad}</h5>
-                        <h5  >{props.empresa[0].calleNumero}</h5>
+
                         
                         </Grid>
                         <Grid item xs={6}>
@@ -106,20 +102,119 @@ export default function EditarEmpresa(props) {
                         <h6 >Web:  </h6>
                         <h5  >{props.empresa[0].web} </h5>
                         <br></br>
-                        <h6 >Logo:  </h6>
+                       
+                        
+                         <h6 >Logo:  </h6>
                         <img src='https://picsum.photos/70/70' alt='pa google' />
-                        </Grid>
-                        </Grid>
                         
                         
-                       
-                       
+                        </Grid>
+                        <h6 >Direccion:  </h6>
+                        <h5  >{props.empresa[0].pais}</h5>
+                        <h5  >{props.empresa[0].provincia}</h5>
+                        <h5  >{props.empresa[0].localidad}</h5>
+                        <h5  >{props.empresa[0].calleNumero}</h5>
+                        
+                        </Grid>
+                        */}
+
+                        <Grid container>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id="standard-read-only-input"
+                                    label="Nombre"
+                                    style={{ margin: 5 }}
+                                    defaultValue={props.empresa[0].name}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                                <br></br>
+                                <TextField
+                                    id="standard-read-only-input"
+                                    label="Tipo"
+                                    style={{ margin: 5 }}
+                                    defaultValue={props.empresa[0].tipo}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                                <br></br>
+                                <TextField
+                                    id="standard-read-only-input"
+                                    label="Pais"
+                                    style={{ margin: 5 }}
+                                    defaultValue={props.empresa[0].pais}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                                <br></br>
+                                <TextField
+                                    id="standard-read-only-input"
+                                    label="Localidad"
+                                    style={{ margin: 5 }}
+                                    defaultValue={props.empresa[0].localidad}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                            <TextField
+                                    id="standard-read-only-input"
+                                    label="Telefono"
+                                    style={{ margin: 5 }}
+                                    defaultValue={props.empresa[0].telefono}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                                <br></br>
+                                <TextField
+                                    id="standard-read-only-input"
+                                    label="Web"
+                                    style={{ margin: 5 }}
+                                    defaultValue={props.empresa[0].web}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                                <br></br>
+                                <TextField
+                                    id="standard-read-only-input"
+                                    label="Provincia"
+                                    style={{ margin: 5 }}
+                                    defaultValue={props.empresa[0].provincia}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                                <br></br>
+                                <TextField
+                                    id="standard-read-only-input"
+                                    label="Calle y numero"
+                                    style={{ margin: 5 }}
+                                    defaultValue={props.empresa[0].calleNumero}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                            </Grid>
+                            
+                        </Grid>
+                        <br></br>
+
+
+
+
+
                         <center>
-                        <Button variant="contained"  onClick={handleClose}>
-                            Cerrar
-                        </Button>
+                            <Button variant="contained" onClick={handleClose}>
+                                Cerrar
+                            </Button>
                         </center>
-                       
+
                     </div>
                 </Fade>
             </Modal>

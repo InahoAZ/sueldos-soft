@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 
 
 
-export default function Adicionales({ onChangeCategoria }) {
+export default function Adicionales(props) {
     const classes = useStyles();
 
     const [empresas, setEmpresas] = React.useState([]);
@@ -48,9 +48,6 @@ export default function Adicionales({ onChangeCategoria }) {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
-    function onChangeCat(e) {
-        onChangeCategoria(e.target.value);
-    }
 
 
     return (
@@ -87,11 +84,11 @@ export default function Adicionales({ onChangeCategoria }) {
 
 
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Aporte solidario OSECAC
                     <Switch
-                        checked={state.checkedE}
-                        onChange={handleChange}
+                        checked={props.props.aporteSolidarioOsecac}
+                        onChange={props.props.onChangeAporteSolidarioOsecac}
                         name="checkedE"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -108,6 +105,8 @@ export default function Adicionales({ onChangeCategoria }) {
                     }}
                     variant="outlined"
                     type="number"
+                    onChange={props.props.onChangeCuotaSindical}
+                    value={props.props.cuotaSindical}
                 />
                 <TextField
                     label="Seguro sepelio"
@@ -116,24 +115,26 @@ export default function Adicionales({ onChangeCategoria }) {
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeSeguroSepelio}
+                    value={props.props.seguroSepelio}
                 />
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Calcular sindicado
                     <Switch
-                        checked={state.checkedA}
-                        onChange={handleChange}
+                        checked={props.props.calcularSindicato}
+                        onChange={props.props.onChangeCalcularSindicato}
                         name="checkedA"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
-                Calcular FAECyS
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                    Calcular FAECyS
                     <Switch
-                        checked={state.checkedB}
-                        onChange={handleChange}
+                        checked={props.props.calcularFAECyS}
+                        onChange={props.props.onChangeCalcularFAECyS}
                         name="checkedB"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -151,8 +152,10 @@ export default function Adicionales({ onChangeCategoria }) {
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeAdelantoSueldo}
+                    value={props.props.adelantoSueldo}
                 />
-                
+
 
 
 

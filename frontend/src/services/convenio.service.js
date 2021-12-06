@@ -23,6 +23,9 @@ class convenioService {
   addSubCategoria(id, data) {
     return http.put(`/convenios/${id}/agregarSubCategoria`, data);
   }
+  updateSubCategoria(id, data) {
+    return http.put(`/convenios/${id}/updateSubCategoria`, data);
+  }
   deleteSubCategoria(id, data) {
     return http.put(`/convenios/${id}/quitarSubCategoria`, data);
   }
@@ -30,6 +33,7 @@ class convenioService {
   addSubSumaDescuento(id, data) {
     return http.put(`/convenios/${id}/agregarSumaDescuento`, data);
   }
+  
   deleteSubSumaDescuento(id, data) {
     return http.put(`/convenios/${id}/quitarSumaDescuento`, data);
   }

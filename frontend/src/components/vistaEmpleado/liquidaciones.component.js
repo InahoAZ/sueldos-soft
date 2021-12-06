@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TablePagination from '@material-ui/core/TablePagination';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import IconButton from '@material-ui/core/IconButton';
-
+import LiquidacionService from '../../services/liquidacione.service';
 import LiquidacionReporte from '../reporte/pdf.component'
 
 const useStyles = makeStyles({
@@ -35,13 +35,54 @@ export default function Liquidaciones(props) {
     const [rows, setRows] = React.useState([]);
 
     const [datosCarga, setDatosCarga] = React.useState({
-        id: 'hh',
-        empresa: {
-            name: 'hola'
-        },
-        empleado:{
-            name: 'hh666hh gggggg',
-        }
+
+        nombreEmpresa: 'La ventanita',
+        calleNumero: 'Av. Leandro N. Alem 1589',
+        codigoPostal: '5869',
+        provincia: 'Ciudad Autónoma de Buenos Aires',
+        cuit: '23-58659965-9',
+
+        apellidoNombre: 'Gonzales Esteban',
+        legajo: '35696',
+        cuil: '20-54676667-3',
+
+        departamento: 'PRODUCTO Y CONTENIDO',
+        division: 'ESMG -ADVERTISING',
+        categoria: 'Subeditor Canal Tecnología',
+
+        fechaIngreso: '11/05/2021',
+        sueldo: '2400,57',
+        liquidacionTipoMesAño: 'MES 06 2020',
+
+        jubilacionPeriodo: 'MAYO 2021',
+        jubilacionFecha: '07/10/2021',
+        jubilacionBanco: 'GALICIA',
+
+        conceptos: [
+            {
+                codigo: '998',
+                detalle: 'SUELDAZO',
+                cantidad: '78',
+                haber: '2,400.85',
+                deduccion: '-256.00'
+            },
+            {
+                codigo: '998',
+                detalle: 'SUELDAZO',
+                cantidad: '78',
+                haber: '2,400.85',
+                deduccion: '-256.00'
+            },
+        ],
+        lugarFechaPago: 'BS.AS. 29/06/2001',
+        totalRemunerado: '5.587,50',
+        totalNoRemunerado: '-0,09',
+        totalDeduccion: '-554,75',
+
+        bancoAcreditacion: 'BANCO RIO',
+        bancoCuenta: '600512559955',
+        totalNeto: '1900,75',
+        totalNetoEscrito: 'un mil novecientos',
     });
 
 
@@ -59,6 +100,22 @@ export default function Liquidaciones(props) {
 
     }
 
+
+    React.useEffect(() => {
+        async function obtenerLiquidaciones() {
+            LiquidacionService.getAll()
+                .then(response => {
+                    console.log(response.data);
+                    //setRows(response.data)
+
+
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+        }
+        obtenerLiquidaciones();
+    }, []);
 
 
     return (
@@ -126,7 +183,7 @@ export default function Liquidaciones(props) {
 
 
             <LiquidacionReporte
-             datosCarga={[datosCarga]}
+                datosCarga={[datosCarga]}
             />
 
 

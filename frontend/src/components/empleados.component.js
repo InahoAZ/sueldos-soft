@@ -37,6 +37,29 @@ export default function ListaEmpleados(props) {
   const [empleados, setEmpleados] = React.useState([]);
   const [persona, setPersona] = React.useState([]);
 
+
+  
+  const [puestosempleado, setPuestosEmpleado] = React.useState([]);
+
+  function actualizarEmpleado(id) {
+    EmpleadosService.getOne(id)
+      .then(response => {
+
+       
+        setPuestosEmpleado(response.data[0].puesto);
+        console.log(response.data)
+        console.log(puestosempleado)
+        openSection(id);
+        
+
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
+
+  }
+
   React.useEffect(() => {
     async function retrieveEmpleados() {
       EmpleadosService.getAll()
@@ -77,11 +100,12 @@ export default function ListaEmpleados(props) {
   }
 
   function closeSection() {
-    console.log('dd');
+    //console.log('dd');
     document.getElementById('gridSection').style.display = 'none'
   }
   function openSection(id) {
-    console.log(id);
+    //console.log(id);
+    //actualizarEmpleado(id);
     document.getElementById('gridSection').style.display = 'block'
     //ir al top de la pagina
     window.scrollTo(0, 0);
@@ -90,6 +114,7 @@ export default function ListaEmpleados(props) {
     for (let i = 0; i < empleados.length; i++) {
       if (empleados[i]._id === id) {
         setPersona(empleados[i]);
+        
 
         return 0
       }
@@ -175,6 +200,7 @@ export default function ListaEmpleados(props) {
 
             <VerEmpleado
               persona={persona}
+              puestosempleado={puestosempleado}
             />
           </Grid>
           <Grid container
@@ -243,7 +269,7 @@ export default function ListaEmpleados(props) {
                       >
                         <Grid>
 
-                          <IconButton color="primary" onClick={() => openSection(row._id)}>
+                          <IconButton color="primary" onClick={() => actualizarEmpleado(row._id)}>
                             <VisibilityIcon />
                           </IconButton>
                         </Grid>

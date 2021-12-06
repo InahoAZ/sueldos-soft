@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 
 
-export default function Adicionales({ onChangeCategoria }) {
+export default function Adicionales(props) {
     const classes = useStyles();
 
 
@@ -57,9 +57,6 @@ export default function Adicionales({ onChangeCategoria }) {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
-    function onChangeCat(e) {
-        onChangeCategoria(e.target.value);
-    }
 
 
     return (
@@ -77,31 +74,31 @@ export default function Adicionales({ onChangeCategoria }) {
 
 
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Adicional vidrierista
                     <Switch
-                        checked={state.checkedA}
-                        onChange={handleChange}
+                        checked={props.props.adicionalVidrierista}
+                        onChange={props.props.onChangeAdicionalVidrierista}
                         name="checkedA"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Adicional por asistencia
                     <Switch
-                        checked={state.checkedB}
-                        onChange={handleChange}
+                        checked={props.props.adicionalAsistencia}
+                        onChange={props.props.onChangeAdicionalAsistencia}
                         name="checkedB"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Antiguedad Acumulativa
                     <Switch
-                        checked={state.checkedC}
-                        onChange={handleChange}
+                        checked={props.props.antiguedadAcumulativa}
+                        onChange={props.props.onChangeAntiguedadAcumulativa}
                         name="checkedC"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -114,10 +111,12 @@ export default function Adicionales({ onChangeCategoria }) {
 
                 <Autocomplete
                     id="country-select-empresa"
-                    value={valueEmpresa}
+                    defaultValue={props.props.antiguedadComputo}
+                    key={props.props.antiguedadComputo}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
-                        setComputoAntiguedad(newValue);
+
+                        props.props.onChangeAntiguedadComputo(newValue);
 
                     }}
 
@@ -164,7 +163,8 @@ export default function Adicionales({ onChangeCategoria }) {
                     type="number"
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-
+                    onChange={props.props.onChangeAntiguedadAños}
+                    value={props.props.antiguedadAños}
                     variant="outlined"
                 />
 
@@ -178,6 +178,8 @@ export default function Adicionales({ onChangeCategoria }) {
                     InputProps={{
                         endAdornment: <InputAdornment position="end">%</InputAdornment>,
                     }}
+                    onChange={props.props.onChangeporcentajeXzona}
+                    value={props.props.porcentajeXzona}
                     variant="outlined"
                 />
 
@@ -191,13 +193,15 @@ export default function Adicionales({ onChangeCategoria }) {
                     InputProps={{
                         endAdornment: <InputAdornment position="end">%</InputAdornment>,
                     }}
+                    onChange={props.props.onChangePorcentajeAntiguedadxAño}
+                    value={props.props.porcentajeAntiguedadxAño}
                     variant="outlined"
                 />
 
 
 
 
-              
+
 
             </Grid>
 

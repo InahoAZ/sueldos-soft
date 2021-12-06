@@ -38,6 +38,8 @@ export default function Sueldos(props) {
     const [valuePuesto, setValuePuesto] = React.useState(puestos[0]);
     const [inputValuePuesto, setInputValuePuesto] = React.useState('');
 
+    const [puestosPersonaTotales, setPuestosPersonaTotales] = React.useState([]);
+
 
     const [empresas, setEmpresas] = React.useState([]);
     const [valueEmpresa, setValueEmpresa] = React.useState(empresas[0]);
@@ -48,7 +50,7 @@ export default function Sueldos(props) {
     const [valueEmpleado, setValueEmpleado] = React.useState(empleados[0]);
     const [inputValueEmpleado, setInputValueEmpleado] = React.useState('');
 
-    const [convenios, setConvenios] = React.useState([{id:'768787878', name: 'Comerciantes'}]);
+    const [convenios, setConvenios] = React.useState([{ id: '768787878', name: 'Comerciantes' }]);
     const [valueConvenio, setValueConvenio] = React.useState(convenios[0]);
     const [inputValueConvenio, setInputValueConvenio] = React.useState('');
 
@@ -56,6 +58,7 @@ export default function Sueldos(props) {
         async function retrieveEmpleados() {
             EmpleadosService.getAll()
                 .then(response => {
+
                     setEmpleados(response.data)
 
 
@@ -72,7 +75,7 @@ export default function Sueldos(props) {
         EmpresaService.getAll()
             .then(response => {
                 let puestosCompletos = obtenerPuestos(response.data, puestos);
-
+                setPuestosPersonaTotales(puestosCompletos);
                 setEmpresas(obtenerEmpresasDePuestos(puestosCompletos));
             })
             .catch(e => {
@@ -81,7 +84,16 @@ export default function Sueldos(props) {
 
 
     }
+
+    function idExist(id, rows) {
+        return rows.some(function (obj) {
+            return obj.id === id;
+        });
+    }
+
     function obtenerEmpresasDePuestos(puestos) {
+        console.log('puestos');
+        console.log(puestos);
         let rows = [];
         for (let i = 0; i < puestos.length; i++) {
             let empresa = {
@@ -90,13 +102,18 @@ export default function Sueldos(props) {
                 idpuesto: puestos[i].id,
                 namepuesto: puestos[i].name,
             };
-            rows.push(empresa)
+            if (!idExist(empresa.id, rows)) {
+                rows.push(empresa);
+            }
+
         }
         return rows;
     }
 
 
     function obtenerPuestos(empresas, puestos) {
+        console.log(empresas);
+        console.log(puestos);
         let rows = [];
         //console.log(puestos);
         for (let i = 0; i < empresas.length; i++) {
@@ -108,7 +125,7 @@ export default function Sueldos(props) {
                                 for (let p = 0; p < empresas[i].areas[j].departamentos[d].puestos.length; p++) {
 
                                     for (let c = 0; c < puestos.length; c++) {
-                                        if (puestos[c]._id === empresas[i].areas[j].departamentos[d].puestos[p]._id) {
+                                        if (puestos[c].puesto === empresas[i].areas[j].departamentos[d].puestos[p]._id) {
 
                                             let puesto = {
                                                 id: empresas[i].areas[j].departamentos[d].puestos[p]._id,
@@ -117,6 +134,7 @@ export default function Sueldos(props) {
                                                 areaname: empresas[i].areas[j].name,
                                                 empresaname: empresas[i].name,
                                                 idempresa: empresas[i]._id,
+                                                createdAt: puestos[c].createdAt,
                                             }
                                             rows.push(puesto)
 
@@ -136,45 +154,103 @@ export default function Sueldos(props) {
         return rows
     }
 
+    function puestosActuales(ps) {
+        var list = [];
+        for (let i = 0; i < ps.length; i++) {
+            if (ps[i].activo) {
+                list.push(ps[i]);
+            }
+        }
+        return list
+    }
+
 
     function cambioEmpleado(input) {
 
-        setValueEmpleado(input);
-        console.log(input);
-        if(input){
-        // llamar a cargar lista de empresas
-        if (input.puestos.length > 0) {
-            actualizarEmpresas(input.puestos);
+        if (!input) {
+            return 0
         }
-        props.onChangeEmpleadoName(input.apellido);
-    }
-        
+
+
+        setValueEmpleado(input);
+
+        console.log('input');
+        console.log(input);
+        props.onChangeEmpleadoId(input._id);
+        if (input) {
+            // llamar a cargar lista de empresas
+
+            EmpleadosService.getOne(input._id)
+                .then(response => {
+
+
+                    //console.log(puestosActuales(response.data[0].puesto));
+                    actualizarEmpresas(puestosActuales(response.data[0].puesto));
+
+                    console.log(response.data)
+
+
+
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+
+
+
+
+
+
+            props.onChangeEmpleadoName(input.apellido);
+        }
+
 
     }
 
     function cambioEmpresa(input) {
+        
+
+        if (input) {
+            console.log(input.id);
+            props.onChangeEmpresaId(input.id);
 
 
-        setValueEmpresa(input);
-        console.log(input);
-        // llamar a cargar lista de puestos
+            setValueEmpresa(input);
+            
+            // llamar a cargar lista de puestos
 
-        actualizarPuestos(input.id);
+            actualizarPuestos(input.id);
+        }
 
 
+    }
+    function cambioDePuesto(v) {
+        console.log(v);
+        if (v) {
+            props.onChangePuestoId(v.id);
+            props.onChangePuestoIdFechaInicio(v.createdAt);
+            props.onChangePuestoIdEmpleadoEdad(valueEmpleado.fechaNacimiento);
+
+            props.onChangeAreaName(v.area);
+            props.onChangeDepartamentoName(v.departamento);
+        }
     }
     function actualizarPuestos(idempresa) {
         //empleado -> puestos [] [] []
         let puestosFinales = [];
-        for (let i = 0; i < empresas.length; i++) {
-            if (empresas[i].id === idempresa) {
+        for (let i = 0; i < puestosPersonaTotales.length; i++) {
+            if (puestosPersonaTotales[i].idempresa === idempresa) {
                 let p = {
-                    id: empresas[i].idpuesto,
-                    name: empresas[i].namepuesto,
+                    id: puestosPersonaTotales[i].id,
+                    name: puestosPersonaTotales[i].name,
+                    createdAt: puestosPersonaTotales[i].createdAt,
+                    area: puestosPersonaTotales[i].areaname,
+                    departamento: puestosPersonaTotales[i].departamentoname
                 };
                 puestosFinales.push(p);
             }
         }
+        console.log(puestosPersonaTotales);
         setPuestos(puestosFinales);
     }
 
@@ -269,6 +345,8 @@ export default function Sueldos(props) {
                 value={valuePuesto}
                 onChange={(event, newValue) => {
                     setValuePuesto(newValue);
+                    cambioDePuesto(newValue);
+
 
                 }}
                 inputValue={inputValuePuesto}
@@ -303,7 +381,7 @@ export default function Sueldos(props) {
 
 
 
-            
+
 
         </Grid>
     );

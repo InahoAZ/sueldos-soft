@@ -9,8 +9,8 @@ import clsx from 'clsx';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 
-const edades = ['Mayor','17 años','16 años'];
-const jornadas = ['4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','48'];
+const edades = ['Mayor', '17 años', '16 años'];
+const jornadas = ['4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '48'];
 const useStyles = makeStyles({
     option: {
         fontSize: 15,
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 
 
-export default function Basicos({ onChangeCategoria }) {
+export default function Basicos(props) {
     const classes = useStyles();
 
     const [puestos, setPuestos] = React.useState([]);
@@ -60,9 +60,7 @@ export default function Basicos({ onChangeCategoria }) {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
-    function onChangeCat(e) {
-        onChangeCategoria(e.target.value);
-    }
+
 
 
     return (
@@ -81,14 +79,16 @@ export default function Basicos({ onChangeCategoria }) {
 
 
                 <Autocomplete
-                    id="country-select-empresa"
-                    value={valueEmpresa}
+                    id="country-select-empresa6"
+                    defaultValue={props.props.edad}
+                    key={props.props.edad}
                     onChange={(event, newValue) => {
                         //setValueEmpresa(newValue);
-                        setEdad(newValue);
+
+                        props.props.onChangeEdad(newValue);
 
                     }}
-                    
+
                     style={{ width: 250, marginBottom: 12, marginLeft: 12 }}
                     options={edades}
                     classes={{
@@ -107,6 +107,7 @@ export default function Basicos({ onChangeCategoria }) {
                             {...params}
                             label="Seleccione edad"
                             variant="outlined"
+                            value={props.props.edad}
                             inputProps={{
                                 ...params.inputProps,
                                 autoComplete: 'new-password', // disable autocomplete and autofill
@@ -115,13 +116,16 @@ export default function Basicos({ onChangeCategoria }) {
                     )}
                 />
                 <Autocomplete
-                    id="country-select-puesto" // puesto
-                    value={valuePuesto}
+                    id="country-select-puestohh" // puesto
+                    defaultValue={props.props.jornadaHoras}
+                    key={props.props.jornadaHoras + 1}
                     onChange={(event, newValue) => {
-                        setJornada(newValue);
+                        //setValueEmpresa(newValue);
+
+                        props.props.onChangeJornadaHoras(newValue);
 
                     }}
-                    
+
                     style={{ width: 250, marginBottom: 12, marginLeft: 12 }}
                     options={jornadas}
                     classes={{
@@ -148,33 +152,49 @@ export default function Basicos({ onChangeCategoria }) {
                     )}
                 />
 
-           
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Trabajador jubilado
                     <Switch
-                        checked={state.checkedA}
-                        onChange={handleChange}
+                        checked={props.props.esJubilado}
+                        onChange={props.props.onChangeEsJubilado}
                         name="checkedA"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Calcular SAC
                     <Switch
-                        checked={state.checkedB}
-                        onChange={handleChange}
+                        checked={props.props.calcularSac}
+                        onChange={props.props.onChangeCalcularSac}
                         name="checkedB"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                {props.props.calcularSac &&
+
+                    <TextField
+                        label="Mejor sueldo del año"
+
+                        placeholder='0'
+                        style={{ width: 250, margin: 12, marginLeft: 12 }}
+                        className={clsx(classes.margin, classes.textField)}
+                        type="number"
+                        variant="outlined"
+                        onChange={props.props.onChangeMejorSueldo}
+                        value={props.props.mejorSueldo}
+                    />
+
+                }
+
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Adicional asistencia
                     <Switch
-                        checked={state.checkedC}
-                        onChange={handleChange}
+                        checked={props.props.adicionalAsistencia}
+                        onChange={props.props.onChangeAdicionalAsistencia}
                         name="checkedC"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -184,23 +204,23 @@ export default function Basicos({ onChangeCategoria }) {
 
 
 
-         
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Incremento solidario (Dto. 14/20)
                     <Switch
-                        checked={state.checkedD}
-                        onChange={handleChange}
+                        checked={props.props.incrementoSolidario}
+                        onChange={props.props.onChangeIncrementoSolidario}
                         name="checkedD"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10,  backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Aporte solidario OSECAC
                     <Switch
-                        checked={state.checkedE}
-                        onChange={handleChange}
+                        checked={props.props.aporteSolidarioOsecac}
+                        onChange={props.props.onChangeAporteSolidarioOsecac}
                         name="checkedE"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -209,8 +229,8 @@ export default function Basicos({ onChangeCategoria }) {
                 <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Aporte OSECAC
                     <Switch
-                        checked={state.checkedF}
-                        onChange={handleChange}
+                        checked={props.props.aporteOsecac}
+                        onChange={props.props.onChangeAporteOsecac}
                         name="checkedF"
                         color='primary'
                         inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -220,7 +240,7 @@ export default function Basicos({ onChangeCategoria }) {
 
 
 
-           
+
 
                 <TextField
                     label="Antigüedad (años)"
@@ -229,6 +249,8 @@ export default function Basicos({ onChangeCategoria }) {
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeAntiguedadAños}
+                    value={props.props.antiguedadAños}
                 />
 
                 <TextField
@@ -240,6 +262,8 @@ export default function Basicos({ onChangeCategoria }) {
                     InputProps={{
                         endAdornment: <InputAdornment position="end">%</InputAdornment>,
                     }}
+                    onChange={props.props.onChangeCuotaSindical}
+                    value={props.props.cuotaSindical}
                     variant="outlined"
                     type="number"
                 />
@@ -251,6 +275,8 @@ export default function Basicos({ onChangeCategoria }) {
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
+                    onChange={props.props.onChangeRedondear}
+                    value={props.props.redondear}
                 />
 
 
