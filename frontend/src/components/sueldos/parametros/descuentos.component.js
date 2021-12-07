@@ -98,7 +98,7 @@ export default function Adicionales(props) {
                     label="Cuota sindical"
                     placeholder='12'
                     id="outlined-end-adornment"
-                    style={{ width: 250, margin: 12, marginLeft: 12 }}
+                    style={{ width: 250, margin: 12, marginLeft: 12, display: 'none' }}
                     className={clsx(classes.margin, classes.textField)}
                     InputProps={{
                         endAdornment: <InputAdornment position="end">%</InputAdornment>,
@@ -119,7 +119,7 @@ export default function Adicionales(props) {
                     value={props.props.seguroSepelio}
                 />
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25, display: 'none' }}>
                     Calcular sindicado
                     <Switch
                         checked={props.props.calcularSindicato}

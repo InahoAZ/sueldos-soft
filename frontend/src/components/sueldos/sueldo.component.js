@@ -32,6 +32,10 @@ theme.typography.h3 = {
 
 export default function Sueldos(props) {
 
+
+    const [dataReporteOrigen,setDataReporteOrigen] = React.useState({});
+    const [reportExist, setReportExist] = React.useState(false);
+
     const [empleadoId, setEmpleadoId] = React.useState('61a7d8080eb68f35484caa99');
     const [empresaId, setEmpresaId] = React.useState('');
     const [puestoId, setPuestoId] = React.useState('61a7dab40eb68f35484cab4c');
@@ -702,6 +706,12 @@ export default function Sueldos(props) {
         return fecha
     }
 
+    function saveReporte(){
+//dataReporteOrigen
+
+    }
+
+
 
     function generarReporte() {
 
@@ -824,7 +834,8 @@ export default function Sueldos(props) {
         LiquidacionService.create(data)
             .then(response => {
                 //console.log('obt')
-                console.log(response.data)
+                console.log(response.data);
+                setDataReporteOrigen(response.data);
                 //actualizar pdf reporte
                 // ponerlo visible           
 
@@ -890,6 +901,7 @@ export default function Sueldos(props) {
                         
                         setDatosCargaSac(result);
                 }
+                setReportExist(true);
 
 
             })
@@ -1108,6 +1120,12 @@ export default function Sueldos(props) {
                         <Button variant="contained" onClick={generarReporte} style={{ marginBottom: '20px', marginTop: '20px', backgroundColor: '#95f5aabf' }} >
                             GENERAR REPORTE
                         </Button>
+                        {reportExist &&
+                            <Button variant="contained" onClick={saveReporte} style={{ marginBottom: '20px', marginTop: '20px',marginLeft:'20px', backgroundColor: 'rgb(245 149 149 / 75%)' }} >
+                            GUARDAR
+                        </Button>
+                        }
+                        
                     </center>
 
 
