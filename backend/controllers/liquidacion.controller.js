@@ -29,6 +29,12 @@ exports.create = (req, res) => {
             "descuentos_no_rem": [],
             "total_descuentos_no_rem": 0,
         },
+        "detalle_sac": {
+            "sac_semestre": 0,
+            "descuentos_rem_sac": [],
+            "total_descuentos_rem_sac": 0,
+            "diasTrabajadosSemestre": req.body.diasTrabajadosSemestre,
+        },
         "datos_bancarios": {
             "bancoNombre": req.body.bancoNombre,
             "cuentaNumero": req.body.cuentaNumero,
@@ -68,14 +74,21 @@ exports.create = (req, res) => {
     const año = req.body.año;
     const diasHabiles = req.body.diasHabiles;
     const diasTrabajados = req.body.diasTrabajados;
-        
     
-    
+    //Si se calcula SAC
+    const calcularSAC = req.body.calcularSAC;
+    const diasTrabajadosSemestre = req.body.diasTrabajadosSemestre;
+    const diasSemestre = req.body.diasSemestre;
+    //Temporalmente como parametro. TODO: buscar automaticamente el mejor sueldo del semestre.
+    const mejorSueldoSemestre = 50000;
+
+
     //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
     //Como tambien las sumas y descuentos a aplicar segun el convenio del puesto.
     
     Puesto.findById(idPuesto).populate('convenio_subcat')
     .then(data=>{
+        console.log(data);
         const sueldo_basico = data.convenio_subcat.basico;
         const idConvenio = data.convenio._id;
         liquidacion.puesto = data;
@@ -84,7 +97,7 @@ exports.create = (req, res) => {
         return Promise.all([sueldo_basico, idConvenio]);
         
     })
-    .then(([sueldo_basico, idConvenio]) =>{
+    .then(([sueldo_basico, idConvenio]) => {
         //Se toma las sumas y descuentos del convenio y se le aplica la formula correspondiente a cada caso.
         console.log(sueldo_basico, idConvenio);
         //modificamos la consulta segun las opciones basicas recibidas
@@ -110,14 +123,14 @@ exports.create = (req, res) => {
             
         console.log(condicion_sumas_rem);
 
-        return  Promise.all([Convenio.aggregate([
+        return Promise.all([Convenio.aggregate([
             {$match: {_id:idConvenio}}, 
             {$lookup: {
             from: 'sumas_descuentos',
             localField: 'sumas_descuentos',
             foreignField: '_id',
             as: 'sumasydescuentos'
-          }},
+            }},
             {$project: {
                 sumas_no_rem:{
                     $filter: { input:'$sumasydescuentos', as:'item', cond:{$eq: ['$$item.tipo', 'Suma No Remunerativa']}}
@@ -132,8 +145,7 @@ exports.create = (req, res) => {
                     $filter: { input:'$sumasydescuentos', as:'item', cond:{$eq:["$$item.tipo", 'Descuento No Remunerativo']}}
                 }
             }},
-          
-          ]), sueldo_basico])
+        ]), sueldo_basico])
         
     })
     .then(([data, sueldo_basico]) => {
@@ -141,6 +153,7 @@ exports.create = (req, res) => {
         detalle_liquidacion = data[0];
         var total_sumas_rem = sueldo_basico;        
         var total_descuentos_rem = 0;
+        var total_descuentos_rem_sac = 0;
         var total_sumas_no_rem = 0;
         var total_descuentos_no_rem = 0;
         var hs_subtotal = 0;
@@ -206,15 +219,16 @@ exports.create = (req, res) => {
             total_sumas_rem += item.subtotal;
             
         });
+        //Al sueldo basico se paga sobre los dias trabajados unicamente. dias de vac. se liquida aparte
         if (calcularVacaciones){
             liquidacion.detalle.sueldo_basico -= remun_vacaciones;
         }
         liquidacion.detalle.sumas_rem = detalle_liquidacion.sumas_rem;
         liquidacion.detalle.total_sumas_rem = total_sumas_rem;
         
-        
+        var des_rem = JSON.parse(JSON.stringify(detalle_liquidacion.descuentos_rem));
         //Descuentos Remunerativos
-        detalle_liquidacion.descuentos_rem.forEach((item)=>{
+        des_rem.forEach((item)=>{
             //console.log(item.unidad * item.cantidad * total_sumas_rem);
             
             if (item.sobre === 'total_sumas_rem')
@@ -224,8 +238,9 @@ exports.create = (req, res) => {
 
             total_descuentos_rem += item.subtotal;
         });
-        
-        liquidacion.detalle.descuentos_rem = detalle_liquidacion.descuentos_rem;
+        console.log("des rem: ", des_rem);
+        liquidacion.detalle.descuentos_rem = [...des_rem];
+        console.log("xd: ", liquidacion.detalle.descuentos_rem);
         liquidacion.detalle.total_descuentos_rem = total_descuentos_rem;
 
         //Sumas No Remunerativas
@@ -247,6 +262,23 @@ exports.create = (req, res) => {
         liquidacion.detalle.total_descuentos_no_rem = total_descuentos_no_rem;
 
         
+
+        //Si hay que calcular sac, aplicamos los descuentos remunerativos neuvamente a la segunda liquidacion
+        if (calcularSAC){
+            var descuentos_rem_sacc = JSON.parse(JSON.stringify(detalle_liquidacion.descuentos_rem));
+            sacSemestre = ((mejorSueldoSemestre * 0.5) / diasSemestre) * diasTrabajadosSemestre;
+            //Descuentos Remunerativos
+            descuentos_rem_sacc.forEach((item)=>{
+            //console.log(item.unidad * item.cantidad * total_sumas_rem);
+            item.subtotal = item.unidad * item.cantidad * sacSemestre;
+            total_descuentos_rem_sac += item.subtotal;
+            });
+            liquidacion.detalle_sac.sac_semestre = sacSemestre;
+            liquidacion.detalle_sac.descuentos_rem_sac = descuentos_rem_sacc;
+            liquidacion.detalle_sac.total_descuentos_rem_sac = total_descuentos_rem_sac;
+        }
+        console.log("xd: ", liquidacion.detalle.descuentos_rem);
+        
         return Empleado.findById(idEmpleado);
 
     })
@@ -257,7 +289,7 @@ exports.create = (req, res) => {
     })
     .then(data =>{
         liquidacion.empresa = data;
-        console.log(liquidacion);
+        //console.log(liquidacion);
         res.send({"data":liquidacion});
     })
     .catch(err => {
