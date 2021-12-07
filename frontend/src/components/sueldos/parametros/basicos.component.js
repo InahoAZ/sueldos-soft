@@ -175,7 +175,13 @@ export default function Basicos(props) {
                     />
                 </Paper>
                 {props.props.calcularSac &&
+<Grid
+container
+direction="row"
 
+justifyContent="center"
+alignItems="center"
+>
                     <TextField
                         label="Mejor sueldo del año"
 
@@ -187,6 +193,31 @@ export default function Basicos(props) {
                         onChange={props.props.onChangeMejorSueldo}
                         value={props.props.mejorSueldo}
                     />
+                    
+                    <TextField
+                        label="Dias Trabajados el Semestre"
+
+                        placeholder='0'
+                        style={{ width: 250, margin: 12, marginLeft: 12 }}
+                        className={clsx(classes.margin, classes.textField)}
+                        type="number"
+                        variant="outlined"
+                        onChange={props.props.onChangeDiasTrabajadosSemestre}
+                        value={props.props.diasTrabajadosSemestre}
+                    />
+                    
+                    <TextField
+                        label="Total dias semestre"
+
+                        placeholder='0'
+                        style={{ width: 250, margin: 12, marginLeft: 12 }}
+                        className={clsx(classes.margin, classes.textField)}
+                        type="number"
+                        variant="outlined"
+                        onChange={props.props.onChangeDiasSemestre}
+                        value={props.props.diasSemestre}
+                    />
+                    </Grid>
 
                 }
 

@@ -140,7 +140,9 @@ const styles = StyleSheet.create({
 
 // Create Document Component
 const MyDocument = (props) => (
-    <Document>
+    <Document
+    key={props.datosCarga.numeroID}
+    >
         <Page size="A4" >
             <View style={styles.pageSUP}>
                 <Text>RECIBO DE HABERES Ley no 20.744</Text>
@@ -426,7 +428,7 @@ export default function Reporte(props) {
         {console.log(dataProps.id)}
      */
     //console.log(dataProps);
-    console.log(props.datosCarga.conceptos);
+    console.log(props.datosCarga.numeroID);
     return (
         <div>
             <br></br>

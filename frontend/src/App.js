@@ -154,8 +154,8 @@ class App extends Component {
             </Toolbar>
           </AppBar>
           <Switch>
-            <Route exact path={["/", "/sueldos"]} component={Sueldos} />
-            <Route exact path="/convenios" component={Convenios} />
+            <Route exact path={["/", "/convenios"]} component={Convenios} />
+            <Route exact path="/sueldos" component={Sueldos} />
 
             <Route exact path="/datosempresa" component={Datosempresa} />
             <Route exact path="/empleados" component={Empleados} />
