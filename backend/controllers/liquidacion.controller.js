@@ -80,7 +80,7 @@ exports.create = (req, res) => {
     const diasTrabajadosSemestre = req.body.diasTrabajadosSemestre;
     const diasSemestre = req.body.diasSemestre;
     //Temporalmente como parametro. TODO: buscar automaticamente el mejor sueldo del semestre.
-    const mejorSueldoSemestre = 50000;
+    const mejorSueldoSemestre = req.body.mejorSueldoSemestre;
 
 
     //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
