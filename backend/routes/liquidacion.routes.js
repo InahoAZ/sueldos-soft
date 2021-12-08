@@ -6,6 +6,9 @@ module.exports = app => {
     //endpoint para generar una nueva liquidación
     router.post("/", liquidacion.create);
 
+    //endpoint para generar guardar una liquidación
+    router.post("/guardar", liquidacion.save);
+
     //devuelve todas las liquidacion
     router.get("/", liquidacion.findAll);
 

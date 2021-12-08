@@ -33,7 +33,7 @@ theme.typography.h3 = {
 export default function Sueldos(props) {
 
 
-    const [dataReporteOrigen,setDataReporteOrigen] = React.useState({});
+    const [dataReporteOrigen, setDataReporteOrigen] = React.useState({});
     const [reportExist, setReportExist] = React.useState(false);
 
     const [empleadoId, setEmpleadoId] = React.useState('61a7d8080eb68f35484caa99');
@@ -581,16 +581,16 @@ export default function Sueldos(props) {
 
     }
 
-    function getDetalleTipoSac(){
+    function getDetalleTipoSac() {
 
         let now = new Date();
         let year = '';
         var dateString = moment(now).format('DD/MM/YYYY');
         year = dateString[6] + dateString[7] + dateString[8] + dateString[9];
         var number = parseInt(dateString[3] + dateString[4]);
-        if(number < 7){
+        if (number < 7) {
             return '1er S.A.C.' + year;
-        }else{
+        } else {
             return '2do S.A.C.' + year;
         }
 
@@ -706,8 +706,23 @@ export default function Sueldos(props) {
         return fecha
     }
 
-    function saveReporte(){
-//dataReporteOrigen
+    function saveReporte() {
+        
+        var objCopy = { ...dataReporteOrigen };
+        console.log(objCopy);
+        objCopy.data.puesto["areaName"] = areaName;
+        objCopy.data.puesto["departamentoName"] = departamentoName;
+        LiquidacionService.saveData(objCopy)
+            .then(response => {
+                console.log(response.data);
+                setReportExist(false);
+                swal("Correcto!", "Se agrego con exito!", "success");
+            })
+            .catch(e => {
+                //console.log(e);
+                //console.log(data);
+                swal("Error!", "No se logro cargarlo!", "error");
+            });
 
     }
 
@@ -880,26 +895,25 @@ export default function Sueldos(props) {
                     totalNeto: parseFloat((response.data.data.detalle.total_sumas_rem - (response.data.data.detalle.total_descuentos_rem + response.data.data.detalle.total_descuentos_no_rem)) + response.data.data.detalle.total_sumas_no_rem).toFixed(2),
                     totalNetoEscrito: relleno(n_t_l(parseInt((response.data.data.detalle.total_sumas_rem - (response.data.data.detalle.total_descuentos_rem + response.data.data.detalle.total_descuentos_no_rem)) + response.data.data.detalle.total_sumas_no_rem))),  //llama para obtener el resultado final
                 }
-                var objCopy = {...result};
+                var objCopy = { ...result };
                 setDatosCarga(objCopy);
-                console.log('feef');
-                
+
 
                 if (calcularSac) {
 
-                        result["conceptos"] = obtenerDetalleSac(response.data.data.detalle_sac);
+                    result["conceptos"] = obtenerDetalleSac(response.data.data.detalle_sac);
 
-                        result["jubilacionPeriodo"] = "";
-                        result["jubilacionFecha"] = "";
-                        result["jubilacionBanco"] = "";
+                    result["jubilacionPeriodo"] = "";
+                    result["jubilacionFecha"] = "";
+                    result["jubilacionBanco"] = "";
 
-                        result["totalRemunerado"] = parseFloat(response.data.data.detalle_sac.sac_semestre).toFixed(2);
-                        result["totalNoRemunerado"] = "";
-                        result["totalDeduccion"] = parseFloat(response.data.data.detalle_sac.total_descuentos_rem_sac).toFixed(2);
-                        result["totalNeto"] = parseFloat(response.data.data.detalle_sac.sac_semestre-response.data.data.detalle_sac.total_descuentos_rem_sac).toFixed(2);
-                        result["totalNetoEscrito"] = relleno(n_t_l(parseInt(response.data.data.detalle_sac.sac_semestre-response.data.data.detalle_sac.total_descuentos_rem_sac)));
-                        
-                        setDatosCargaSac(result);
+                    result["totalRemunerado"] = parseFloat(response.data.data.detalle_sac.sac_semestre).toFixed(2);
+                    result["totalNoRemunerado"] = "";
+                    result["totalDeduccion"] = parseFloat(response.data.data.detalle_sac.total_descuentos_rem_sac).toFixed(2);
+                    result["totalNeto"] = parseFloat(response.data.data.detalle_sac.sac_semestre - response.data.data.detalle_sac.total_descuentos_rem_sac).toFixed(2);
+                    result["totalNetoEscrito"] = relleno(n_t_l(parseInt(response.data.data.detalle_sac.sac_semestre - response.data.data.detalle_sac.total_descuentos_rem_sac)));
+
+                    setDatosCargaSac(result);
                 }
                 setReportExist(true);
 
@@ -1121,11 +1135,11 @@ export default function Sueldos(props) {
                             GENERAR REPORTE
                         </Button>
                         {reportExist &&
-                            <Button variant="contained" onClick={saveReporte} style={{ marginBottom: '20px', marginTop: '20px',marginLeft:'20px', backgroundColor: 'rgb(245 149 149 / 75%)' }} >
-                            GUARDAR
-                        </Button>
+                            <Button variant="contained" onClick={saveReporte} style={{ marginBottom: '20px', marginTop: '20px', marginLeft: '20px', backgroundColor: 'rgb(245 149 149 / 75%)' }} >
+                                GUARDAR
+                            </Button>
                         }
-                        
+
                     </center>
 
 

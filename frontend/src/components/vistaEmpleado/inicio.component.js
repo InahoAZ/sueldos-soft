@@ -10,7 +10,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import swal from 'sweetalert';
 import Modal from '@material-ui/core/Modal';
-
+import LiquidacionService from '../../services/liquidacione.service';
 import Liquidaciones from './liquidaciones.component'
 import Perfil from './perfil.component'
 
@@ -61,14 +61,14 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1),
         alignItems: 'center',
         justifyContent: 'center',
-      },
-      paper: {
+    },
+    paper: {
         width: 400,
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-      },
+    },
 }));
 
 
@@ -79,12 +79,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function GestionarInicio(props) {
     const rootRef = React.useRef(null);
-    
+
 
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const [modalState, setModalState] = React.useState(true);
-    
+
+    const [listaFinalByCuil, setListaFinalByCuil] = React.useState([]);
+
 
     const [persona, setPersona] = React.useState(props.persona());
 
@@ -93,6 +95,39 @@ export default function GestionarInicio(props) {
         setModalState(false);
 
     }
+    function filtrarByCuil(listDict, cuil){
+        var listaFinal = [];
+        for(let i = 0 ;i < listDict.length;i++){
+            if(listDict[i].empleado.cuil === cuil){
+                listaFinal.push(listDict[i]);
+            }
+        }
+        return listaFinal;
+
+    }
+    function cargaLiquidaciones(cuil) {
+        //llamar a pedir todas la liquidaciones 
+        
+        LiquidacionService.getAll()
+            .then(response => {
+                setListaFinalByCuil(filtrarByCuil(response.data, cuil));
+                
+            })
+            .catch(e => {
+                console.log(e);
+            });
+
+    }
+
+    React.useEffect(() => {
+        if (persona) {
+            console.log(persona);
+
+            cargaLiquidaciones(persona.cuil);
+
+
+        }
+    }, [persona]);
 
 
 
@@ -122,9 +157,9 @@ export default function GestionarInicio(props) {
                     <Button variant="contained" color="green" onClick={ver} style={{ marginBottom: '20px', marginTop: '20px' }} >
                         ok
                     </Button>
-                
+
                 </div>
-               
+
             </Modal>
             <Grid
                 container
@@ -147,7 +182,7 @@ export default function GestionarInicio(props) {
                     <Typography variant="h4" style={{ margin: 20 }}>
                         Bienvenido "{persona.nombre}"
                     </Typography>
-                   
+
                     <br></br>
 
                     <div className={classes.root}>
@@ -159,11 +194,13 @@ export default function GestionarInicio(props) {
                             </Tabs>
                         </AppBar>
                         <TabPanel value={value} index={0} className={classes.tabs}>
-                            <Liquidaciones />
+                            <Liquidaciones 
+                                listaFinalByCuil={listaFinalByCuil}
+                            />
                         </TabPanel>
                         <TabPanel value={value} index={1} className={classes.tabs}>
-                            <Perfil 
-                            personaDic={persona}
+                            <Perfil
+                                personaDic={persona}
                             />
                         </TabPanel>
 

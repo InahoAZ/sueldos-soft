@@ -17,6 +17,9 @@ class liquidacionService {
   delete(id) {
     return http.delete(`/liquidacion/${id}`);
   }
+  saveData(dict){
+    return http.post("/liquidacion/guardar", dict);
+  }
 
  
 }
