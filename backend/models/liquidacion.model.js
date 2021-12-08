@@ -8,6 +8,7 @@ module.exports = (mongoose) => {
         "detalle": Object,
         "datos_bancarios": Object,
         "jubilacion":Object,
+        "detalle_sac":Object,
 
         
     }, { timestamps: true });

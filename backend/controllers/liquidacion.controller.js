@@ -318,17 +318,42 @@ exports.create = (req, res) => {
  */
 };
 
+// guardar una liquidacion visualizada
+exports.save = (req, res) => {
+    console.log("xd: "+req.body.data);
+    //Validaciones
+    if (!req.body.data) {
+        res.status(400).send(({ message: "El contenido no puede estar vacio"}))
+    }
+
+    //Creamos el item
+    const liquidacion = new Liquidacion({
+        empleado: req.body.data.empleado,
+        empresa: req.body.data.empresa,
+        puesto: req.body.data.puesto,
+        detalle: req.body.data.detalle,
+        datos_bancarios: req.body.data.datos_bancarios,
+        jubilacion:req.body.data.jubilacion,
+        detalle_sac: req.body.data.detalle_sac,
+    });
+
+    //Guardamos en la bd
+    liquidacion
+        .save(liquidacion)
+        .then(data => {
+            res.send(data);
+        })
+        .catch( err => {
+            res.status(500).send({
+                message:
+                    err.message || "Ocurrio un error al guardar la liquidacion"
+            })
+        })
+};
+
 
 exports.findAll = (req, res) => {
-    Empresa.find().populate({
-            path: 'areas',
-            populate: {
-                path: 'departamentos',
-                populate: {
-                    path: 'puestos'
-                }
-            }
-        })
+    Liquidacion.find()
         .then(data => {
             res.send(data);
         })
