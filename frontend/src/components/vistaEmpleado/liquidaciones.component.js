@@ -39,6 +39,7 @@ export default function Liquidaciones(props) {
     const [datosCargaSac, setDatosCargaSac] = React.useState(
         {
             numeroID: '7',
+            duplicado: '',
             nombreEmpresa: '-------------',
             calleNumero: '--------',
             codigoPostal: '------',
@@ -92,6 +93,7 @@ export default function Liquidaciones(props) {
     const [datosCarga, setDatosCarga] = React.useState(
         {
             numeroID: '3',
+            duplicado: '',
             nombreEmpresa: '-------------',
             calleNumero: '--------',
             codigoPostal: '------',
@@ -299,8 +301,8 @@ export default function Liquidaciones(props) {
 
 
         var result = {
-            numeroID: '2',
-
+            numeroID: oneReport.empresa._id,
+            duplicado: 'ORIGINAL',
             nombreEmpresa: oneReport.empresa.name,
             calleNumero: oneReport.empresa.calleNumero,
             codigoPostal: oneReport.empresa.codigoPostal,

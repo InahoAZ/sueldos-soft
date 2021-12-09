@@ -89,7 +89,7 @@ export default function Basicos(props) {
 
                     }}
 
-                    style={{ width: 250, marginBottom: 12, marginLeft: 12 }}
+                    style={{ width: 250, marginBottom: 12, marginLeft: 12, display: 'none' }}
                     options={edades}
                     classes={{
                         option: classes.option,
@@ -154,7 +154,7 @@ export default function Basicos(props) {
 
 
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25, display: 'none' }}>
                     Trabajador jubilado
                     <Switch
                         checked={props.props.esJubilado}
@@ -237,7 +237,7 @@ alignItems="center"
 
 
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25, display: 'none' }}>
                     Incremento solidario (Dto. 14/20)
                     <Switch
                         checked={props.props.incrementoSolidario}
@@ -302,7 +302,7 @@ alignItems="center"
                 <TextField
                     label="Redondear"
                     placeholder='0'
-                    style={{ width: 250, margin: 12, marginLeft: 12 }}
+                    style={{ width: 250, margin: 12, marginLeft: 12, display: 'none' }}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"

@@ -94,7 +94,7 @@ export default function Adicionales(props) {
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25, display: 'none' }}>
                     Antiguedad Acumulativa
                     <Switch
                         checked={props.props.antiguedadAcumulativa}
@@ -120,7 +120,7 @@ export default function Adicionales(props) {
 
                     }}
 
-                    style={{ width: 250 }}
+                    style={{ width: 250, display: 'none' }}
                     options={computoAntiguaedades}
                     classes={{
                         option: classes.option,
@@ -188,7 +188,7 @@ export default function Adicionales(props) {
                     placeholder='12'
                     type="number"
                     id="outlined-end-adornment"
-                    style={{ width: 250, margin: 12, marginLeft: 12 }}
+                    style={{ width: 250, margin: 12, marginLeft: 12, display: 'none' }}
                     className={clsx(classes.margin, classes.textField)}
                     InputProps={{
                         endAdornment: <InputAdornment position="end">%</InputAdornment>,

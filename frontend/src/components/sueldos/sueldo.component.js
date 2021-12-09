@@ -91,13 +91,15 @@ export default function Sueldos(props) {
     const [año, setAño] = React.useState('');
     const [diasHabiles, setDiasHabiles] = React.useState('');
 
-    const [horasDiurnas50porciento, setHorasDiurnas50porciento] = React.useState('');
+    const [horasDiurnas50porciento, setHorasDiurnas50porciento] = React.useState(0);
     const [horasNocturnas50porciento, setHorasNocturnas50porciento] = React.useState('');
-    const [horasDiurnas100porciento, setHorasDiurnas100porciento] = React.useState('');
+    const [horasDiurnas100porciento, setHorasDiurnas100porciento] = React.useState(0);
     const [horasNocturnas100porciento, setHorasNocturnas100porciento] = React.useState('');
-    const [horasNocturnas, setHorasNocturnas] = React.useState('');
+    const [horasNocturnas, setHorasNocturnas] = React.useState(0);
 
     const [diasInculpable, setDiasInculpable] = React.useState('');
+    const [licenciaSinGoce, setLicenciaSinGoce] = React.useState(false);
+    const [nombreLicencia, setNombreLicencia] = React.useState('');
     const [mesInicioInculpable, setMesInicioInculpable] = React.useState('');
 
     const [diasILT, setDiasILT] = React.useState('');
@@ -114,6 +116,7 @@ export default function Sueldos(props) {
     const [datosCargaSac, setDatosCargaSac] = React.useState(
         {
             numeroID: '7',
+            duplicado: '',
             nombreEmpresa: '-------------',
             calleNumero: '--------',
             codigoPostal: '------',
@@ -166,6 +169,7 @@ export default function Sueldos(props) {
     const [datosCarga, setDatosCarga] = React.useState(
         {
             numeroID: '1',
+            duplicado: '',
             nombreEmpresa: '-------------',
             calleNumero: '--------',
             codigoPostal: '------',
@@ -449,6 +453,12 @@ export default function Sueldos(props) {
     function onChangeDiasInculpable(e) {
         setDiasInculpable(e.target.value);
     }
+    function onChangeLicenciaSinGoce(e) {
+        setLicenciaSinGoce(e.target.checked);
+    }
+    function onChangeNombreLicencia(e) {
+        setNombreLicencia(e.target.value);
+    }
     function onChangeMesInicioInculpable(v) {
         setMesInicioInculpable(v);
     }
@@ -558,6 +568,8 @@ export default function Sueldos(props) {
         setHorasNocturnas('');
 
         setDiasInculpable('');
+        setLicenciaSinGoce(false);
+        setNombreLicencia('');
         setMesInicioInculpable('');
 
         setDiasILT('');
@@ -612,7 +624,7 @@ export default function Sueldos(props) {
             auxDic = {
                 codigo: detalles.descuentos_rem_sac[i].orden,
                 detalle: detalles.descuentos_rem_sac[i].name,
-                cantidad: detalles.descuentos_rem_sac[i].cantidad,
+                cantidad: ' '+parseFloat(detalles.descuentos_rem_sac[i].cantidad )*100+'%',
                 haber: '',
                 deduccion: parseFloat(detalles.descuentos_rem_sac[i].subtotal).toFixed(2),
             }
@@ -654,7 +666,7 @@ export default function Sueldos(props) {
             auxDic = {
                 codigo: detalles.descuentos_rem[i].orden,
                 detalle: detalles.descuentos_rem[i].name,
-                cantidad: detalles.descuentos_rem[i].cantidad,
+                cantidad: ' '+parseFloat(detalles.descuentos_rem[i].unidad )*100+ '%',
                 haber: '',
                 deduccion: parseFloat(detalles.descuentos_rem[i].subtotal).toFixed(2),
             }
@@ -824,12 +836,19 @@ export default function Sueldos(props) {
             horasDiurnas100porciento: horasDiurnas100porciento,
             horasNocturnas100porciento: horasNocturnas100porciento,
             horasNocturnas: horasNocturnas,
+            //arreglo 
+            horas50porciento: horasDiurnas50porciento,
+            horas100porciento: horasDiurnas100porciento,
+            horasMes:horasNocturnas, //se recicla este input, no hay tiempo para hacerlo bien xd
+
 
 
 
             //Licencias
             accidenteEnfermedadInculpable: {
-                dias: diasInculpable,
+                nombreLicencia: nombreLicencia,
+                licenciaSinGoce: licenciaSinGoce,
+                diasLicencia: diasInculpable,
                 mesInicio: mesInicioInculpable // lo cambio a numero?
             },
 
@@ -858,8 +877,8 @@ export default function Sueldos(props) {
 
 
                 var result = {
-                    numeroID: '2',
-
+                    numeroID: response.data.data._id,
+                    duplicado: 'DUPLICADO',
                     nombreEmpresa: response.data.data.empresa.name,
                     calleNumero: response.data.data.empresa.calleNumero,
                     codigoPostal: response.data.data.empresa.codigoPostal,
@@ -1105,8 +1124,12 @@ export default function Sueldos(props) {
 
                         onChangeDiasInculpable={onChangeDiasInculpable}
                         diasInculpable={diasInculpable}
-                        onChangeMesInicioInculpable={onChangeMesInicioInculpable}
-                        mesInicioInculpable={mesInicioInculpable}
+                        onChangeLicenciaSinGoce={onChangeLicenciaSinGoce}
+                        setLicenciaSinGoce={setLicenciaSinGoce}
+                        onChangeDiasInculpable={onChangeDiasInculpable}
+                        diasInculpable={diasInculpable}
+                        onChangeNombreLicencia={onChangeNombreLicencia}
+                        setNombreLicencia={setNombreLicencia}
 
 
                         onChangeDiasILT={onChangeDiasILT}

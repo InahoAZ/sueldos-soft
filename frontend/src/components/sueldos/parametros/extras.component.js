@@ -123,7 +123,7 @@ export default function Adicionales(props) {
                 <TextField
                     label="Nocturnas 50%"
                     placeholder='0'
-                    style={{ width: 250, margin: 12, marginLeft: 12 }}
+                    style={{ width: 250, margin: 12, marginLeft: 12, display: 'none' }}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
@@ -133,7 +133,7 @@ export default function Adicionales(props) {
                 <TextField
                     label="Nocturnas 100%"
                     placeholder='0'
-                    style={{ width: 250, margin: 12, marginLeft: 12 }}
+                    style={{ width: 250, margin: 12, marginLeft: 12, display: 'none' }}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
@@ -141,9 +141,9 @@ export default function Adicionales(props) {
                     value={props.props.horasNocturnas100porciento}
                 />
                 <TextField
-                    label="Horas nocturnas"
+                    label="Horas Mes"
                     placeholder='0'
-                    style={{ width: 250, margin: 12, marginLeft: 12 }}
+                    style={{ width: 250, margin: 12, marginLeft: 12}}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"

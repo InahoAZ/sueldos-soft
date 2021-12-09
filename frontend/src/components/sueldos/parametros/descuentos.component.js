@@ -111,7 +111,7 @@ export default function Adicionales(props) {
                 <TextField
                     label="Seguro sepelio"
                     placeholder='0'
-                    style={{ width: 250, margin: 12, marginLeft: 12 }}
+                    style={{ width: 250, margin: 12, marginLeft: 12, display: 'none'  }}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
@@ -148,7 +148,7 @@ export default function Adicionales(props) {
                 <TextField
                     label="Adelantar sueldo"
                     placeholder='0'
-                    style={{ width: 250, margin: 12, marginLeft: 12 }}
+                    style={{ width: 250, margin: 12, marginLeft: 12, display: 'none'  }}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
