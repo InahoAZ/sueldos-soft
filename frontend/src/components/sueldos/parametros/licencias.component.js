@@ -10,6 +10,8 @@ import clsx from 'clsx';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Switch from '@material-ui/core/Switch';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -47,7 +49,7 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
+        //backgroundColor: theme.palette.background.paper,
     },
     tabs: {
         backgroundColor: '#7dd5d1',
@@ -66,10 +68,53 @@ export default function Licencias(props) {
 
     return (
         <div className={classes.root}>
+
+
+            <Grid container
+                direction="row"
+
+                justifyContent="center"
+                alignItems="center">
+
+<Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                        Aplicar licencia
+                        <Switch
+                            checked={props.props.licenciaSinGoce}
+                            onChange={props.props.onChangeLicenciaSinGoce}
+                            name="checkedE"
+                            color='primary'
+                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                        />
+                    </Paper>
+
+                    <TextField
+                        label="Días de licencia"
+                        placeholder='0'
+                        style={{ width: 250, margin: 12, marginLeft: 12 }}
+                        className={clsx(classes.margin, classes.textField)}
+                        type="number"
+                        variant="outlined"
+                        onChange={props.props.onChangeDiasInculpable}
+                        value={props.props.diasInculpable}
+                    />
+                    <TextField
+                        label="Nombre de la licencia"
+                        placeholder='0'
+                        style={{ width: 250, margin: 12, marginLeft: 12 }}
+                        className={clsx(classes.margin, classes.textField)}
+
+                        variant="outlined"
+                        onChange={props.props.onChangeNombreLicencia}
+                        value={props.props.nombreLicencia}
+                    />
+
+            </Grid>
+
+            {/*
             <AppBar position="static" className={classes.tabs}>
                 <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                    <Tab label="Accidente/Enfermedad inculpable" {...a11yProps(0)} />
-                    <Tab label="Riesgos Trabajo - ILT" {...a11yProps(1)} />
+                    <Tab label="Sin goce de sueldo" {...a11yProps(0)} />
+                    <Tab label="Con goce de sueldo" {...a11yProps(1)} />
 
                 </Tabs>
             </AppBar>
@@ -81,21 +126,16 @@ export default function Licencias(props) {
                     justifyContent="center"
                     alignItems="center">
 
-                    <TextField
-                        label="Días"
-                        placeholder='0'
-                        style={{ width: 250, margin: 12, marginLeft: 12 }}
-                        className={clsx(classes.margin, classes.textField)}
-                        type="number"
-                        variant="outlined"
-                        onChange={props.props.onChangeDiasInculpable}
-                        value={props.props.diasInculpable}
-                    />
+
+
+                   
+
+
 
                     <Autocomplete
                         id="country-select-mes" // puesto
                         defaultValue={props.props.mesInicioInculpable}
-                        key={props.props.mesInicioInculpable +1}
+                        key={props.props.mesInicioInculpable + 1}
                         onChange={(event, newValue) => {
                             //setValueEmpresa(newValue);
 
@@ -103,7 +143,7 @@ export default function Licencias(props) {
 
                         }}
 
-                        style={{ width: 250, marginLeft: 12 }}
+                        style={{ width: 250, marginLeft: 12, display: 'none' }}
                         options={meses}
                         classes={{
                             option: classes.option,
@@ -144,7 +184,7 @@ export default function Licencias(props) {
                     <TextField
                         label="Días"
                         placeholder='0'
-                        style={{ width: 250, margin: 12, marginLeft: 12 }}
+                        style={{ width: 250, margin: 12, marginLeft: 12, display: 'none' }}
                         className={clsx(classes.margin, classes.textField)}
                         type="number"
                         variant="outlined"
@@ -155,7 +195,7 @@ export default function Licencias(props) {
                     <Autocomplete
                         id="country-select-expo" // puesto
                         defaultValue={props.props.exposicionLicenciaILT}
-                        key={props.props.exposicionLicenciaILT+2}
+                        key={props.props.exposicionLicenciaILT + 2}
                         onChange={(event, newValue) => {
                             //setValueEmpresa(newValue);
 
@@ -163,7 +203,7 @@ export default function Licencias(props) {
 
                         }}
 
-                        style={{ width: 250, marginLeft: 12 }}
+                        style={{ width: 250, marginLeft: 12, display: 'none' }}
                         options={exposiciones}
                         classes={{
                             option: classes.option,
@@ -193,7 +233,7 @@ export default function Licencias(props) {
                     <TextField
                         label="Días a cargo de la empresa"
                         placeholder='0'
-                        style={{ width: 250, margin: 12, marginLeft: 12 }}
+                        style={{ width: 250, margin: 12, marginLeft: 12, display: 'none' }}
                         className={clsx(classes.margin, classes.textField)}
                         type="number"
                         variant="outlined"
@@ -212,7 +252,7 @@ export default function Licencias(props) {
 
                         }}
 
-                        style={{ width: 250, marginLeft: 12 }}
+                        style={{ width: 250, marginLeft: 12, display: 'none' }}
                         options={meses}
                         classes={{
                             option: classes.option,
@@ -240,6 +280,7 @@ export default function Licencias(props) {
 
                 </Grid>
             </TabPanel>
+            */}
 
         </div>
     );

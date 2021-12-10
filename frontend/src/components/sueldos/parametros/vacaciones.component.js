@@ -101,7 +101,7 @@ export default function Adicionales(props) {
 
                     }}
 
-                    style={{ width: 250 }}
+                    style={{ width: 250, display: 'none'  }}
                     options={computoAntiguaedades}
                     classes={{
                         option: classes.option,

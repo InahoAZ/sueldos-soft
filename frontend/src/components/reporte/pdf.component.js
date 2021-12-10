@@ -173,8 +173,8 @@ para tener logo, descomentar esto y comentar el "view" siguiente de abajo
 
                 <View style={styles.esquinaSUPderecha}>
 
-                    <Text style={{ margin: 5, marginTop: 10, fontSize: 12 }}>DUPLICADO</Text>
-                    <Text style={{ margin: 5, fontSize: 8 }}>0000</Text>
+                    <Text style={{ margin: 5, marginTop: 10, marginRight:25, fontSize: 12  }}>{props.datosCarga.duplicado}</Text>
+                    <Text style={{ margin: 5, marginRight:25, fontSize: 8 }}>{props.datosCarga.numeroID}</Text>
 
                 </View>
 
