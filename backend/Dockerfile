@@ -11,7 +11,5 @@ RUN npm install nodemon -g --quiet
 
 COPY . .
 
-EXPOSE 8080
-
 CMD ["nodemon", "server.js"]
 

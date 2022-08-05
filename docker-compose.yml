@@ -2,20 +2,22 @@
 #
 version: '3'
 services:
-  node:
+  backend:
     restart: always
     build: ./backend
     ports:
       - 4000:8080
+    depends_on: 
+      - mongo-sueldos
     volumes:
       - ./backend:/backend
-  react:
+  frontend:
     build: ./frontend
     ports:
       - 4001:8081
     volumes:
       - ./frontend:/frontend
-  mongo:
+  mongo-sueldos:
     image: mongo
     ports:
       - 27018:27017

@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors')
+const dotenv = require('dotenv')
+dotenv.config();
 
 
 const app = express();
@@ -42,10 +44,10 @@ db.mongoose
         useUnifiedTopology: true,
     })
     .then(()=>{
-        console.log("Connected to the database!");
+        console.log(`Connected to the database! (${db.url})`);
     })
     .catch(err => {
-        console.log("Cannot connect to the database!", err);
+        console.log("Cannot connect to the database!", db.url ,err);
         process.exit();
     });
 
@@ -61,7 +63,7 @@ require("./routes/liquidacion.routes")(app);
 
 
 //bucle donde queda escuchando el server
-const PORT = process.env.PORT || '8080'
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}.`)
 })
