@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.24.0",
     "date-fns": "^2.25.0",
+    "dotenv": "^16.0.1",
     "moment": "^2.29.1",
     "numeros_a_letras": "^1.0.7",
     "react": "^17.0.2",

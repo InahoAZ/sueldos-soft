@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 
 var corsOptions = {
-    origin: 'http://localhost:8081'
+    origin: 'http://localhost:4001'
 };
 
 //Con app use vamos haciendo como "capas" de middleware
