@@ -1,0 +1,27 @@
+#aplicacion en express.js - react.js - mongodb
+#
+version: '3'
+services:
+  backend:
+    restart: always
+    build: ./backend
+    ports:
+      - 4000:8000
+    depends_on: 
+      - mongo-sueldos
+    volumes:
+      - ./backend:/backend
+  frontend:
+    build: ./frontend
+    ports:
+      - 4001:8081
+    volumes:
+      - ./frontend:/frontend
+  mongo-sueldos:
+    image: mongo
+    ports:
+      - 27018:27017
+    volumes:
+      - mongodb:/data/db
+volumes:
+ mongodb:
