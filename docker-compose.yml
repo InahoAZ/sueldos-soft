@@ -19,6 +19,8 @@ services:
       - ./frontend:/frontend
   mongo-sueldos:
     image: mongo
+    logging:
+        driver: none
     ports:
       - 27018:27017
     volumes:

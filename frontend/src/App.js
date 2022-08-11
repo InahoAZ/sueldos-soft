@@ -4,7 +4,7 @@ import { Switch, Route, Link } from "react-router-dom";
 import "./App.css";
 import { styles } from "./css-common"
 
-
+throw Messi();
 
 import Datosempresa from "./components/datosempresa.component";
 
