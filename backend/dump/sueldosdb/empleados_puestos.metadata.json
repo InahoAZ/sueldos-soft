@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"9c61ecbe76a0494d9bfd8f6005cf939b","collectionName":"empleados_puestos","type":"collection"}

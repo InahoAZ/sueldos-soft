@@ -1,16 +1,21 @@
-const express = require('express');
+const app = require('../server');
 const chai = require('chai');
 const request = require('supertest');
 const { expect } = require('chai');
 
 describe('GET Liquidación de una persona', ()=>{
+    request(app).get('/api/liquidacion').then((res)=>{
+        console.log(res);
+    });
+    
     it('should get liquidacion de una persona', ()=>{
         request(app)
         .post('api/liquidacion/')
         .send({})
-        .expect(201)
+        .expect(500)
         .then((res)=>{
-            expect(res.headers.location).to.be.eql('api/liquidacion/');
+            console.log('aslkjalskjgla');
+            expect(res.headers.location).to.be.eql('api/liquidacionn/');
         })
     })
 })
