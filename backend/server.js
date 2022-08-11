@@ -3,7 +3,6 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 dotenv.config();
 
-
 const app = express();
 
 var corsOptions = {
@@ -67,3 +66,5 @@ const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}.`)
 })
+
+module.exports = app;
