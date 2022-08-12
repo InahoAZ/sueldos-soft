@@ -8,6 +8,43 @@ const Empleado = db.empleados;
 const Empresa = db.empresas;
 
 
+
+/** Se contempla el caso mas comun....pero hay muchas excepciones y formas pero la idea
+ * tampoco es hacer un tango gestion xd.
+ */
+/** Params:
+ * sueldo: algunos toman sueldo bruto con sumas no remun... es un gris la ley dice sueldo
+ * dias_trabajados: dias trabajados si la antiguedad es menor a un año.
+ * antiguedad = años. 
+ */
+exports.liquidarVacaciones = (sueldo, dias_trabajados, antiguedad) => {
+
+    //Calcular días que corresponden de vacaciones segun antiguedad
+
+    //Obtener valor dia x vacaciones = Sueldo Bruto / 25
+    let valor_dia = sueldo / 25;
+    let vacaciones = {
+        'dias': 0,
+        'valor_dia': valor_dia,
+        'monto_total': 0
+    }
+    return vacaciones;
+}
+
+exports.liquidarFeriadosTrabajados = (sueldo, dias_trabajados) => {
+
+    //Obtener valor dia x feriado = Sueldo Bruto / 25
+    let valor_dia = sueldo / 25;
+
+    let feriadosTrabajados = {
+        'dias': dias_trabajados,
+        'valor_dia': valor_dia,
+        'monto_total': dias_trabajados*valor_dia
+    }
+    return feriadosTrabajados;
+}
+
+
 exports.create = (req, res) => {
     //Se valida la request
     if (!req.body) {
