@@ -12,7 +12,7 @@ module.exports = (mongoose) => {
         },
         sobre: {
             type: String,
-            enum: ['sueldo_basico', 'sueldo_bruto', 'monto_fijo', 'total_sumas_rem', 'sueldo_bruto_hora', 'sueldo_bruto_dia']
+            enum: ['sueldo_basico', 'monto_fijo', 'total_sumas_rem', 'sueldo_bruto_hora', 'sueldo_bruto_dia']
         }
 
     }, { timestamps: true });

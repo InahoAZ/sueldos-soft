@@ -119,6 +119,14 @@ exports.create = (req, res) => {
     //Temporalmente como parametro. TODO: buscar automaticamente el mejor sueldo del semestre.
     const mejorSueldoSemestre = req.body.mejorSueldoSemestre;
     
+    //Feriados
+    // const diasTrabajadosFeriados = req.body.diasTrabajadosFeriados;
+    // const diasNoTrabajadosFeriados = req.body.diasNoTrabajadosFeriados;
+    
+    //parche hasta que esté el front xd
+    const diasTrabajadosFeriados = 1;
+    const diasNoTrabajadosFeriados = 1;
+
 
     //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
     //Como tambien las sumas y descuentos a aplicar segun el convenio del puesto.
@@ -153,6 +161,12 @@ exports.create = (req, res) => {
 
         if (!calcularVacaciones)
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "101"]});
+
+        if (diasTrabajadosFeriados == 0 || diasTrabajadosFeriados == '')
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "102"]});
+
+        if (diasNoTrabajadosFeriados == 0 || diasNoTrabajadosFeriados == '')
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "103"]});
 
         return Promise.all([Convenio.aggregate([
             {$match: {_id:idConvenio}}, 
@@ -205,7 +219,7 @@ exports.create = (req, res) => {
                 case 'sueldo_basico':
                     item.subtotal = item.unidad * item.cantidad * sueldo_basico;
                     break;
-                case 'sueldo_bruto':
+                case 'total_sumas_rem':
                     item.subtotal = (total_sumas_rem * item.unidad * item.cantidad)
                     break;
                 case 'sueldo_bruto_hora':
@@ -224,10 +238,13 @@ exports.create = (req, res) => {
                     hs_subtotal = item.subtotal;
                     break;
                 case 'sueldo_bruto_dia':
-                    if(!diasHabiles)
-                        throw Error('falta el parametro diasHabiles');
-                    if(!diasTrabajados)
-                        throw Error('falta el parametro diasTrabajados');
+                    if (calcularVacaciones){
+                        if(!diasHabiles)
+                            throw Error('falta el parametro diasHabiles');
+                        if(!diasTrabajados)
+                            throw Error('falta el parametro diasTrabajados');
+                    }
+                    
                     
                     if(item.orden == '101'){ //Vacaciones
                         item.cantidad = diasHabiles - diasTrabajados;
@@ -236,10 +253,27 @@ exports.create = (req, res) => {
                         item.subtotal = remun_vacaciones;
                     }
 
-                    if(item.orden == '102'){ //Feriado Trabajado
-                        
+                    if(item.orden == '102'){ //Plus Feriado Trabajado
+                        let valor_dia_feriado = total_sumas_rem / 25;
+
+                        item.cantidad = diasNoTrabajadosFeriados;
+                        item.subtotal = valor_dia_feriado;
                         
                     }
+
+                    if(item.orden == '103'){ //Plus Feriado No Trabajado
+                        if(diasNoTrabajadosFeriados != 0 || diasNoTrabajadosFeriados!='') {
+                            console.log(diasNoTrabajadosFeriados)
+                            let valor_dia = sueldo_basico / 30;
+                            let valor_dia_feriado = total_sumas_rem / 25;
+                            let plus_feriado = valor_dia_feriado - valor_dia;
+
+                            item.cantidad = diasNoTrabajadosFeriados;
+                            item.subtotal = plus_feriado;
+                        }
+                        
+                    }
+
 
                     if(item.orden == '103'){ //Licencia
                         
