@@ -127,6 +127,9 @@ exports.create = (req, res) => {
     const diasTrabajadosFeriados = 0;
     const diasNoTrabajadosFeriados = 0;
 
+    //Licencias
+    const nombreLicencia = req.body.accidenteEnfermedadInculpable.nombreLicencia;
+    const diasLicencia = req.body.accidenteEnfermedadInculpable.diasLicencia;
 
     //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
     //Como tambien las sumas y descuentos a aplicar segun el convenio del puesto.
@@ -167,6 +170,9 @@ exports.create = (req, res) => {
 
         if (diasNoTrabajadosFeriados == 0 || diasNoTrabajadosFeriados == '')
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "103"]});
+        
+        if (diasLicencia == 0 || diasLicencia == '')
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "104"]});
 
         return Promise.all([Convenio.aggregate([
             {$match: {_id:idConvenio}}, 
@@ -194,7 +200,6 @@ exports.create = (req, res) => {
         
     })
     .then(([data, sueldo_basico]) => {
-        //console.log(data[0].sumas_rem);
         detalle_liquidacion = data[0];
         var total_sumas_rem = sueldo_basico;        
         var total_descuentos_rem = 0;
@@ -207,7 +212,6 @@ exports.create = (req, res) => {
         detalle_liquidacion.sumas_rem.forEach((item)=>{
             //ajustes previo al calculo
             //Si el codigo es 001 - Antiguedad, se le agrega la cantidad de años recibida por parametro
-            console.log(item.orden)
             if (item.orden === '001') {
                 
                 if(antiguedad === 0 || !antiguedad)
@@ -243,38 +247,34 @@ exports.create = (req, res) => {
                             throw Error('falta el parametro diasTrabajados');
                     }
                     
-                    
                     if(item.orden == '101'){ //Vacaciones
                         item.cantidad = diasHabiles - diasTrabajados;
-                        console.log(total_sumas_rem)
                         remun_vacaciones = (total_sumas_rem / diasHabiles) * item.cantidad;
                         item.subtotal = remun_vacaciones;
                     }
 
                     if(item.orden == '102'){ //Plus Feriado Trabajado
                         let valor_dia_feriado = total_sumas_rem / 25;
-
                         item.cantidad = diasNoTrabajadosFeriados;
                         item.subtotal = valor_dia_feriado;
-                        
                     }
 
                     if(item.orden == '103'){ //Plus Feriado No Trabajado
                         if(diasNoTrabajadosFeriados != 0 || diasNoTrabajadosFeriados!='') {
-                            console.log(diasNoTrabajadosFeriados)
-                            let valor_dia = sueldo_basico / 30;
+                            let valor_dia = total_sumas_rem / 30;
                             let valor_dia_feriado = total_sumas_rem / 25;
                             let plus_feriado = valor_dia_feriado - valor_dia;
-
                             item.cantidad = diasNoTrabajadosFeriados;
                             item.subtotal = plus_feriado;
-                        }
-                        
+                        }   
                     }
-
-
                     if(item.orden == '104'){ //Licencia
-                        
+                        let valor_dia = total_sumas_rem / 30;
+                        let valor_dia_licencia = total_sumas_rem / 25;
+                        let plus_licencia = valor_dia_licencia - valor_dia;
+                        item.cantidad = diasLicencia;
+                        item.name = nombreLicencia;
+                        item.subtotal = plus_licencia;
                     }
                     
                     break;
