@@ -16,7 +16,7 @@ services:
     ports:
       - 4001:4001
     volumes:
-      - ./frontend:/frontend
+      - ./frontend:/app/
   mongo-sueldos:
     image: mongo
     logging:
