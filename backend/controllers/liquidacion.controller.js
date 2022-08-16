@@ -125,11 +125,15 @@ exports.create = (req, res) => {
     
     //parche hasta que esté el front xd
     const diasTrabajadosFeriados = 0;
-    const diasNoTrabajadosFeriados = 1;
+    const diasNoTrabajadosFeriados = 0;
 
     //Licencias
     const nombreLicencia = req.body.accidenteEnfermedadInculpable.nombreLicencia;
     const diasLicencia = req.body.accidenteEnfermedadInculpable.diasLicencia;
+
+    //Adicionales
+    const adicionalVidrierista = req.body.adicionalVidrierista;
+    
 
     //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
     //Como tambien las sumas y descuentos a aplicar segun el convenio del puesto.
@@ -150,6 +154,12 @@ exports.create = (req, res) => {
             $and:
                 [
                     {$eq:["$$item.tipo", 'Suma Remunerativa']}
+                ]
+            };
+        var condicion_sumas_no_rem = {
+            $and:
+                [
+                    {$eq:["$$item.tipo", 'Suma No Remunerativa']}
                 ]
             };
         //Si no hay presentismo, ignoramos esa suma remun. y asi con los demas
@@ -174,6 +184,9 @@ exports.create = (req, res) => {
         if (diasLicencia == 0 || diasLicencia == '')
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "104"]});
 
+        if (!adicionalVidrierista || adicionalVidrierista == '')
+            condicion_sumas_no_rem.$and.push({$ne: ["$$item.orden", "301"]});
+
         return Promise.all([Convenio.aggregate([
             {$match: {_id:idConvenio}}, 
             {$lookup: {
@@ -184,7 +197,7 @@ exports.create = (req, res) => {
             }},
             {$project: {
                 sumas_no_rem:{
-                    $filter: { input:'$sumasydescuentos', as:'item', cond:{$eq: ['$$item.tipo', 'Suma No Remunerativa']}}
+                    $filter: { input:'$sumasydescuentos', as:'item', cond:condicion_sumas_no_rem}
                 }, 
                 sumas_rem: {
                     $filter: { input:'$sumasydescuentos', as:'item', cond:condicion_sumas_rem}
