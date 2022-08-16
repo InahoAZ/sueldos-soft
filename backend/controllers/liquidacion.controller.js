@@ -8,6 +8,43 @@ const Empleado = db.empleados;
 const Empresa = db.empresas;
 
 
+
+/** Se contempla el caso mas comun....pero hay muchas excepciones y formas pero la idea
+ * tampoco es hacer un tango gestion xd.
+ */
+/** Params:
+ * sueldo: algunos toman sueldo bruto con sumas no remun... es un gris la ley dice sueldo
+ * dias_trabajados: dias trabajados si la antiguedad es menor a un año.
+ * antiguedad = años. 
+ */
+exports.liquidarVacaciones = (sueldo, dias_trabajados, antiguedad) => {
+
+    //Calcular días que corresponden de vacaciones segun antiguedad
+
+    //Obtener valor dia x vacaciones = Sueldo Bruto / 25
+    let valor_dia = sueldo / 25;
+    let vacaciones = {
+        'dias': 0,
+        'valor_dia': valor_dia,
+        'monto_total': 0
+    }
+    return vacaciones;
+}
+
+exports.liquidarFeriadosTrabajados = (sueldo, dias_trabajados) => {
+
+    //Obtener valor dia x feriado = Sueldo Bruto / 25
+    let valor_dia = sueldo / 25;
+
+    let feriadosTrabajados = {
+        'dias': dias_trabajados,
+        'valor_dia': valor_dia,
+        'monto_total': dias_trabajados*valor_dia
+    }
+    return feriadosTrabajados;
+}
+
+
 exports.create = (req, res) => {
     //Se valida la request
     if (!req.body) {
@@ -56,7 +93,7 @@ exports.create = (req, res) => {
 
     //Antiguedad: Se recibe por parametro. Para versiones futuras se puede calcular a partir 
     //del tiempo del empleado en el puesto. (numero)
-    var antiguedad = req.body.antiguedadAños;
+    const antiguedad = req.body.antiguedadAños;
 
     //Para saber si se contempla presentismo o no. (Si falto ese mes, no iria, 
     //o si la empresa no usa ese concepto) (boolean)
@@ -81,25 +118,33 @@ exports.create = (req, res) => {
     const diasSemestre = req.body.diasSemestre;
     //Temporalmente como parametro. TODO: buscar automaticamente el mejor sueldo del semestre.
     const mejorSueldoSemestre = req.body.mejorSueldoSemestre;
+    
+    //Feriados
+    // const diasTrabajadosFeriados = req.body.diasTrabajadosFeriados;
+    // const diasNoTrabajadosFeriados = req.body.diasNoTrabajadosFeriados;
+    
+    //parche hasta que esté el front xd
+    const diasTrabajadosFeriados = 0;
+    const diasNoTrabajadosFeriados = 0;
 
+    //Licencias
+    const nombreLicencia = req.body.accidenteEnfermedadInculpable.nombreLicencia;
+    const diasLicencia = req.body.accidenteEnfermedadInculpable.diasLicencia;
 
     //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
     //Como tambien las sumas y descuentos a aplicar segun el convenio del puesto.
     
     Puesto.findById(idPuesto).populate('convenio_subcat')
     .then(data=>{
-        console.log(data);
         const sueldo_basico = data.convenio_subcat.basico;
         const idConvenio = data.convenio._id;
         liquidacion.puesto = data;
         liquidacion.detalle.sueldo_basico = sueldo_basico;
-        //console.log(sueldo_basico, "- - - > ", sumas_remunerativas);
         return Promise.all([sueldo_basico, idConvenio]);
         
     })
     .then(([sueldo_basico, idConvenio]) => {
         //Se toma las sumas y descuentos del convenio y se le aplica la formula correspondiente a cada caso.
-        console.log(sueldo_basico, idConvenio);
         //modificamos la consulta segun las opciones basicas recibidas
         var condicion_sumas_rem = {
             $and:
@@ -109,19 +154,25 @@ exports.create = (req, res) => {
             };
         //Si no hay presentismo, ignoramos esa suma remun. y asi con los demas
         if (!presentismo)
-            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "001"]});
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "002"]});
         
         if (!hs_50 || hs_50 === 0)
-            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "050"]});
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "200"]});
         
         if (!hs_100 || hs_100 === 0)
-            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "100"]});
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "201"]});
 
         if (!calcularVacaciones)
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "101"]});
 
-            
-        console.log(condicion_sumas_rem);
+        if (diasTrabajadosFeriados == 0 || diasTrabajadosFeriados == '')
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "102"]});
+
+        if (diasNoTrabajadosFeriados == 0 || diasNoTrabajadosFeriados == '')
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "103"]});
+        
+        if (diasLicencia == 0 || diasLicencia == '')
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "104"]});
 
         return Promise.all([Convenio.aggregate([
             {$match: {_id:idConvenio}}, 
@@ -149,65 +200,81 @@ exports.create = (req, res) => {
         
     })
     .then(([data, sueldo_basico]) => {
-        //console.log(data[0].sumas_rem);
         detalle_liquidacion = data[0];
         var total_sumas_rem = sueldo_basico;        
         var total_descuentos_rem = 0;
         var total_descuentos_rem_sac = 0;
         var total_sumas_no_rem = 0;
         var total_descuentos_no_rem = 0;
-        var hs_subtotal = 0;
-        var bruto_sin_hs_extra = 0;
-        var total_hs_extras_precio = 0;
         var remun_vacaciones = 0;
+        
         //Sumas remunerativas
         detalle_liquidacion.sumas_rem.forEach((item)=>{
-            //console.log("--");
-
-            //console.log(item);
             //ajustes previo al calculo
-            //Si el codigo es 002 - Antiguedad, se le agrega la cantidad de años recibida por parametro
-            if (item.orden === '002') {
+            //Si el codigo es 001 - Antiguedad, se le agrega la cantidad de años recibida por parametro
+            if (item.orden === '001') {
+                
                 if(antiguedad === 0 || !antiguedad)
-                    antiguedad = 1;  
+                    antiguedad = 0;  
+                
                 item.cantidad = antiguedad;
             }
-            
-            //console.log(item.unidad * item.cantidad * sueldo_basico);
-            console.log(item.sobre);
             switch (item.sobre) {
                 case 'sueldo_basico':
                     item.subtotal = item.unidad * item.cantidad * sueldo_basico;
                     break;
-                
+                case 'total_sumas_rem':
+                    item.subtotal = (total_sumas_rem * item.unidad * item.cantidad)
+                    break;
                 case 'sueldo_bruto_hora':
                     if(!hs_mes)
                         throw Error('falta el parametro horasMes');
                     
-                    
-                    //vemos si son horas 50 o 100
-                    if (item.orden == '050')
+                        //vemos si son horas 50 o 100
+                    if (item.orden == '200')
                         item.cantidad = hs_50;
-                    else
+                    if (item.orden == '201')
                         item.cantidad = hs_100;
                     
-                    bruto_sin_hs_extra = total_sumas_rem - hs_subtotal;
-                    total_hs_extras_precio += (((bruto_sin_hs_extra/hs_mes) + (bruto_sin_hs_extra/hs_mes) * item.unidad));
-                    item.subtotal = ((bruto_sin_hs_extra/hs_mes) + (bruto_sin_hs_extra/hs_mes) * item.unidad) * item.cantidad ;
-                    hs_subtotal = item.subtotal;
-                    console.log("====>",sueldo_basico)
+                    valor_bruto_dia = total_sumas_rem / hs_mes;
+                    item.subtotal = (valor_bruto_dia * item.unidad) * item.cantidad ;
                     break;
                 case 'sueldo_bruto_dia':
-                    if(!diasHabiles)
-                        throw Error('falta el parametro diasHabiles');
-                    if(!diasTrabajados)
-                        throw Error('falta el parametro diasTrabajados');
+                    if (calcularVacaciones){
+                        if(!diasHabiles)
+                            throw Error('falta el parametro diasHabiles');
+                        if(!diasTrabajados)
+                            throw Error('falta el parametro diasTrabajados');
+                    }
                     
-                    if(item.orden == '101'){
+                    if(item.orden == '101'){ //Vacaciones
                         item.cantidad = diasHabiles - diasTrabajados;
                         remun_vacaciones = (total_sumas_rem / diasHabiles) * item.cantidad;
                         item.subtotal = remun_vacaciones;
-                        //console.log(ite);
+                    }
+
+                    if(item.orden == '102'){ //Plus Feriado Trabajado
+                        let valor_dia_feriado = total_sumas_rem / 25;
+                        item.cantidad = diasNoTrabajadosFeriados;
+                        item.subtotal = valor_dia_feriado;
+                    }
+
+                    if(item.orden == '103'){ //Plus Feriado No Trabajado
+                        if(diasNoTrabajadosFeriados != 0 || diasNoTrabajadosFeriados!='') {
+                            let valor_dia = total_sumas_rem / 30;
+                            let valor_dia_feriado = total_sumas_rem / 25;
+                            let plus_feriado = valor_dia_feriado - valor_dia;
+                            item.cantidad = diasNoTrabajadosFeriados;
+                            item.subtotal = plus_feriado;
+                        }   
+                    }
+                    if(item.orden == '104'){ //Licencia
+                        let valor_dia = total_sumas_rem / 30;
+                        let valor_dia_licencia = total_sumas_rem / 25;
+                        let plus_licencia = valor_dia_licencia - valor_dia;
+                        item.cantidad = diasLicencia;
+                        item.name = nombreLicencia;
+                        item.subtotal = plus_licencia;
                     }
                     
                     break;
@@ -215,22 +282,18 @@ exports.create = (req, res) => {
                     item.subtotal = item.unidad * item.cantidad;
                     break;
             }            
-            
             total_sumas_rem += item.subtotal;
-            
         });
         //Al sueldo basico se paga sobre los dias trabajados unicamente. dias de vac. se liquida aparte
         if (calcularVacaciones){
-            liquidacion.detalle.sueldo_basico -= remun_vacaciones;
+            sueldo_dia = liquidacion.detalle.sueldo_basico / 30
+            liquidacion.detalle.sueldo_basico = sueldo_dia * diasTrabajados;
         }
         liquidacion.detalle.sumas_rem = detalle_liquidacion.sumas_rem;
         liquidacion.detalle.total_sumas_rem = total_sumas_rem;
-        
         var des_rem = JSON.parse(JSON.stringify(detalle_liquidacion.descuentos_rem));
         //Descuentos Remunerativos
-        des_rem.forEach((item)=>{
-            //console.log(item.unidad * item.cantidad * total_sumas_rem);
-            
+        des_rem.forEach((item)=>{            
             if (item.sobre === 'total_sumas_rem')
                 item.subtotal = item.unidad * item.cantidad * total_sumas_rem;
             else
@@ -238,9 +301,7 @@ exports.create = (req, res) => {
 
             total_descuentos_rem += item.subtotal;
         });
-        console.log("des rem: ", des_rem);
         liquidacion.detalle.descuentos_rem = [...des_rem];
-        console.log("xd: ", liquidacion.detalle.descuentos_rem);
         liquidacion.detalle.total_descuentos_rem = total_descuentos_rem;
 
         //Sumas No Remunerativas
@@ -269,7 +330,6 @@ exports.create = (req, res) => {
             sacSemestre = ((mejorSueldoSemestre * 0.5) / diasSemestre) * diasTrabajadosSemestre;
             //Descuentos Remunerativos
             descuentos_rem_sacc.forEach((item)=>{
-            //console.log(item.unidad * item.cantidad * total_sumas_rem);
             item.subtotal = item.unidad * item.cantidad * sacSemestre;
             total_descuentos_rem_sac += item.subtotal;
             });
@@ -277,7 +337,6 @@ exports.create = (req, res) => {
             liquidacion.detalle_sac.descuentos_rem_sac = descuentos_rem_sacc;
             liquidacion.detalle_sac.total_descuentos_rem_sac = total_descuentos_rem_sac;
         }
-        console.log("xd: ", liquidacion.detalle.descuentos_rem);
         
         return Empleado.findById(idEmpleado);
 
