@@ -93,7 +93,7 @@ exports.create = (req, res) => {
 
     //Antiguedad: Se recibe por parametro. Para versiones futuras se puede calcular a partir 
     //del tiempo del empleado en el puesto. (numero)
-    const antiguedad = req.body.antiguedadAños;
+    let antiguedad = req.body.antiguedadAños;
 
     //Para saber si se contempla presentismo o no. (Si falto ese mes, no iria, 
     //o si la empresa no usa ese concepto) (boolean)
@@ -125,7 +125,7 @@ exports.create = (req, res) => {
     
     //parche hasta que esté el front xd
     const diasTrabajadosFeriados = 0;
-    const diasNoTrabajadosFeriados = 0;
+    const diasNoTrabajadosFeriados = 1;
 
     //Licencias
     const nombreLicencia = req.body.accidenteEnfermedadInculpable.nombreLicencia;
@@ -274,7 +274,7 @@ exports.create = (req, res) => {
                         let plus_licencia = valor_dia_licencia - valor_dia;
                         item.cantidad = diasLicencia;
                         item.name = nombreLicencia;
-                        item.subtotal = plus_licencia;
+                        item.subtotal = plus_licencia * diasLicencia;
                     }
                     
                     break;
