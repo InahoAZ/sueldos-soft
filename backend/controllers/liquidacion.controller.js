@@ -93,7 +93,7 @@ exports.create = (req, res) => {
 
     //Antiguedad: Se recibe por parametro. Para versiones futuras se puede calcular a partir 
     //del tiempo del empleado en el puesto. (numero)
-    var antiguedad = req.body.antiguedadAños;
+    const antiguedad = req.body.antiguedadAños;
 
     //Para saber si se contempla presentismo o no. (Si falto ese mes, no iria, 
     //o si la empresa no usa ese concepto) (boolean)
@@ -124,8 +124,8 @@ exports.create = (req, res) => {
     // const diasNoTrabajadosFeriados = req.body.diasNoTrabajadosFeriados;
     
     //parche hasta que esté el front xd
-    const diasTrabajadosFeriados = 1;
-    const diasNoTrabajadosFeriados = 1;
+    const diasTrabajadosFeriados = 0;
+    const diasNoTrabajadosFeriados = 0;
 
 
     //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
@@ -151,13 +151,13 @@ exports.create = (req, res) => {
             };
         //Si no hay presentismo, ignoramos esa suma remun. y asi con los demas
         if (!presentismo)
-            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "001"]});
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "002"]});
         
         if (!hs_50 || hs_50 === 0)
-            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "050"]});
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "200"]});
         
         if (!hs_100 || hs_100 === 0)
-            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "100"]});
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "201"]});
 
         if (!calcularVacaciones)
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "101"]});
@@ -201,18 +201,18 @@ exports.create = (req, res) => {
         var total_descuentos_rem_sac = 0;
         var total_sumas_no_rem = 0;
         var total_descuentos_no_rem = 0;
-        var hs_subtotal = 0;
-        var bruto_sin_hs_extra = 0;
-        var total_hs_extras_precio = 0;
         var remun_vacaciones = 0;
         
         //Sumas remunerativas
         detalle_liquidacion.sumas_rem.forEach((item)=>{
             //ajustes previo al calculo
             //Si el codigo es 001 - Antiguedad, se le agrega la cantidad de años recibida por parametro
+            console.log(item.orden)
             if (item.orden === '001') {
+                
                 if(antiguedad === 0 || !antiguedad)
                     antiguedad = 0;  
+                
                 item.cantidad = antiguedad;
             }
             switch (item.sobre) {
@@ -227,15 +227,13 @@ exports.create = (req, res) => {
                         throw Error('falta el parametro horasMes');
                     
                         //vemos si son horas 50 o 100
-                    if (item.orden == '050')
+                    if (item.orden == '200')
                         item.cantidad = hs_50;
-                    else
+                    if (item.orden == '201')
                         item.cantidad = hs_100;
                     
-                    bruto_sin_hs_extra = total_sumas_rem - hs_subtotal;
-                    total_hs_extras_precio += (((bruto_sin_hs_extra/hs_mes) + (bruto_sin_hs_extra/hs_mes) * item.unidad));
-                    item.subtotal = ((bruto_sin_hs_extra/hs_mes) + (bruto_sin_hs_extra/hs_mes) * item.unidad) * item.cantidad ;
-                    hs_subtotal = item.subtotal;
+                    valor_bruto_dia = total_sumas_rem / hs_mes;
+                    item.subtotal = (valor_bruto_dia * item.unidad) * item.cantidad ;
                     break;
                 case 'sueldo_bruto_dia':
                     if (calcularVacaciones){
@@ -275,7 +273,7 @@ exports.create = (req, res) => {
                     }
 
 
-                    if(item.orden == '103'){ //Licencia
+                    if(item.orden == '104'){ //Licencia
                         
                     }
                     
