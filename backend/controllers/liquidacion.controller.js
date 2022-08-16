@@ -292,23 +292,25 @@ exports.create = (req, res) => {
         liquidacion.detalle.sumas_rem = detalle_liquidacion.sumas_rem;
         liquidacion.detalle.total_sumas_rem = total_sumas_rem;
         var des_rem = JSON.parse(JSON.stringify(detalle_liquidacion.descuentos_rem));
-        //Descuentos Remunerativos
-        des_rem.forEach((item)=>{            
-            if (item.sobre === 'total_sumas_rem')
-                item.subtotal = item.unidad * item.cantidad * total_sumas_rem;
-            else
-                item.subtotal = item.unidad * item.cantidad;
-
-            total_descuentos_rem += item.subtotal;
-        });
-        liquidacion.detalle.descuentos_rem = [...des_rem];
-        liquidacion.detalle.total_descuentos_rem = total_descuentos_rem;
 
         //Sumas No Remunerativas
         detalle_liquidacion.sumas_no_rem.forEach((item)=>{
             item.subtotal = item.unidad * item.cantidad;
             total_sumas_no_rem += item.subtotal;
         });
+
+        //Descuentos Remunerativos
+        des_rem.forEach((item)=>{            
+            if (item.sobre === 'total_sumas_rem')
+                item.subtotal = item.unidad * item.cantidad * total_sumas_rem;
+            if (item.sobre === 'total_sumas')
+                item.subtotal = item.unidad * item.cantidad * (total_sumas_rem + total_sumas_no_rem);
+            
+
+            total_descuentos_rem += item.subtotal;
+        });
+        liquidacion.detalle.descuentos_rem = [...des_rem];
+        liquidacion.detalle.total_descuentos_rem = total_descuentos_rem;
 
         liquidacion.detalle.sumas_no_rem = detalle_liquidacion.sumas_no_rem;
         liquidacion.detalle.total_sumas_no_rem = total_sumas_no_rem;
