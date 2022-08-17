@@ -45,6 +45,11 @@ export default function SumasDescuentos(props) {
     const [inputTipo, setInputTipo] = React.useState('');
     const [listaTipos, setListaTipos] = React.useState(['Suma Remunerativa', 'Suma No Remunerativa', 'Descuento Remunerativo', 'Descuento No Remunerativo']);
 
+    const [valueSobre, setValueSobre] = React.useState('');
+    const [inputSobre, setInputSobre] = React.useState('');
+    const [listaSobres, setListaSobres] = React.useState(['sueldo_basico', 'sueldo_bruto_hora', 'sueldo_bruto_dia', 'monto_fijo', 'total_sumas_rem']);
+
+
     const [sumaRemunerativa, setSumaRemunerativa] = React.useState('');
     const [unidadMonto, setUnidadMonto] = React.useState('');
 
@@ -87,7 +92,7 @@ export default function SumasDescuentos(props) {
     function addSumaRemunerativa() {
 
         //todo completo?
-        if (orden === '' || nombre === '' || unidad === '' || cantidad === '' || inputTipo === '') {
+        if (orden === '' || nombre === '' || unidad === '' || cantidad === '' || inputTipo === '' || inputSobre === '') {
             swal("Error!", "No deje nada vacio!", "error");
             return 0
         }
@@ -98,6 +103,7 @@ export default function SumasDescuentos(props) {
             unidad: unidad,
             cantidad: cantidad,
             tipo: inputTipo,
+            sobre: inputSobre,
 
         }
 
@@ -185,7 +191,7 @@ export default function SumasDescuentos(props) {
         return listdic
     }
 
-   
+
 
     function obtenerFilas(diclist) {
         console.log(diclist);
@@ -228,7 +234,7 @@ export default function SumasDescuentos(props) {
             .then(response => {
                 setRows(obtenerFilas(response.data));
                 setListaConvenios(onlyConvenios(response.data))
-                
+
                 console.log(response.data);
             })
             .catch(e => {
@@ -322,19 +328,12 @@ export default function SumasDescuentos(props) {
                             />
                             <Autocomplete
                                 id="country-select-tipo"
-
                                 value={valueTipo}
                                 onChange={(event, newValue) => {
-
-
                                     setValueTipo(newValue);
-
-
-
                                 }}
                                 inputValue={inputTipo}
                                 onInputChange={(event, newInputValue) => {
-
                                     setInputTipo(newInputValue);
                                 }}
                                 style={{ width: 250, margin: 10 }}
@@ -347,7 +346,6 @@ export default function SumasDescuentos(props) {
                                 renderOption={(option) => (
                                     <React.Fragment>
                                         <span>{option}</span>
-
                                     </React.Fragment>
                                 )}
                                 renderInput={(params) => (
@@ -412,6 +410,42 @@ export default function SumasDescuentos(props) {
 
 
                                 variant="outlined"
+                            />
+
+
+                            <Autocomplete
+                                id="sobre-select-tipo"
+                                value={valueSobre}
+                                onChange={(event, newValue) => {
+                                    setValueSobre(newValue);
+                                }}
+                                inputValue={inputSobre}
+                                onInputChange={(event, newInputValue) => {
+                                    setInputSobre(newInputValue);
+                                }}
+                                style={{ width: 250, margin: 10 }}
+                                options={listaSobres}
+                                classes={{
+                                    option: classes.option,
+                                }}
+                                autoHighlight
+                                getOptionLabel={(option) => option}
+                                renderOption={(option) => (
+                                    <React.Fragment>
+                                        <span>{option}</span>
+                                    </React.Fragment>
+                                )}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Sobre"
+                                        variant="outlined"
+                                        inputProps={{
+                                            ...params.inputProps,
+                                            autoComplete: 'new-password', // disable autocomplete and autofill
+                                        }}
+                                    />
+                                )}
                             />
 
 

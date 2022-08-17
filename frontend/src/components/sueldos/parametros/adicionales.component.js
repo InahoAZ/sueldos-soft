@@ -74,16 +74,7 @@ export default function Adicionales(props) {
 
 
 
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
-                    Adicional vidrierista
-                    <Switch
-                        checked={props.props.adicionalVidrierista}
-                        onChange={props.props.onChangeAdicionalVidrierista}
-                        name="checkedA"
-                        color='primary'
-                        inputProps={{ 'aria-label': 'primary checkbox' }}
-                    />
-                </Paper>
+                
                 <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
                     Adicional por asistencia
                     <Switch

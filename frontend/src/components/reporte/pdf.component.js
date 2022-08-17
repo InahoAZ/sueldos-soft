@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: 5,
         marginRight: 5,
-        height: '42%',
+        height: '40%',
     },
     infoSUP: {
         fontSize: 13,
