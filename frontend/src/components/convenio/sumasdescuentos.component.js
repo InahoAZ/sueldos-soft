@@ -47,7 +47,7 @@ export default function SumasDescuentos(props) {
 
     const [valueSobre, setValueSobre] = React.useState('');
     const [inputSobre, setInputSobre] = React.useState('');
-    const [listaSobres, setListaSobres] = React.useState(['sueldo_basico', 'sueldo_bruto_hora', 'sueldo_bruto_dia', 'monto_fijo', 'total_sumas_rem']);
+    const [listaSobres, setListaSobres] = React.useState(['sueldo_basico', 'sueldo_bruto_hora', 'sueldo_bruto_dia', 'monto_fijo', 'total_sumas_rem', 'total_sumas']);
 
 
     const [sumaRemunerativa, setSumaRemunerativa] = React.useState('');

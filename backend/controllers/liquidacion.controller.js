@@ -120,12 +120,8 @@ exports.create = (req, res) => {
     const mejorSueldoSemestre = req.body.mejorSueldoSemestre;
     
     //Feriados
-    // const diasTrabajadosFeriados = req.body.diasTrabajadosFeriados;
-    // const diasNoTrabajadosFeriados = req.body.diasNoTrabajadosFeriados;
-    
-    //parche hasta que esté el front xd
-    const diasTrabajadosFeriados = 0;
-    const diasNoTrabajadosFeriados = 0;
+    const diasTrabajadosFeriados = req.body.diasTrabajadosFeriado;
+    const diasNoTrabajadosFeriados = req.body.diasNoTrabajadosFeriado;
 
     //Licencias
     const nombreLicencia = req.body.accidenteEnfermedadInculpable.nombreLicencia;
@@ -133,6 +129,9 @@ exports.create = (req, res) => {
 
     //Adicionales
     const adicionalVidrierista = req.body.adicionalVidrierista;
+
+    //Afiliado al Sindicato
+    const afiliadoSindicato = req.body.afiliadoSindicato;
     
 
     //Obtenemos el sueldo basico del empleado segun el puesto que ocupa.
@@ -162,10 +161,22 @@ exports.create = (req, res) => {
                     {$eq:["$$item.tipo", 'Suma No Remunerativa']}
                 ]
             };
+        
+        var condicion_desc_rem = {
+            $and:
+                [
+                    {$eq:["$$item.tipo", 'Descuento Remunerativo']}
+                ]
+            };
+        
+        
         //Si no hay presentismo, ignoramos esa suma remun. y asi con los demas
         if (!presentismo)
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "002"]});
         
+        if (!antiguedad || antiguedad <= 0 || antiguedad == '')
+            condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "001"]});
+
         if (!hs_50 || hs_50 === 0)
             condicion_sumas_rem.$and.push({$ne: ["$$item.orden", "200"]});
         
@@ -187,6 +198,9 @@ exports.create = (req, res) => {
         if (!adicionalVidrierista || adicionalVidrierista == '')
             condicion_sumas_no_rem.$and.push({$ne: ["$$item.orden", "301"]});
 
+        if (!afiliadoSindicato || afiliadoSindicato == '')
+            condicion_desc_rem.$and.push({$ne: ["$$item.orden", "508"]});
+
         return Promise.all([Convenio.aggregate([
             {$match: {_id:idConvenio}}, 
             {$lookup: {
@@ -203,7 +217,7 @@ exports.create = (req, res) => {
                     $filter: { input:'$sumasydescuentos', as:'item', cond:condicion_sumas_rem}
                 },
                 descuentos_rem: {
-                    $filter: { input:'$sumasydescuentos', as:'item', cond:{$eq:["$$item.tipo", 'Descuento Remunerativo']}}
+                    $filter: { input:'$sumasydescuentos', as:'item', cond:condicion_desc_rem}
                 },
                 descuentos_no_rem: {
                     $filter: { input:'$sumasydescuentos', as:'item', cond:{$eq:["$$item.tipo", 'Descuento No Remunerativo']}}
@@ -237,12 +251,11 @@ exports.create = (req, res) => {
                     item.subtotal = item.unidad * item.cantidad * sueldo_basico;
                     break;
                 case 'total_sumas_rem':
-                    item.subtotal = (total_sumas_rem * item.unidad * item.cantidad)
+                    item.subtotal = (total_sumas_rem * item.unidad * item.cantidad);
                     break;
                 case 'sueldo_bruto_hora':
                     if(!hs_mes)
                         throw Error('falta el parametro horasMes');
-                    
                         //vemos si son horas 50 o 100
                     if (item.orden == '200')
                         item.cantidad = hs_50;
@@ -250,7 +263,7 @@ exports.create = (req, res) => {
                         item.cantidad = hs_100;
                     
                     valor_bruto_dia = total_sumas_rem / hs_mes;
-                    item.subtotal = (valor_bruto_dia * item.unidad) * item.cantidad ;
+                    item.subtotal = (valor_bruto_dia * item.unidad) * item.cantidad;
                     break;
                 case 'sueldo_bruto_dia':
                     if (calcularVacaciones){
@@ -267,9 +280,10 @@ exports.create = (req, res) => {
                     }
 
                     if(item.orden == '102'){ //Plus Feriado Trabajado
+                        console.log(total_sumas_rem);
                         let valor_dia_feriado = total_sumas_rem / 25;
-                        item.cantidad = diasNoTrabajadosFeriados;
-                        item.subtotal = valor_dia_feriado;
+                        item.cantidad = diasTrabajadosFeriados;
+                        item.subtotal = valor_dia_feriado * diasTrabajadosFeriados;
                     }
 
                     if(item.orden == '103'){ //Plus Feriado No Trabajado
@@ -363,7 +377,7 @@ exports.create = (req, res) => {
     })
     .then(data =>{
         liquidacion.empresa = data;
-        //console.log(liquidacion);
+        //console.log(liquidacion.detalle);
         res.send({"data":liquidacion});
     })
     .catch(err => {
