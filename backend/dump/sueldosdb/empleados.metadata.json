@@ -1,1 +1,1 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"cuil":{"$numberInt":"1"}},"name":"cuil_1","background":true,"unique":true}],"uuid":"4a949a84df7e40ea97494d5d8272804f","collectionName":"empleados","type":"collection"}
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"cuil":{"$numberInt":"1"}},"name":"cuil_1","background":true,"unique":true}],"uuid":"2621381110644148a365653f59b95581","collectionName":"empleados","type":"collection"}
