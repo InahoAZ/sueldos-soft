@@ -651,7 +651,7 @@ export default function Sueldos(props) {
         var valorVacaciones = 0;
         if (auxV) {
             for (let index = 0; index < auxV.length; index++) {
-                if (auxV[index].name = 'Vacaciones'){
+                if (auxV[index].name == 'Vacaciones'){
                     valorVacaciones = auxV[index].cantidad;
                 }
                 
