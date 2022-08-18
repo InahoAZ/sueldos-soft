@@ -76,6 +76,7 @@ export default function Sueldos(props) {
 
     const [porcentajeXzona, setPorcentajeXzona] = React.useState('');
     const [adicionalVidrierista, setAdicionalVidrierista] = React.useState(false);
+    const [afiliadoSindicato, setAfiliadoSindicato] = React.useState(false);
     const [antiguedadAcumulativa, setAntiguedadAcumulativa] = React.useState(false);
     const [antiguedadComputo, setAntiguedadComputo] = React.useState('');
     const [porcentajeAntiguedadxAño, setPorcentajeAntiguedadxAño] = React.useState('');
@@ -385,6 +386,9 @@ export default function Sueldos(props) {
     function onChangeAdicionalVidrierista(e) {
         setAdicionalVidrierista(e.target.checked);
     }
+    function onChangeAfiliadoSindicato(e) {
+        setAfiliadoSindicato(e.target.checked);
+    }
     function onChangeAntiguedadAcumulativa(e) {
         setAntiguedadAcumulativa(e.target.checked);
     }
@@ -546,6 +550,7 @@ export default function Sueldos(props) {
 
         setPorcentajeXzona('');
         setAdicionalVidrierista(false);
+        setAfiliadoSindicato(false);
         setAntiguedadAcumulativa(false);
         setAntiguedadComputo('');
         setPorcentajeAntiguedadxAño('');
@@ -624,7 +629,7 @@ export default function Sueldos(props) {
             auxDic = {
                 codigo: detalles.descuentos_rem_sac[i].orden,
                 detalle: detalles.descuentos_rem_sac[i].name,
-                cantidad: ' '+parseFloat(detalles.descuentos_rem_sac[i].cantidad )*100+'%',
+                cantidad: ' '+parseFloat(detalles.descuentos_rem_sac[i].unidad )*100+'%',
                 haber: '',
                 deduccion: parseFloat(detalles.descuentos_rem_sac[i].subtotal).toFixed(2),
             }
@@ -640,10 +645,23 @@ export default function Sueldos(props) {
         var listDic = [];
         var auxDic = {};
 
+        console.log(detalles);
+
+        var auxV = detalles?.sumas_rem;
+        var valorVacaciones = 0;
+        if (auxV) {
+            for (let index = 0; index < auxV.length; index++) {
+                if (auxV[index].name = 'Vacaciones'){
+                    valorVacaciones = auxV[index].cantidad;
+                }
+                
+            }
+        }
+
         auxDic = {
             codigo: '000',
             detalle: 'Basico',
-            cantidad: '30',
+            cantidad: 30 - valorVacaciones,
             haber: parseFloat(detalles.sueldo_basico).toFixed(2),
             deduccion: '',
         }
@@ -652,6 +670,9 @@ export default function Sueldos(props) {
 
 
         for (let i = 0; i < detalles.sumas_rem.length; i++) {
+
+            if (detalles.sumas_rem[i].name !== "Vacaciones" || (detalles.sumas_rem[i].name == "Vacaciones" && detalles.sumas_rem[i].cantidad > 0 )) {
+
             auxDic = {
                 codigo: detalles.sumas_rem[i].orden,
                 detalle: detalles.sumas_rem[i].name,
@@ -660,6 +681,10 @@ export default function Sueldos(props) {
                 deduccion: ''
             }
             listDic.push(auxDic);
+
+        }
+
+
         }
 
         for (let i = 0; i < detalles.descuentos_rem.length; i++) {
@@ -810,6 +835,7 @@ export default function Sueldos(props) {
 
             porcentajeXzona: porcentajeXzona,
             adicionalVidrierista: adicionalVidrierista,
+            afiliadoSindicato: afiliadoSindicato,
             antiguedadAcumulativa: antiguedadAcumulativa,
             antiguedadComputo: antiguedadComputo, //'mes siguiente' o 'mes cumplido'  
             porcentajeAntiguedadxAño: porcentajeAntiguedadxAño,
@@ -819,8 +845,12 @@ export default function Sueldos(props) {
             //Feriados
             exposicionFeriado: exposicionFeriado, //'diferencia' o 'sumar y restar'  
             diasNoTrabajados: diasNoTrabajados,
+
             criterioTrabajados: criterioTrabajados, //'Base 30/25' o 'todo base 30' o 'todo base 25'  
             criterioNoTrabajados: criterioNoTrabajados, //'base 30' o 'base 25'  
+
+            diasTrabajadosFeriado: diasTrabajados,
+            diasNoTrabajadosFeriado: diasNoTrabajados,
 
             diasTrabajados: diasTrabajados,
 
@@ -1084,6 +1114,8 @@ export default function Sueldos(props) {
                         porcentajeXzona={porcentajeXzona}
                         onChangeAdicionalVidrierista={onChangeAdicionalVidrierista}
                         adicionalVidrierista={adicionalVidrierista}
+                        onChangeAfiliadoSindicato={onChangeAfiliadoSindicato}
+                        afiliadoSindicato={afiliadoSindicato}
                         onChangeAntiguedadAcumulativa={onChangeAntiguedadAcumulativa}
                         antiguedadAcumulativa={antiguedadAcumulativa}
                         onChangeAntiguedadComputo={onChangeAntiguedadComputo}
@@ -1126,8 +1158,8 @@ export default function Sueldos(props) {
                         diasInculpable={diasInculpable}
                         onChangeLicenciaSinGoce={onChangeLicenciaSinGoce}
                         setLicenciaSinGoce={setLicenciaSinGoce}
-                        onChangeDiasInculpable={onChangeDiasInculpable}
-                        diasInculpable={diasInculpable}
+                        //onChangeDiasInculpable={onChangeDiasInculpable}
+                        //diasInculpable={diasInculpable}
                         onChangeNombreLicencia={onChangeNombreLicencia}
                         setNombreLicencia={setNombreLicencia}
 

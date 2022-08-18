@@ -101,12 +101,13 @@ export default function Utilidades(props) {
         >
           <Tab label="Opciones basicas" icon={<ListIcon />} {...a11yProps(0)} />
           
-          <Tab label="Adicionales" icon={<LibraryAddIcon />} {...a11yProps(1)} />
-          <Tab label="Feriados" icon={<TodayIcon />} {...a11yProps(2)} />
-          <Tab label="Horas extras" icon={<ScheduleIcon />} {...a11yProps(3)} />
-          <Tab label="Vacaciones" icon={<FlightTakeoffIcon />} {...a11yProps(4)} />
-          <Tab label="Licencias" icon={<GavelIcon />} {...a11yProps(5)} />
-          <Tab label="Descuentos" icon={<TrendingDownIcon />} {...a11yProps(6)} />
+          
+          <Tab label="Feriados" icon={<TodayIcon />} {...a11yProps(1)} />
+          <Tab label="Horas extras" icon={<ScheduleIcon />} {...a11yProps(2)} />
+          <Tab label="Vacaciones" icon={<FlightTakeoffIcon />} {...a11yProps(3)} />
+          <Tab label="Licencias" icon={<GavelIcon />} {...a11yProps(4)} />
+         {/*  <Tab label="Adicionales" icon={<LibraryAddIcon />} {...a11yProps(5)} /> */}
+         {/*  <Tab label="Descuentos" icon={<TrendingDownIcon />} {...a11yProps(6)} /> */}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}   className={classes.tabs}>
@@ -118,42 +119,43 @@ export default function Utilidades(props) {
 
     
 
+      
       <TabPanel value={value} index={1}  className={classes.tabs}>
-      <Adicionales
-          onChangeCategoria={onChangeCategoria}
-          props={props}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={2}  className={classes.tabs}>
       <Feriados
           onChangeCategoria={onChangeCategoria}
           props={props}
         />
       </TabPanel>
-      <TabPanel value={value} index={3}  className={classes.tabs}>
+      <TabPanel value={value} index={2}  className={classes.tabs}>
       <Extras
           onChangeCategoria={onChangeCategoria}
           props={props}
         />
       </TabPanel>
-      <TabPanel value={value} index={4}  className={classes.tabs}>
+      <TabPanel value={value} index={3}  className={classes.tabs}>
       <Vacaciones
           onChangeCategoria={onChangeCategoria}
           props={props}
         />
       </TabPanel>
-      <TabPanel value={value} index={5}  className={classes.tabs}>
+      <TabPanel value={value} index={4}  className={classes.tabs}>
       <Licencias
           onChangeCategoria={onChangeCategoria}
           props={props}
         />
       </TabPanel>
-      <TabPanel value={value} index={6}  className={classes.tabs}>
+      {/* <TabPanel value={value} index={6}  className={classes.tabs}>
       <Descuentos
           onChangeCategoria={onChangeCategoria}
           props={props}
         />
-      </TabPanel>
+      </TabPanel> */}
+      {/* <TabPanel value={value} index={1}  className={classes.tabs}>
+      <Adicionales
+          onChangeCategoria={onChangeCategoria}
+          props={props}
+        />
+      </TabPanel> */}
     </div>
   );
 }

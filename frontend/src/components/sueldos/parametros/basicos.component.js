@@ -54,6 +54,8 @@ export default function Basicos(props) {
         checkedD: false,
         checkedE: false,
         checkedF: false,
+        checkedV: false,
+        checkedS: false,
     });
 
     const handleChange = (event) => {
@@ -152,6 +154,17 @@ export default function Basicos(props) {
                     )}
                 />
 
+<Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                    Adicional vidrierista
+                    <Switch
+                        checked={props.props.adicionalVidrierista}
+                        onChange={props.props.onChangeAdicionalVidrierista}
+                        name="checkedV"
+                        color='primary'
+                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                    />
+                </Paper>
+
 
 
                 <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25, display: 'none' }}>
@@ -232,6 +245,17 @@ alignItems="center"
                     />
                 </Paper>
 
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                    Afiliado sindicato
+                    <Switch
+                        checked={props.props.afiliadoSindicato}
+                        onChange={props.props.onChangeAfiliadoSindicato}
+                        name="checkedS"
+                        color='primary'
+                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                    />
+                </Paper>
+
 
 
 
@@ -247,7 +271,7 @@ alignItems="center"
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25, display: "none" }}>
                     Aporte solidario OSECAC
                     <Switch
                         checked={props.props.aporteSolidarioOsecac}
@@ -257,7 +281,7 @@ alignItems="center"
                         inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                 </Paper>
-                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25 }}>
+                <Paper elevation={3} style={{ minWidth: 250, margin: 10, backgroundColor: '#91e1e938', padding: 10, paddingLeft: 25, display: "none" }}>
                     Aporte OSECAC
                     <Switch
                         checked={props.props.aporteOsecac}

@@ -98,7 +98,7 @@ export default function Adicionales(props) {
 
                     }}
 
-                    style={{ width: 250 }}
+                    style={{ width: 250, display: "none" }}
                     options={exposiciones}
                     classes={{
                         option: classes.option,
@@ -171,7 +171,7 @@ export default function Adicionales(props) {
 
                     }}
 
-                    style={{ width: 250 }}
+                    style={{ width: 250, display: "none" }}
                     options={criteriost}
                     classes={{
                         option: classes.option,
@@ -207,7 +207,7 @@ export default function Adicionales(props) {
 
                     }}
 
-                    style={{ width: 250, marginLeft: 15 }}
+                    style={{ width: 250, marginLeft: 15, display: "none" }}
                     options={criteriosNot}
                     classes={{
                         option: classes.option,

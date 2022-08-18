@@ -141,7 +141,7 @@ export default function Adicionales(props) {
                 <TextField
                     label="Antigüedad (años)"
                     placeholder='0'
-                    style={{ width: 250, margin: 12, marginLeft: 12 }}
+                    style={{ width: 250, margin: 12, marginLeft: 12, display: "none" }}
                     className={clsx(classes.margin, classes.textField)}
                     type="number"
                     variant="outlined"
