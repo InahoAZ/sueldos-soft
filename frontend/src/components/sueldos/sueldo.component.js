@@ -83,10 +83,13 @@ export default function Sueldos(props) {
 
     const [exposicionFeriado, setExposicionFeriado] = React.useState('');
     const [diasNoTrabajados, setDiasNoTrabajados] = React.useState('');
+    const [diasNoTrabajadosFeriado, setDiasNoTrabajadosFeriado] = React.useState('');
     const [criterioTrabajados, setCriterioTrabajados] = React.useState('');
     const [criterioNoTrabajados, setCriterioNoTrabajados] = React.useState('');
 
     const [diasTrabajados, setDiasTrabajados] = React.useState('');
+
+    const [diasTrabajadosFeriado, setDiasTrabajadosFeriado] = React.useState('');
 
     const [calcularVacaciones, setCalcularVacaciones] = React.useState(false);
     const [año, setAño] = React.useState('');
@@ -407,6 +410,9 @@ export default function Sueldos(props) {
     function onChangeDiasNoTrabajados(e) {
         setDiasNoTrabajados(e.target.value);
     }
+    function onChangeDiasNoTrabajadosFeriado(e) {
+        setDiasNoTrabajadosFeriado(e.target.value);
+    }
     function onChangeCriterioTrabajados(v) {
         setCriterioTrabajados(v);
     }
@@ -417,6 +423,10 @@ export default function Sueldos(props) {
 
     function onChangeDiasTrabajados(e) {
         setDiasTrabajados(e.target.value);
+    }
+
+    function onChangeDiasTrabajadosFeriado(e) {
+        setDiasTrabajadosFeriado(e.target.value);
     }
 
 
@@ -557,10 +567,12 @@ export default function Sueldos(props) {
 
         setExposicionFeriado('');
         setDiasNoTrabajados('');
+        setDiasNoTrabajadosFeriado('');
         setCriterioTrabajados('');
         setCriterioNoTrabajados('');
 
         setDiasTrabajados('');
+        setDiasTrabajadosFeriado('');
 
         setCalcularVacaciones(false);
         setAño('');
@@ -849,8 +861,8 @@ export default function Sueldos(props) {
             criterioTrabajados: criterioTrabajados, //'Base 30/25' o 'todo base 30' o 'todo base 25'  
             criterioNoTrabajados: criterioNoTrabajados, //'base 30' o 'base 25'  
 
-            diasTrabajadosFeriado: diasTrabajados,
-            diasNoTrabajadosFeriado: diasNoTrabajados,
+            diasTrabajadosFeriado: diasTrabajadosFeriado,
+            diasNoTrabajadosFeriado: diasNoTrabajadosFeriado,
 
             diasTrabajados: diasTrabajados,
 
@@ -1127,6 +1139,8 @@ export default function Sueldos(props) {
                         exposicionFeriado={exposicionFeriado}
                         onChangeDiasNoTrabajados={onChangeDiasNoTrabajados}
                         diasNoTrabajados={diasNoTrabajados}
+                        onChangeDiasNoTrabajadosFeriado={onChangeDiasNoTrabajadosFeriado}
+                        diasNoTrabajadosFeriado={diasNoTrabajadosFeriado}
                         onChangeCriterioTrabajados={onChangeCriterioTrabajados}
                         criterioTrabajados={criterioTrabajados}
                         onChangeCriterioNoTrabajados={onChangeCriterioNoTrabajados}
@@ -1134,6 +1148,9 @@ export default function Sueldos(props) {
 
                         onChangeDiasTrabajados={onChangeDiasTrabajados}
                         diasTrabajados={diasTrabajados}
+
+                        onChangeDiasTrabajadosFeriado={onChangeDiasTrabajadosFeriado}
+                        diasTrabajadosFeriado={diasTrabajadosFeriado}
 
                         onChangeCalcularVacaciones={onChangeCalcularVacaciones}
                         calcularVacaciones={calcularVacaciones}
