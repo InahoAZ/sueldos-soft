@@ -141,8 +141,8 @@ export default function Adicionales(props) {
                     type="number"
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-                    onChange={props.props.onChangeDiasTrabajados}
-                    value={props.props.diasTrabajados}
+                    onChange={props.props.onChangeDiasTrabajadosFeriado}
+                    value={props.props.diasTrabajadosFeriado}
                     variant="outlined"
                 />
 
@@ -152,8 +152,8 @@ export default function Adicionales(props) {
                     placeholder='0'
                     style={{ width: 250, margin: 12, marginLeft: 12 }}
                     className={clsx(classes.margin, classes.textField)}
-                    onChange={props.props.onChangeDiasNoTrabajados}
-                    value={props.props.diasNoTrabajados}
+                    onChange={props.props.onChangeDiasNoTrabajadosFeriado}
+                    value={props.props.diasNoTrabajadosFeriado}
                     variant="outlined"
                 />
 
