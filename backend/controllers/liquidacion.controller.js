@@ -109,8 +109,8 @@ exports.create = (req, res) => {
     const calcularVacaciones = req.body.calcularVacaciones;
     
     const año = req.body.año;
-    const diasHabiles = req.body.diasHabiles;
-    const diasTrabajados = req.body.diasTrabajados;
+    const diasHabiles = 25; //Caso mas comun, despues puede ser parametrizable.
+    const diasVacaciones = req.body.diasVacaciones;
     
     //Si se calcula SAC
     const calcularSAC = req.body.calcularSAC;
@@ -274,7 +274,7 @@ exports.create = (req, res) => {
                     }
                     
                     if(item.orden == '101'){ //Vacaciones
-                        item.cantidad = diasHabiles - diasTrabajados;
+                        item.cantidad = diasVacaciones;
                         remun_vacaciones = (total_sumas_rem / diasHabiles) * item.cantidad;
                         item.subtotal = remun_vacaciones;
                     }
@@ -292,7 +292,7 @@ exports.create = (req, res) => {
                             let valor_dia_feriado = total_sumas_rem / 25;
                             let plus_feriado = valor_dia_feriado - valor_dia;
                             item.cantidad = diasNoTrabajadosFeriados;
-                            item.subtotal = plus_feriado;
+                            item.subtotal = plus_feriado * diasNoTrabajadosFeriados;
                         }   
                     }
                     if(item.orden == '104'){ //Licencia
